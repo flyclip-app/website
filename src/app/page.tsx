@@ -5,119 +5,137 @@ import HeroDemo from "@/components/HeroDemo";
 export default function Home() {
   const features = [
     {
-      icon: <Zap className="text-amber-400" size={24} />,
-      title: "零延迟原生性能",
-      desc: "采用纯 Rust 编写与 GPUI 现代化渲染，毫秒级划选捕获响应，空闲内存占用仅 15MB 左右。",
+      title: "多功能文本瑞士军刀",
+      desc: "无论是复制、翻译、搜索、AI 对话还是代码格式化，FlyClip 都能在鼠标抬起瞬间随手触达，大幅提升日常工作流效率。",
+      link: "/guide",
+      linkText: "了解基础功能",
     },
     {
-      icon: <Layers className="text-blue-400" size={24} />,
-      title: "40+ 丰富官方扩展",
-      desc: "涵盖 Google/DeepL/百度翻译、ChatGPT/Claude/DeepSeek 搜索、全能命名转换与 Base64 编解码。",
+      title: "丰富的扩展中心生态",
+      desc: "40+ 精选开箱即用的原生扩展，涵盖 Google/DeepL 翻译、ChatGPT/Claude、Base64 编解码与 PowerShell 自动化。",
+      link: "/extensions",
+      linkText: "浏览扩展中心",
     },
     {
-      icon: <Sliders className="text-emerald-400" size={24} />,
-      title: "全功能参数选项 (Options)",
-      desc: "独创支持在图形界面直接配置扩展选项（开关、分段单选、文本输入、密钥凭据），让扩展随心所欲。",
+      title: "可视化参数选项 (Options)",
+      desc: "告别死板配置，首创在设置界面中直接提供开关、单选下拉、文本输入与密钥凭据调整，随心定制扩展行为。",
+      link: "/dev#options-spec",
+      linkText: "查看选项规范",
     },
     {
-      icon: <Monitor className="text-purple-400" size={24} />,
-      title: "深度 Windows 交互适配",
-      desc: "完美支持划选自动触发、鼠标长按静止触发（Hold Trigger）、全局被动热键与 PowerShell 7/5.1 自动化脚本。",
+      title: "深度 Windows 原生适配",
+      desc: "专为 Windows 10/11 打造。支持划选自动触发、长按静止呼出、全局被动热键与多显示器跨 DPI 精准定位。",
+      link: "/guide#triggers",
+      linkText: "探索触发机制",
     },
     {
-      icon: <RefreshCw className="text-cyan-400" size={24} />,
-      title: "平滑迁移与语法兼容",
-      desc: "原生采用 .flyclipext 标准，同时 100% 兼容 PopClip 脚本逻辑与参数占位符，极低学习与迁移成本。",
+      title: "极低迁移成本与语法兼容",
+      desc: "采用原生 .flyclipext 标准，同时底层 100% 兼容 PopClip 脚本语法与占位符，可秒级无缝迁移已有扩展资产。",
+      link: "/dev#migration",
+      linkText: "查看迁移指南",
     },
     {
-      icon: <Lock className="text-rose-400" size={24} />,
-      title: "纯净本地执行与隐私保护",
-      desc: "无后台数据上报，无广告，所有操作与脚本均在本地或官方公开 API 执行，剪贴板数据阅后即焚。",
+      title: "纯净本地执行与隐私至上",
+      desc: "采用纯 Rust 构建，内存占用仅 15MB。无后台上传、无广告追踪，所有操作均在本地或官方公开 API 执行。",
+      link: "/download",
+      linkText: "下载安全客户端",
     },
   ];
 
   return (
     <div className="relative overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8 text-center">
-        {/* Background Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-blue-600/15 blur-[120px] pointer-events-none -z-10 rounded-full" />
+      {/* PopClip-style Hero Section */}
+      <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Headlines and Actions */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold">
+              <span>✨ FlyClip for Windows</span>
+              <span>·</span>
+              <span>纯 Rust 原生打造</span>
+            </div>
 
-        <div className="max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold">
-            <span>✨ FlyClip for Windows</span>
-            <span>·</span>
-            <span>全新 1.0 正式版发布</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+              Windows 上的<br />
+              <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-500 bg-clip-text text-transparent">
+                极速划词快捷动作。
+              </span>
+            </h1>
+
+            <p className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-xl">
+              在任意应用程序中选中文本，FlyClip 会即刻在光标附近浮出动作栏，集即时搜索、翻译、AI 交互、格式化与 PowerShell 脚本于一体。
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link
+                href="/download"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm sm:text-base shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all hover:-translate-y-0.5"
+              >
+                <Download size={18} />
+                <span>免费下载 (Windows 64位)</span>
+              </Link>
+
+              <Link
+                href="/extensions"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#1c1e27] border border-[#2d3142] hover:border-blue-500 text-slate-200 hover:text-white font-semibold text-sm sm:text-base transition-all hover:-translate-y-0.5"
+              >
+                <Layers size={18} />
+                <span>浏览扩展中心</span>
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-6 pt-4 text-xs text-slate-500">
+              <span className="flex items-center gap-1.5">✓ 纯净无广告</span>
+              <span className="flex items-center gap-1.5">✓ 仅 15MB 内存占用</span>
+              <span className="flex items-center gap-1.5">✓ MIT 开源协议</span>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            划选文本，<br />
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-blue-500 bg-clip-text text-transparent">
-              即刻触发无限可能。
-            </span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            专为 Windows 打造的原生划词快捷动作神器。鼠标划选文本即刻弹出动作栏，集搜索、翻译、AI 对话、文本格式化及 PowerShell 自动化于一体。
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4 pb-8">
-            <Link
-              href="/download"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-base shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all hover:-translate-y-0.5"
-            >
-              <Download size={18} />
-              <span>立即下载 (Windows 64位)</span>
-            </Link>
-
-            <Link
-              href="/extensions"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#1c1e27] border border-[#2d3142] hover:border-blue-500 text-slate-200 hover:text-white font-semibold text-base transition-all hover:-translate-y-0.5"
-            >
-              <Layers size={18} />
-              <span>浏览 40+ 扩展中心</span>
-            </Link>
-          </div>
-
-          {/* Interactive Hero Demo */}
-          <div className="pt-2">
+          {/* Right Column: Interactive Live Demo */}
+          <div className="lg:col-span-6 w-full">
             <HeroDemo />
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
+      {/* PopClip-style Feature Boxes */}
       <section className="py-20 bg-[#14161d] border-y border-[#2d3142] px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
-            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Powerful & Lightweight</span>
-            <h2 className="text-3xl font-extrabold text-white">为极致效率与美感而生</h2>
-            <p className="text-slate-400 text-base">采用纯 Rust 原生编写，彻底告别传统划词工具卡顿臃肿的问题。</p>
+            <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Features</span>
+            <h2 className="text-3xl font-extrabold text-white">强大、轻量、开箱即用</h2>
+            <p className="text-slate-400 text-sm sm:text-base">专为 Windows 打造的下一代划词效率神器，兼顾极速性能与现代设计美学。</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((f, i) => (
               <div
                 key={i}
-                className="bg-[#1c1e27] border border-[#2d3142] hover:border-blue-500/50 rounded-2xl p-7 transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="bg-[#1c1e27] border border-[#2d3142] hover:border-blue-500/50 rounded-2xl p-7 flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-xl group"
               >
-                <div className="w-12 h-12 rounded-xl bg-[#14161d] border border-[#2d3142] flex items-center justify-center mb-5">
-                  {f.icon}
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">{f.title}</h3>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-6">{f.desc}</p>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">{f.title}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">{f.desc}</p>
+                <Link
+                  href={f.link}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  <span>{f.linkText}</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Options Showcase */}
+      {/* Options Feature Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
-          <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Customizable</span>
-          <h2 className="text-3xl font-extrabold text-white">告别死板，扩展支持丰富选项</h2>
-          <p className="text-slate-400 text-base">无论是指定翻译目标语言、切换 Google 搜索站点，还是配置 Base64 URL 安全开关，一切尽在掌控。</p>
+          <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Extension Options</span>
+          <h2 className="text-3xl font-extrabold text-white">告别死板，支持多维参数选项</h2>
+          <p className="text-slate-400 text-sm sm:text-base">在设置界面中即可随意切换目标语言、搜索站点、自定义分隔符或填入 API Key 凭据。</p>
         </div>
 
         <div className="bg-[#1c1e27] border border-[#2d3142] rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6">
@@ -153,15 +171,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Banner */}
+      {/* CTA Bottom Banner */}
       <section className="py-16 bg-[#14161d] border-t border-[#2d3142] text-center px-4">
         <div className="max-w-3xl mx-auto space-y-5">
-          <h2 className="text-3xl font-extrabold text-white">立即开启您的 Windows 极速划词体验</h2>
-          <p className="text-slate-400 text-base">完全开源免费，零配置开箱即用，支持 Windows 10 与 Windows 11。</p>
+          <h2 className="text-3xl font-extrabold text-white">准备好提升您的 Windows 划词效率了吗？</h2>
+          <p className="text-slate-400 text-sm sm:text-base">完全开源免费，零配置即装即用，支持 Windows 10 与 Windows 11。</p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
               href="/download"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all shadow-lg shadow-blue-500/25"
             >
               <Download size={16} />
               <span>下载 FlyClip 安装包</span>
