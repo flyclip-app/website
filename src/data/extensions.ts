@@ -11,6 +11,54 @@ export interface ExtensionItem {
   configYaml: string;
 }
 
+export function getExtensionPackageName(id: string): string {
+  const map: Record<string, string> = {
+    "com.flyclip.extension.pot-desktop": "PotTranslate",
+    "com.flyclip.extension.stranslate": "STranslate",
+    "com.flyclip.extension.google-translate": "GoogleTranslate",
+    "com.flyclip.extension.deepl": "DeepLTranslate",
+    "com.flyclip.extension.baidu-translate": "BaiduTranslate",
+    "com.flyclip.extension.youdao": "YoudaoTranslate",
+    "com.flyclip.extension.chatgpt": "ChatGPT",
+    "com.flyclip.extension.claude": "Claude",
+    "com.flyclip.extension.deepseek": "DeepSeek",
+    "com.flyclip.extension.google-search": "GoogleSearch",
+    "com.flyclip.extension.bing": "BingSearch",
+    "com.flyclip.extension.baidu": "BaiduSearch",
+    "com.flyclip.extension.duckduckgo": "DuckDuckGo",
+    "com.flyclip.extension.github": "GitHubSearch",
+    "com.flyclip.extension.wikipedia": "Wikipedia",
+    "com.flyclip.extension.zhihu": "ZhihuSearch",
+    "com.flyclip.extension.bilibili": "BilibiliSearch",
+    "com.flyclip.extension.youtube": "YouTubeSearch",
+    "com.flyclip.extension.mdn": "MDNWebDocs",
+    "com.flyclip.extension.case-converter": "CaseConverter",
+    "com.flyclip.extension.remove-spaces": "RemoveSpaces",
+    "com.flyclip.extension.join-lines": "JoinLines",
+    "com.flyclip.extension.sort-lines": "SortLines",
+    "com.flyclip.extension.full-half-width": "FullHalfWidth",
+    "com.flyclip.extension.text-statistics": "TextStatistics",
+    "com.flyclip.extension.base64": "Base64",
+    "com.flyclip.extension.url-encode": "URLEncode",
+    "com.flyclip.extension.html-encode": "HTMLEncode",
+    "com.flyclip.extension.json-formatter": "JSONFormatter",
+    "com.flyclip.extension.hash-generator": "HashGenerator",
+    "com.flyclip.extension.timestamp-convert": "TimestampConvert",
+    "com.flyclip.extension.calculate": "Calculate",
+    "com.flyclip.extension.regex-test": "RegexTest",
+    "com.flyclip.extension.markdown-tools": "MarkdownTools",
+    "com.flyclip.extension.ip-lookup": "IPLookup",
+    "com.flyclip.extension.search-icons": "SearchIcons",
+    "com.flyclip.extension.taobao": "Taobao",
+    "com.flyclip.extension.jd": "JD",
+    "com.flyclip.extension.douban": "Douban",
+    "com.flyclip.extension.imdb": "IMDb",
+    "com.flyclip.extension.urban-dictionary": "UrbanDictionary",
+    "com.flyclip.extension.amazon": "Amazon",
+  };
+  return map[id] || id.split(".").pop() || "Extension";
+}
+
 export const EXTENSIONS_DATA: ExtensionItem[] = [
   // --- Desktop Apps HTTP Integration ---
   {

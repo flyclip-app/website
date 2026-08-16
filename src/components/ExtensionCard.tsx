@@ -1,7 +1,7 @@
 "use client";
 
-import { ExtensionItem } from "@/data/extensions";
-import { Copy, Eye, Settings, Check } from "lucide-react";
+import { ExtensionItem, getExtensionPackageName } from "@/data/extensions";
+import { Download, Eye, Settings, Copy, Check } from "lucide-react";
 import { useState } from "react";
 
 interface Props {
@@ -10,13 +10,9 @@ interface Props {
 }
 
 export default function ExtensionCard({ extension, onOpenModal }: Props) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(extension.configYaml);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const [downloading, setDownloading] = useState(false);
+  const pkgName = getExtensionPackageName(extension.id);
+  const downloadUrl = `/downloads/extensions/${pkgName}.flyclipextz`;
 
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
@@ -65,21 +61,22 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
           )}
         </div>
 
-        {/* Actions */}
+        {/* Actions: PopClip / Modern Standard */}
         <div className="pt-3 border-t border-[#2d3142] flex items-center gap-2">
-          <button
-            onClick={handleCopy}
-            className="flex-1 py-1.5 px-3 rounded-lg bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+          <a
+            href={downloadUrl}
+            download={`${pkgName}.flyclipextz`}
+            className="flex-1 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/20"
           >
-            {copied ? <Check size={13} className="text-green-400" /> : <Copy size={13} />}
-            <span>{copied ? "已复制 Snippet" : "复制 Snippet"}</span>
-          </button>
+            <Download size={13} />
+            <span>下载扩展包</span>
+          </a>
           <button
             onClick={() => onOpenModal(extension)}
             className="py-1.5 px-3 rounded-lg bg-[#14161d] border border-[#2d3142] hover:border-slate-400 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
           >
             <Eye size={13} />
-            <span>详情</span>
+            <span>详情 / 源码</span>
           </button>
         </div>
       </div>
