@@ -10,12 +10,6 @@ export default function ExtensionsPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [selectedExt, setSelectedExt] = useState<ExtensionItem | null>(null);
-  const [autoInstall, setAutoInstall] = useState(false);
-
-  const handleOpenModal = (ext: ExtensionItem, autoTrigger = false) => {
-    setSelectedExt(ext);
-    setAutoInstall(autoTrigger);
-  };
 
   const categories = [
     { id: "all", label: "全部" },
@@ -45,7 +39,7 @@ export default function ExtensionsPage() {
         <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Extension Marketplace</span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-white">官方与社区扩展中心</h1>
         <p className="text-slate-400 text-sm sm:text-base">
-          已为 Windows 深度优化 40+ 个原生扩展，点击「复制 Snippet」或查看配置即可秒级使用。
+          已为 Windows 深度优化 40+ 个原生扩展，点击「一键安装」或下载扩展包即可秒级使用。
         </p>
       </div>
 
@@ -89,7 +83,7 @@ export default function ExtensionsPage() {
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((ext) => (
-            <ExtensionCard key={ext.id} extension={ext} onOpenModal={handleOpenModal} />
+            <ExtensionCard key={ext.id} extension={ext} onOpenModal={setSelectedExt} />
           ))}
         </div>
       ) : (
@@ -101,14 +95,7 @@ export default function ExtensionsPage() {
       )}
 
       {/* Modal */}
-      <ExtensionModal
-        extension={selectedExt}
-        autoTriggerInstall={autoInstall}
-        onClose={() => {
-          setSelectedExt(null);
-          setAutoInstall(false);
-        }}
-      />
+      <ExtensionModal extension={selectedExt} onClose={() => setSelectedExt(null)} />
     </div>
   );
 }

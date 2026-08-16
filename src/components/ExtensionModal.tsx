@@ -2,26 +2,16 @@
 
 import { ExtensionItem, getExtensionPackageName } from "@/data/extensions";
 import { X, Copy, Check, Info, Download, Sparkles, Zap, Globe, ArrowRight, ExternalLink } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 interface Props {
   extension: ExtensionItem | null;
-  autoTriggerInstall?: boolean;
   onClose: () => void;
 }
 
-export default function ExtensionModal({ extension, autoTriggerInstall, onClose }: Props) {
+export default function ExtensionModal({ extension, onClose }: Props) {
   const [copied, setCopied] = useState(false);
-  const [schemeInvoked, setSchemeInvoked] = useState(false);
-
-  useEffect(() => {
-    if (extension && autoTriggerInstall) {
-      setSchemeInvoked(true);
-    } else {
-      setSchemeInvoked(false);
-    }
-  }, [extension, autoTriggerInstall]);
 
   if (!extension) return null;
 
@@ -36,13 +26,6 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
     navigator.clipboard.writeText(snippetContent);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
-
-  const triggerScheme = () => {
-    setSchemeInvoked(true);
-    try {
-      window.location.href = schemeInstallUrl;
-    } catch (_) {}
   };
 
   return (
@@ -69,29 +52,6 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
 
         {/* Body */}
         <div className="p-6 overflow-y-auto space-y-6 text-sm text-slate-300">
-          {/* Active Invocation Banner if triggered */}
-          {schemeInvoked && (
-            <div className="p-4 rounded-xl bg-blue-500/15 border border-blue-500/30 text-xs sm:text-sm text-blue-200 space-y-2 animate-in fade-in duration-300">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 font-bold text-white">
-                  <Zap size={16} className="text-amber-400 animate-pulse" />
-                  <span>正在尝试呼起 FlyClip 客户端安装...</span>
-                </div>
-                <button
-                  onClick={triggerScheme}
-                  className="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors"
-                >
-                  重新呼起
-                </button>
-              </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                若您的浏览器未弹出应用授权确认，或您的电脑尚未安装 FlyClip，请直接{" "}
-                <Link href="/download" className="text-blue-400 underline hover:text-blue-300">下载客户端</Link>
-                {" "}或选择下方【方式二：下载离线扩展包】进行手动安装。
-              </p>
-            </div>
-          )}
-
           <div>
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">功能描述</span>
             <p className="text-slate-300">{extension.descriptionZh || extension.description}</p>
@@ -104,27 +64,27 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Method 1: URL Scheme Online Package */}
+              {/* Method 1: URL Scheme Online Package with target _blank */}
               <div className="p-4 rounded-xl bg-[#14161d] border border-blue-500/40 space-y-2 flex flex-col justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-white text-xs">
                     <Zap size={14} className="text-amber-400" />
-                    <span>方式一：新标签页一键安装 (推荐)</span>
+                    <span>方式一：一键唤起安装 (绑定更新源)</span>
                   </div>
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    在新页面中打开并唤起 <code>flyclip://</code> 协议，自动绑定更新源。
+                    通过 <code>flyclip://</code> 协议在新标签页呼出本地 FlyClip，自动绑定官方更新源。
                   </p>
                 </div>
-                <Link
-                  href={`/install?id=${encodeURIComponent(extension.id)}`}
+                <a
+                  href={schemeInstallUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-md shadow-blue-500/20"
                 >
                   <Zap size={13} className="text-amber-300" />
-                  <span>在新标签页中打开安装</span>
+                  <span>一键安装到 FlyClip</span>
                   <ExternalLink size={12} />
-                </Link>
+                </a>
               </div>
 
               {/* Method 2: Offline Package */}
@@ -159,10 +119,13 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
               <div className="flex items-center gap-3">
                 <a
                   href={schemeDataUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-medium"
                 >
                   <Zap size={12} />
                   <span>载入 Snippet</span>
+                  <ExternalLink size={11} />
                 </a>
                 <button
                   onClick={handleCopy}
@@ -190,18 +153,20 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
           </Link>
           <div className="flex items-center gap-2">
             <a
-              href={downloadUrl}
-              download={`${pkgName}.flyclipextz`}
-              className="px-3.5 py-1.5 rounded-lg bg-[#1c1e27] border border-[#2d3142] hover:bg-[#242733] text-slate-300 font-medium text-xs transition-colors flex items-center gap-1.5"
+              href={schemeInstallUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm transition-colors flex items-center gap-1.5 shadow-md shadow-blue-500/20"
             >
-              <Download size={13} />
-              <span>下载离线包</span>
+              <Zap size={14} className="text-amber-300" />
+              <span>一键安装到 FlyClip</span>
+              <ExternalLink size={12} />
             </a>
             <button
               onClick={onClose}
-              className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs transition-colors"
+              className="px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] hover:bg-[#242733] text-slate-300 font-medium text-xs sm:text-sm transition-colors"
             >
-              完成
+              关闭
             </button>
           </div>
         </div>
