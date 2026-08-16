@@ -52,7 +52,10 @@ export default function DevConfigPage() {
               <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">platforms</td>
                 <td className="py-3 px-3">Array</td>
-                <td className="py-3 px-3">支持的操作系统平台约束：<code>[windows, macos, linux]</code>。若包含 PowerShell 则默认仅 Windows。</td>
+                <td className="py-3 px-3">
+                  支持的操作系统平台：<code>[windows, macos, linux]</code>（默认全部支持）。<br />
+                  <strong>WebDAV 同步友好</strong>：跨设备同步时所有系统均允许正常安装，但在非目标系统上自动静默禁用动作，不产生阻断性错误。
+                </td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">actions</td>

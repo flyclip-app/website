@@ -154,46 +154,70 @@ actions:
           </div>
         </div>
 
-        {/* Example 4 */}
+        {/* Example 4: Local HTTP API Calling (Pot Desktop & STranslate) */}
         <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
-          <h3 className="font-bold text-white text-base text-purple-400 flex items-center gap-2">
-            <Cpu size={16} />
-            <span>示例 4：带 Options 参数选项的通用 JS 扩展</span>
+          <h3 className="font-bold text-white text-base text-cyan-400 flex items-center gap-2">
+            <Globe size={16} />
+            <span>示例 4：调用本地/远程 HTTP 服务 (以 Pot Desktop & STranslate 为例)</span>
           </h3>
-          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-purple-200">
-            <pre>{`name: Base64 编解码
-identifier: com.flyclip.extension.base64-tool
-icon: B64
+          <p className="text-xs text-slate-400">
+            通过 <code>flyclip.fetch()</code> 调用第三方本地常驻工具（如 Pot 翻译、STranslate）提供的 Local HTTP API：
+          </p>
+          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-cyan-200">
+            <pre>{`name: Pot 划词翻译
+identifier: com.flyclip.extension.pot-desktop
+icon: Pot
 options:
-  - identifier: mode
-    label: 默认操作
-    type: multiple
-    values: [encode, decode]
-    value labels: [编码, 解码]
-    default value: encode
-  - identifier: url_safe
-    label: URL 安全替换 (- 与 _)
-    type: boolean
-    default value: false
-
+  - identifier: port
+    label: 本地端口
+    type: string
+    default value: "60828"
 actions:
-  - title: Base64 处理
+  - title: Pot 翻译
     javascript: |
-      const text = flyclip.input.text;
-      const mode = flyclip.options.mode;
-      const urlSafe = flyclip.options.url_safe === "1";
+      const text = flyclip.input.text.trim();
+      const port = flyclip.options.port || "60828";
+      // 发送本地 HTTP 请求给 Pot Desktop
+      await flyclip.fetch(\`http://127.0.0.1:\${port}/api/translate\`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+    requirements: [text]`}</pre>
+          </div>
+        </div>
 
-      if (mode === "encode") {
-        let b64 = btoa(unescape(encodeURIComponent(text)));
-        if (urlSafe) b64 = b64.replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/, "");
-        return b64;
-      } else {
-        let raw = text;
-        if (urlSafe) raw = raw.replace(/-/g, "+").replace(/_/g, "/");
-        return decodeURIComponent(escape(atob(raw)));
-      }
-    requirements: [text]
-    after: paste-result`}</pre>
+        {/* Example 5: Platform Constraint & STranslate */}
+        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-white text-base text-purple-400 flex items-center gap-2">
+              <Cpu size={16} />
+              <span>示例 5：平台标记与 WebDAV 多端同步规范 (STranslate 示例)</span>
+            </h3>
+            <span className="text-[11px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 font-semibold border border-purple-500/20">
+              WebDAV 同步友好
+            </span>
+          </div>
+          <p className="text-xs text-slate-400">
+            当某个扩展关联了特定系统的专有工具（如仅 Windows 有 STranslate），声明 <code>platforms: [windows]</code>。通过 WebDAV 同步到 macOS/Linux 时<strong>允许安装保留配置，但在非 Windows 系统下自动静默禁用</strong>：
+          </p>
+          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-purple-200">
+            <pre>{`name: STranslate 翻译
+identifier: com.flyclip.extension.stranslate
+icon: ST
+platforms: [windows] # 标记为仅 Windows 启用，跨端同步自动静默适配
+options:
+  - identifier: port
+    label: HTTP 端口
+    type: string
+    default value: "50020"
+actions:
+  - title: STranslate
+    javascript: |
+      const text = flyclip.input.text.trim();
+      const port = flyclip.options.port || "50020";
+      await flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`);
+    requirements: [text]`}</pre>
           </div>
         </div>
 

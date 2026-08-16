@@ -12,6 +12,79 @@ export interface ExtensionItem {
 }
 
 export const EXTENSIONS_DATA: ExtensionItem[] = [
+  // --- Desktop Apps HTTP Integration ---
+  {
+    id: "com.flyclip.extension.pot-desktop",
+    name: "Pot 划词翻译",
+    category: "translation",
+    icon: "Pot",
+    description: "Send selected text to Pot Desktop via local HTTP API for instant translation/OCR.",
+    descriptionZh: "通过本地 HTTP 服务将选中文本发送至 Pot Desktop 进行划词翻译或 OCR。",
+    hasOptions: true,
+    optionsCount: 2,
+    type: "url",
+    configYaml: `name: Pot 划词翻译
+identifier: com.flyclip.extension.pot-desktop
+icon: Pot
+options:
+  - identifier: port
+    label: 本地服务端口
+    type: string
+    default value: "60828"
+actions:
+  - title: Pot 翻译
+    javascript: |
+      const text = flyclip.input.text.trim();
+      const port = flyclip.options.port || "60828";
+      try {
+        await flyclip.fetch(\`http://127.0.0.1:\${port}/api/translate\`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+      } catch (e) {
+        flyclip.run("cmd", ["/c", "start", \`pot:translate?text=\${encodeURIComponent(text)}\`]);
+      }
+    requirements: [text]`
+  },
+  {
+    id: "com.flyclip.extension.stranslate",
+    name: "STranslate 翻译",
+    category: "translation",
+    icon: "ST",
+    description: "Trigger Windows open-source STranslate tool for deep translation.",
+    descriptionZh: "通过本地服务或命令行调用 Windows 开源神器 STranslate 进行即时翻译。",
+    hasOptions: true,
+    optionsCount: 2,
+    type: "powershell",
+    configYaml: `name: STranslate 翻译
+identifier: com.flyclip.extension.stranslate
+icon: ST
+platforms: [windows] # 标记 Windows 专属，WebDAV 多端同步自动静默适配
+options:
+  - identifier: trigger_mode
+    label: 唤起方式
+    type: multiple
+    values: [http, cli]
+    default value: http
+  - identifier: port
+    label: 本地端口
+    type: string
+    default value: "50020"
+actions:
+  - title: STranslate
+    javascript: |
+      const text = flyclip.input.text.trim();
+      const mode = flyclip.options.trigger_mode || "http";
+      const port = flyclip.options.port || "50020";
+      if (mode === "http") {
+        await flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`);
+      } else {
+        flyclip.run("stranslate", ["-t", text]);
+      }
+    requirements: [text]`
+  },
+
   // --- Translation & Dictionary ---
   {
     id: "com.flyclip.extension.google-translate",
