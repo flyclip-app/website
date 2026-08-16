@@ -50,6 +50,11 @@ export default function DevConfigPage() {
                 <td className="py-3 px-3">在设置界面中可供用户调整的参数列表。</td>
               </tr>
               <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">platforms</td>
+                <td className="py-3 px-3">Array</td>
+                <td className="py-3 px-3">支持的操作系统平台约束：<code>[windows, macos, linux]</code>。若包含 PowerShell 则默认仅 Windows。</td>
+              </tr>
+              <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">actions</td>
                 <td className="py-3 px-3">Array / Object</td>
                 <td className="py-3 px-3">定义一个或多个具体的划词动作。</td>
