@@ -1,64 +1,93 @@
 import Link from "next/link";
-import { Download, Sparkles, FolderDown, ArrowRight, ArrowLeft, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Download, Sparkles, FolderDown, ArrowRight, ArrowLeft, RefreshCw, Zap, Globe } from "lucide-react";
 
 export default function GuideExtensionsPage() {
   return (
     <div className="space-y-8 text-slate-300 leading-relaxed text-sm sm:text-base">
       <div>
         <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">User Guide / Extensions</div>
-        <h1 className="text-3xl font-extrabold text-white mb-3">扩展安装、更新与管理</h1>
+        <h1 className="text-3xl font-extrabold text-white mb-3">扩展安装、更新与 URL 协议规范</h1>
         <p className="text-slate-400">
-          FlyClip 支持从扩展中心直接下载打包文件安装、划词魔法即装以及版本更新检测。
+          FlyClip 支持 <code>flyclip://</code> 自定义协议一键安装、URL 在线安装绑定更新源、划选即装与本地文件安装。
         </p>
       </div>
 
       <div className="space-y-6">
-        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">三种便捷安装方式</h2>
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">四种安装方式</h2>
 
         <div className="space-y-4">
-          {/* Method 1 */}
-          <div className="p-5 rounded-xl bg-[#1c1e27] border border-blue-500/30 space-y-2">
+          {/* Method 1: URL Scheme */}
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-blue-500/40 space-y-2">
             <div className="flex items-center gap-2 text-white font-bold text-base">
-              <Download size={18} className="text-blue-400" />
-              <span>方式一：一键下载安装包 (.flyclipextz) —— 官方推荐首选</span>
+              <Zap size={18} className="text-amber-400" />
+              <span>方式一：网页一键安装 (URL Scheme: <code>flyclip://</code>) —— 最推荐</span>
             </div>
             <p className="text-xs sm:text-sm text-slate-300">
-              在官网扩展中心点击 <strong>「下载扩展包」</strong> 获取 <code>.flyclipextz</code> 文件。双击该文件（已与 FlyClip 自动关联）或直接拖入 FlyClip 窗口，即可弹出确认窗口一键安装！
-            </p>
-            <p className="text-xs text-blue-300">
-              ✓ <strong>完整版本追踪与自动更新</strong>：打包文件完整携带 <code>identifier</code> 与 <code>version</code>，支持后续在设置中一键检测并无缝升级。
+              在官网扩展中心点击 <strong>「一键安装」</strong> 按钮，浏览器会自动唤起本地 FlyClip 客户端，自动从远程 URL 下载并安装扩展，同时<strong>自动将该 URL 绑定为更新源</strong>，后续有新版时支持一键检测与无感静默更新！
             </p>
           </div>
 
-          {/* Method 2 */}
+          {/* Method 2: Package Download */}
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+            <div className="flex items-center gap-2 text-white font-bold text-base">
+              <Download size={18} className="text-blue-400" />
+              <span>方式二：下载离线扩展包 (.flyclipextz)</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-300">
+              在扩展中心下载 <code>.flyclipextz</code> 归档文件。双击该文件（已与 FlyClip 自动关联）或直接拖入 FlyClip 窗口即可完成安装。
+            </p>
+          </div>
+
+          {/* Method 3: Snippet */}
           <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
             <div className="flex items-center gap-2 text-white font-bold text-base">
               <Sparkles size={18} className="text-amber-400" />
-              <span>方式二：划词即装 Snippet (Magic Text Install) —— 极客黑科技</span>
+              <span>方式三：划词即装 Snippet (Magic Text Install)</span>
             </div>
             <p className="text-xs sm:text-sm text-slate-300">
-              任何以 <code># flyclip</code> 或 <code># popclip</code> 开头的 YAML 代码段，您只需用鼠标<strong>在网页或文本编辑器中划选这段文字</strong>，FlyClip 动作栏会自动感知并亮起 <strong>「安装扩展」</strong> 按钮，点击即可直接载入！
+              在任意网页或文本中直接<strong>划选中以 <code># flyclip</code> 或 <code># popclip</code> 开头的配置代码</strong>，FlyClip 会自动感知并浮出 <strong>「安装扩展」</strong> 按钮，免去复制粘贴与保存文件的繁琐步骤。
             </p>
           </div>
 
-          {/* Method 3 */}
+          {/* Method 4: Manual Folder */}
           <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
             <div className="flex items-center gap-2 text-white font-bold text-base">
               <FolderDown size={18} className="text-slate-400" />
-              <span>方式三：开发者手动目录模式 (.flyclipext)</span>
+              <span>方式四：开发者手动目录模式 (.flyclipext)</span>
             </div>
             <p className="text-xs sm:text-sm text-slate-300">
-              适合开发者调试。直接在系统扩展目录 <code>%APPDATA%\flyclip\extensions\</code> 下新建 <code>MyTool.flyclipext</code> 文件夹并放置 <code>Config.yaml</code>。
+              在系统扩展目录 <code>%APPDATA%\flyclip\extensions\</code> 下新建 <code>MyTool.flyclipext</code> 文件夹并放置 <code>Config.yaml</code> 即可进行实时本地调试。
             </p>
           </div>
         </div>
       </div>
 
+      {/* URL Scheme Protocol Spec */}
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">扩展更新机制</h2>
-        <p className="text-xs sm:text-sm text-slate-300">
-          通过 <code>.flyclipextz</code> 打包安装的扩展，FlyClip 会自动记录扩展唯一标识与版本号。当扩展中心发布新版本时，在设置界面点击「检查更新」即可无损覆盖升级，且<strong>完全保留您之前配置的所有 Options 参数与密钥</strong>。
-        </p>
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">flyclip:// 自定义协议规范</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr className="border-b border-[#2d3142] text-slate-400">
+                <th className="py-2.5 px-3">协议形式</th>
+                <th className="py-2.5 px-3">参数说明</th>
+                <th className="py-2.5 px-3">行为效果</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#2d3142] text-slate-300">
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">flyclip://install-extension?url=&lt;URL&gt;</td>
+                <td className="py-3 px-3"><code>url</code>: 远程扩展包地址（.flyclipextz / .yaml）</td>
+                <td className="py-3 px-3">远程下载并安装，自动绑定该 URL 为更新源，支持后续自动更新。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">flyclip://install-extension?data=&lt;CODE&gt;</td>
+                <td className="py-3 px-3"><code>data</code>: URL 编码后的 YAML / JSON 配置文本</td>
+                <td className="py-3 px-3">直接将配置代码安装到客户端，无需经过剪贴板或本地文件。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">

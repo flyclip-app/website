@@ -1,7 +1,7 @@
 "use client";
 
 import { ExtensionItem, getExtensionPackageName } from "@/data/extensions";
-import { Download, Eye, Settings, Copy, Check } from "lucide-react";
+import { Download, Eye, Settings, Zap, Check } from "lucide-react";
 import { useState } from "react";
 
 interface Props {
@@ -10,8 +10,9 @@ interface Props {
 }
 
 export default function ExtensionCard({ extension, onOpenModal }: Props) {
-  const [downloading, setDownloading] = useState(false);
   const pkgName = getExtensionPackageName(extension.id);
+  const packageUrl = `https://flyclip-app.github.io/downloads/extensions/${pkgName}.flyclipextz`;
+  const schemeInstallUrl = `flyclip://install-extension?url=${encodeURIComponent(packageUrl)}&id=${encodeURIComponent(extension.id)}&name=${encodeURIComponent(extension.name)}`;
   const downloadUrl = `/downloads/extensions/${pkgName}.flyclipextz`;
 
   const getCategoryLabel = (cat: string) => {
@@ -61,22 +62,36 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
           )}
         </div>
 
-        {/* Actions: PopClip / Modern Standard */}
+        {/* Actions */}
         <div className="pt-3 border-t border-[#2d3142] flex items-center gap-2">
+          {/* Primary: 1-Click URL Scheme Install */}
+          <a
+            href={schemeInstallUrl}
+            title="通过 flyclip:// 协议直接打开客户端安装"
+            className="flex-1 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/20"
+          >
+            <Zap size={13} className="text-amber-300" />
+            <span>一键安装</span>
+          </a>
+
+          {/* Fallback 1: Direct File Download */}
           <a
             href={downloadUrl}
             download={`${pkgName}.flyclipextz`}
-            className="flex-1 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/20"
+            title="下载离线 .flyclipextz 文件"
+            className="p-1.5 rounded-lg bg-[#14161d] border border-[#2d3142] hover:border-slate-400 text-slate-300 hover:text-white transition-colors"
           >
-            <Download size={13} />
-            <span>下载扩展包</span>
+            <Download size={14} />
           </a>
+
+          {/* Fallback 2: Details Modal */}
           <button
             onClick={() => onOpenModal(extension)}
-            className="py-1.5 px-3 rounded-lg bg-[#14161d] border border-[#2d3142] hover:border-slate-400 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
+            title="查看扩展详情与源码"
+            className="py-1.5 px-2.5 rounded-lg bg-[#14161d] border border-[#2d3142] hover:border-slate-400 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
           >
             <Eye size={13} />
-            <span>详情 / 源码</span>
+            <span>详情</span>
           </button>
         </div>
       </div>
