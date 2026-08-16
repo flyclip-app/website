@@ -1,12 +1,11 @@
 "use client";
 
 import { ExtensionItem, getExtensionPackageName } from "@/data/extensions";
-import { Download, Eye, Settings, Zap, Check } from "lucide-react";
-import { useState } from "react";
+import { Download, Eye, Settings, Zap } from "lucide-react";
 
 interface Props {
   extension: ExtensionItem;
-  onOpenModal: (ext: ExtensionItem) => void;
+  onOpenModal: (ext: ExtensionItem, autoTriggerInstall?: boolean) => void;
 }
 
 export default function ExtensionCard({ extension, onOpenModal }: Props) {
@@ -14,6 +13,16 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
   const packageUrl = `https://flyclip-app.github.io/downloads/extensions/${pkgName}.flyclipextz`;
   const schemeInstallUrl = `flyclip://install-extension?url=${encodeURIComponent(packageUrl)}&id=${encodeURIComponent(extension.id)}&name=${encodeURIComponent(extension.name)}`;
   const downloadUrl = `/downloads/extensions/${pkgName}.flyclipextz`;
+
+  const handleInstallClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // 1. Try to open URL scheme
+    try {
+      window.location.href = schemeInstallUrl;
+    } catch (_) {}
+    // 2. Open modal with friendly install prompt and fallback download options
+    onOpenModal(extension, true);
+  };
 
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
@@ -64,15 +73,15 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
 
         {/* Actions */}
         <div className="pt-3 border-t border-[#2d3142] flex items-center gap-2">
-          {/* Primary: 1-Click URL Scheme Install */}
-          <a
-            href={schemeInstallUrl}
+          {/* Primary: 1-Click Install */}
+          <button
+            onClick={handleInstallClick}
             title="通过 flyclip:// 协议直接打开客户端安装"
-            className="flex-1 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/20"
+            className="flex-1 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/20 active:scale-95"
           >
             <Zap size={13} className="text-amber-300" />
             <span>一键安装</span>
-          </a>
+          </button>
 
           {/* Fallback 1: Direct File Download */}
           <a
@@ -86,7 +95,7 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
 
           {/* Fallback 2: Details Modal */}
           <button
-            onClick={() => onOpenModal(extension)}
+            onClick={() => onOpenModal(extension, false)}
             title="查看扩展详情与源码"
             className="py-1.5 px-2.5 rounded-lg bg-[#14161d] border border-[#2d3142] hover:border-slate-400 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
           >
