@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Zap, Shield, Globe } from "lucide-react";
+import { ArrowLeft, ArrowRight, Zap, Globe, Terminal, Cpu } from "lucide-react";
 
 export default function DevActionsPage() {
   return (
@@ -8,7 +8,15 @@ export default function DevActionsPage() {
         <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Developer Reference / Actions</div>
         <h1 className="text-3xl font-extrabold text-white mb-3">动作类型与跨平台脚本规范</h1>
         <p className="text-slate-400">
-          FlyClip 遵循清晰的跨平台分层架构，支持 URL、高性能 JavaScript / TypeScript 引擎以及平台专属脚本。
+          FlyClip 遵循清晰的跨平台分层架构，支持 URL、纯嵌入式高能 JavaScript / TypeScript 引擎以及平台专属脚本。
+        </p>
+      </div>
+
+      {/* Zero Heavy Runtime Guarantee */}
+      <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs sm:text-sm text-emerald-300 space-y-1">
+        <strong>⚡ 零笨重依赖设计原则 (Zero Heavy Runtime)：</strong>
+        <p>
+          FlyClip 绝不依赖 <strong>WebView2 (150MB+ 内存)</strong> 或外部 <strong>Node.js</strong>。JS 引擎直接以原生 C/Rust 静态链接进单个 <code>flyclip.exe</code> 内，亚毫秒冷启动，极低内存开销。
         </p>
       </div>
 
@@ -31,12 +39,12 @@ export default function DevActionsPage() {
               <tr>
                 <td className="py-2.5 px-3 font-mono text-emerald-400">JavaScript / TS</td>
                 <td className="py-2.5 px-3"><span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold text-xs">🌐 全平台通用</span></td>
-                <td className="py-2.5 px-3">首选标准。基于内嵌 QuickJS，全平台逻辑表现 100% 一致。</td>
+                <td className="py-2.5 px-3">跨平台首选。内嵌 QuickJS，支持调用跨平台子进程与 HTTP。</td>
               </tr>
               <tr>
                 <td className="py-2.5 px-3 font-mono text-emerald-400">URL 模板动作</td>
                 <td className="py-2.5 px-3"><span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold text-xs">🌐 全平台通用</span></td>
-                <td className="py-2.5 px-3">通用标准。调用系统默认浏览器打开。</td>
+                <td className="py-2.5 px-3">调用系统默认浏览器打开。</td>
               </tr>
               <tr>
                 <td className="py-2.5 px-3 font-mono text-blue-400">PowerShell (.ps1)</td>
@@ -62,28 +70,38 @@ export default function DevActionsPage() {
               <span>1. JavaScript / TypeScript 动作 (跨平台推荐首选)</span>
             </h3>
             <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-              QuickJS 引擎 · 亚毫秒冷启
+              内嵌 QuickJS · 跨平台无缝调用
             </span>
           </div>
+
           <p className="text-xs sm:text-sm text-slate-300">
-            <strong>底层技术架构：</strong> 采用 Rust 生态业界公认的顶级嵌入式引擎 <strong>QuickJS（rquickjs）</strong>。具备 <strong>&lt; 1ms 极致冷启动速度</strong>、<strong>&lt; 1.5MB 微型内存占用</strong>，并完整支持现代 ES2023、Promise、RegExp 及 JSON 标准。
+            在 JavaScript 中，Rust 宿主环境直接注入了跨平台的系统级 Host API，支持直接执行本地外部命令、网络请求与剪贴板读写，无需编写平台专用的 shell 脚本：
           </p>
+
           <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-slate-200 space-y-2">
-            <div className="text-slate-500"># Config.yaml 跨平台 JS 扩展示例:</div>
-            <pre>{`name: 命名风格转换
-identifier: com.flyclip.extension.case
+            <div className="text-slate-500"># Config.yaml 中调用本地命令跨平台示例:</div>
+            <pre>{`name: 外部 CLI 处理
+identifier: com.flyclip.extension.cli-tool
 actions:
-  - title: 驼峰化
+  - title: 格式化
     javascript: |
-      const text = flyclip.input.text;
-      return text.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+      // 支持调用本地跨平台命令 (Rust 派生子进程)
+      const res = flyclip.run("git", ["status"]);
+      // 或发起轻量 HTTP 请求
+      // const res = await flyclip.fetch("https://api.example.com");
+      return res.stdout;
     after: paste-result`}</pre>
           </div>
-          <div className="text-xs text-slate-400 space-y-1">
-            <p>💡 <strong>全局 API 上下文规范：</strong></p>
-            <p>• <code>flyclip.input.text</code> / <code>popclip.input.text</code>：获取选中文本</p>
-            <p>• <code>flyclip.options.&lt;id&gt;</code>：读取扩展参数配置</p>
-            <p>• <code>return &quot;result&quot;</code>：返回处理后的字符串</p>
+
+          <div className="text-xs text-slate-300 space-y-1.5 pt-1">
+            <p className="font-semibold text-white">💡 注入的 Host API 全局对象规范：</p>
+            <ul className="list-disc pl-5 space-y-1 text-slate-400">
+              <li><code>flyclip.input.text</code>：获取当前选中的文本字符串。</li>
+              <li><code>flyclip.options.&lt;id&gt;</code>：读取用户在设置界面中配置的选项参数值。</li>
+              <li><code>flyclip.run(command, args)</code>：调用本地子进程执行外部命令（全平台通用，由 Rust 宿主执行）。</li>
+              <li><code>flyclip.fetch(url, options)</code>：发起原生 HTTP 网络请求。</li>
+              <li><code>return &quot;result&quot;</code>：返回处理后的文本（自动配合 <code>after</code> 规则替换或展示）。</li>
+            </ul>
           </div>
         </div>
 
