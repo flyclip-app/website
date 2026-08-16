@@ -109,20 +109,22 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-white text-xs">
                     <Zap size={14} className="text-amber-400" />
-                    <span>方式一：一键唤起安装 (绑定更新源)</span>
+                    <span>方式一：新标签页一键安装 (推荐)</span>
                   </div>
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    通过 <code>flyclip://</code> 协议直接呼出本地 FlyClip，自动绑定官方更新源，支持后续无感自动更新。
+                    在新页面中打开并唤起 <code>flyclip://</code> 协议，自动绑定更新源。
                   </p>
                 </div>
-                <a
-                  href={schemeInstallUrl}
-                  onClick={() => setSchemeInvoked(true)}
+                <Link
+                  href={`/install?id=${encodeURIComponent(extension.id)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-md shadow-blue-500/20"
                 >
                   <Zap size={13} className="text-amber-300" />
-                  <span>一键安装到 FlyClip</span>
-                </a>
+                  <span>在新标签页中打开安装</span>
+                  <ExternalLink size={12} />
+                </Link>
               </div>
 
               {/* Method 2: Offline Package */}
