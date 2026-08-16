@@ -10,6 +10,12 @@ export default function ExtensionsPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [selectedExt, setSelectedExt] = useState<ExtensionItem | null>(null);
+  const [autoInstall, setAutoInstall] = useState(false);
+
+  const handleOpenModal = (ext: ExtensionItem, autoTrigger = false) => {
+    setSelectedExt(ext);
+    setAutoInstall(autoTrigger);
+  };
 
   const categories = [
     { id: "all", label: "全部" },
@@ -83,7 +89,7 @@ export default function ExtensionsPage() {
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((ext) => (
-            <ExtensionCard key={ext.id} extension={ext} onOpenModal={setSelectedExt} />
+            <ExtensionCard key={ext.id} extension={ext} onOpenModal={handleOpenModal} />
           ))}
         </div>
       ) : (
@@ -95,7 +101,14 @@ export default function ExtensionsPage() {
       )}
 
       {/* Modal */}
-      <ExtensionModal extension={selectedExt} onClose={() => setSelectedExt(null)} />
+      <ExtensionModal
+        extension={selectedExt}
+        autoTriggerInstall={autoInstall}
+        onClose={() => {
+          setSelectedExt(null);
+          setAutoInstall(false);
+        }}
+      />
     </div>
   );
 }
