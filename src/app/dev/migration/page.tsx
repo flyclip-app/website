@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, RefreshCw, CheckCircle2, AlertTriangle, Terminal, Code, Globe, Laptop, Layers } from "lucide-react";
+import { ArrowLeft, ArrowRight, RefreshCw, CheckCircle2, AlertTriangle, Terminal, Code, Globe, Laptop, Layers, Wrench } from "lucide-react";
+import PopClipConverter from "@/components/PopClipConverter";
 
 export default function DevMigrationPage() {
   return (
@@ -7,10 +8,19 @@ export default function DevMigrationPage() {
       {/* Header */}
       <div>
         <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Developer Reference / Migration</div>
-        <h1 className="text-3xl font-extrabold text-white mb-3">从 PopClip 平滑迁移至 FlyClip 完整指南</h1>
+        <h1 className="text-3xl font-extrabold text-white mb-3">PopClip 扩展在线转换器与迁移手册</h1>
         <p className="text-slate-400">
-          FlyClip 在设计之初便全面继承并优化了 PopClip 的声明式扩展哲学。通过内置的双向兼容层，已有的符合跨平台规范的 PopClip 扩展可以极低成本迁移至 FlyClip 中运行。
+          FlyClip 拥有独立且现代化的扩展规范体系（基于 YAML 与轻量 QuickJS）。为了方便开发者将已有的 PopClip 动作快速移植到 FlyClip，您可以通过下方的<strong>在线转换工具</strong>一键将旧版 <code>Config.plist</code> 或代码重构为 FlyClip 现代扩展。
         </p>
+      </div>
+
+      {/* Live Converter Tool Section */}
+      <div className="p-6 rounded-2xl bg-[#1c1e27] border border-[#2d3142] space-y-6 shadow-xl">
+        <div className="flex items-center gap-2.5 text-white font-bold text-lg border-b border-[#2d3142] pb-4">
+          <Wrench className="text-blue-400" size={22} />
+          <span>🔄 PopClip 扩展在线转换工具 (Live Converter)</span>
+        </div>
+        <PopClipConverter />
       </div>
 
       {/* Highlights Banner */}
@@ -19,7 +29,7 @@ export default function DevMigrationPage() {
         <div className="space-y-1">
           <div className="font-bold text-amber-300">迁移前提须知：绝大多数旧版 PopClip 扩展无法直接在 Windows 下运行</div>
           <p className="text-amber-200/80 leading-relaxed text-xs">
-            网络上现存的很多 <code>.popclipext</code> 包采用了旧式 <code>Config.plist</code> 或 macOS 独有的 AppleScript / Bash 脚本。在 FlyClip 中，只有使用了 <code>Config.yaml</code> / <code>Config.json</code> 且动作是通用逻辑（URL / JS / 按键）的扩展才能被读取。包含 macOS 专属逻辑或旧 plist 的扩展<strong>必须按照本指南进行格式转换与脚本重写</strong>。
+            网络上现存的很多 <code>.popclipext</code> 包采用了旧式 <code>Config.plist</code> 或 macOS 独有的 AppleScript / Bash 脚本。在 FlyClip 中，只有使用了 <code>Config.yaml</code> / <code>Config.json</code> 且动作是通用逻辑（URL / JS / 按键）的扩展才能被读取。包含 macOS 专属逻辑或旧 plist 的扩展<strong>必须使用上方工具转换配置文件并重构脚本</strong>。
           </p>
         </div>
       </div>
