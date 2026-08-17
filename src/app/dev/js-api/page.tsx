@@ -55,14 +55,14 @@ export default function DevJsApiPage() {
                 <td className="py-3 px-3">获取用户在设置页面配置的扩展参数键值对。</td>
               </tr>
               <tr>
-                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.pressKey(combo)</td>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.copy(text) / copyText(text)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">底层硬件级模拟键盘按键输入。</td>
+                <td className="py-3 px-3">将指定文本写入系统剪贴板。</td>
               </tr>
               <tr>
-                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.sleep(ms) / wait(ms)</td>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.paste(text?) / pasteText(text?)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">阻塞休眠指定的毫秒数（用于按键间隙或等待系统就绪）。</td>
+                <td className="py-3 px-3">写入剪贴板并模拟 Ctrl+V 粘贴到当前光标处（不传参使用系统现有内容）。</td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.readClipboard()</td>
@@ -70,24 +70,39 @@ export default function DevJsApiPage() {
                 <td className="py-3 px-3">读取当前系统剪贴板中的纯文本内容。</td>
               </tr>
               <tr>
-                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.copy(text)</td>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.openUrl(url)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">将指定文本写入系统剪贴板。</td>
+                <td className="py-3 px-3">使用系统默认浏览器打开指定 URL。</td>
               </tr>
               <tr>
-                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.paste(text?)</td>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.showText(text)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">模拟按下 Ctrl+V 粘贴到当前光标处（可选传入新文本）。</td>
+                <td className="py-3 px-3">在 FlyClip 悬浮栏上展示提示结果字符串。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.pressKey(combo)</td>
+                <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                <td className="py-3 px-3">底层硬件级模拟键盘按键输入（如 <code>&quot;ctrl c&quot;</code>）。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.sleep(ms) / wait(ms)</td>
+                <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                <td className="py-3 px-3">毫秒级延时等待（用于按键间隙或等待系统就绪）。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.btoa(str) / atob(b64)</td>
+                <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                <td className="py-3 px-3">Base64 字符串编码与解码。</td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.run(cmd, args)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">跨平台拉起并执行本地外部命令行工具或程序。</td>
+                <td className="py-3 px-3">跨平台拉起并执行本地外部命令行工具并捕获 <code>&#123; stdout, stderr, code &#125;</code>。</td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.fetch(url, opts)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">极速同步 HTTP/HTTPS 网络与本地接口请求（默认 10s 超时，可自定义）。</td>
+                <td className="py-3 px-3">HTTP/HTTPS 网络与本地接口请求（支持 <code>await</code> 与自定义超时）。</td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.process</td>
