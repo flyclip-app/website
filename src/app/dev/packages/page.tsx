@@ -16,9 +16,9 @@ export default function DevPackagesPage() {
         <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">目录组织形式</h2>
         <div className="p-4 rounded-xl bg-[#14161d] border border-[#2d3142] font-mono text-xs text-slate-200">
           <pre>{`MyExtension.flyclipext/
-├── Config.yaml          # 核心配置文件 (必填，也支持 Config.json / Config.plist)
+├── Config.yaml          # 核心配置文件 (必填，也支持 Config.json)
 ├── icon.png / icon.svg  # (可选) 自定义图标文件
-└── script.ps1           # (可选) 独立的外部 PowerShell 脚本`}</pre>
+└── script.js            # (可选) 独立的外部 JavaScript 脚本`}</pre>
         </div>
       </div>
 
