@@ -181,10 +181,12 @@ export default function ExtensionGenerator() {
     ];
   }, [lang]);
 
-  const [name, setName] = useState("Uppercase Converter");
+  const [nameEn, setNameEn] = useState("Uppercase Converter");
+  const [nameZh, setNameZh] = useState("大小写转换");
   const [id, setId] = useState("com.flyclip.extension.uppercase");
   const [icon, setIcon] = useState("Aa");
-  const [desc, setDesc] = useState("Quickly convert selected text to uppercase");
+  const [descEn, setDescEn] = useState("Quickly convert selected text to uppercase");
+  const [descZh, setDescZh] = useState("选中文本快速转换为大写");
   const [actionType, setActionType] = useState<"javascript" | "url" | "powershell" | "keys">("javascript");
 
   // Action Contents
@@ -201,7 +203,7 @@ export default function ExtensionGenerator() {
   // Options
   const [hasOptions, setHasOptions] = useState(false);
   const [options, setOptions] = useState<OptionItem[]>([
-    { id: "port", label: "Port", type: "string", defaultValue: "50020" },
+    { id: "port", label: "Port / 端口", type: "string", defaultValue: "50020" },
   ]);
 
   const [copied, setCopied] = useState(false);
@@ -232,11 +234,20 @@ export default function ExtensionGenerator() {
   };
 
   const generateYaml = useMemo(() => {
-    let yaml = `name: ${name}\n`;
-    yaml += `identifier: ${id}\n`;
-    if (desc.trim()) {
-      yaml += `description: ${desc}\n`;
+    let yaml = "";
+    if (nameEn.trim() && nameZh.trim() && nameEn !== nameZh) {
+      yaml += `name:\n  en: ${nameEn}\n  zh-CN: ${nameZh}\n`;
+    } else {
+      yaml += `name: ${nameEn || nameZh || "My Extension"}\n`;
     }
+
+    if (descEn.trim() && descZh.trim() && descEn !== descZh) {
+      yaml += `description:\n  en: ${descEn}\n  zh-CN: ${descZh}\n`;
+    } else if (descEn.trim() || descZh.trim()) {
+      yaml += `description: ${descEn || descZh}\n`;
+    }
+
+    yaml += `identifier: ${id}\n`;
     yaml += `icon: ${icon}\n`;
 
     if (hasOptions && options.length > 0) {
@@ -256,7 +267,11 @@ export default function ExtensionGenerator() {
     }
 
     yaml += `actions:\n`;
-    yaml += `  - title: ${name}\n`;
+    if (nameEn.trim() && nameZh.trim() && nameEn !== nameZh) {
+      yaml += `  - title:\n      en: ${nameEn}\n      zh-CN: ${nameZh}\n`;
+    } else {
+      yaml += `  - title: ${nameEn || nameZh || "Action"}\n`;
+    }
 
     if (actionType === "javascript") {
       yaml += `    javascript: |\n`;
@@ -290,7 +305,7 @@ export default function ExtensionGenerator() {
     }
 
     return yaml;
-  }, [name, id, desc, icon, hasOptions, options, actionType, jsCode, urlTemplate, psCode, keyCombo, requirements, afterStep]);
+  }, [nameEn, nameZh, descEn, descZh, id, icon, hasOptions, options, actionType, jsCode, urlTemplate, psCode, keyCombo, requirements, afterStep]);
 
   const highlightedYamlHtml = useMemo(() => highlightYAML(generateYaml), [generateYaml]);
 
@@ -312,7 +327,8 @@ export default function ExtensionGenerator() {
 
   const handleInstallToFlyClip = () => {
     const snippet = `# flyclip\n${generateYaml}`;
-    const schemeUrl = `flyclip://install-extension?name=${encodeURIComponent(name)}&data=${encodeURIComponent(snippet)}`;
+    const displayName = lang === "en" ? (nameEn || nameZh) : (nameZh || nameEn);
+    const schemeUrl = `flyclip://install-extension?name=${encodeURIComponent(displayName)}&data=${encodeURIComponent(snippet)}`;
     try {
       window.open(schemeUrl, "_blank");
       setInstalled(true);
@@ -334,13 +350,13 @@ export default function ExtensionGenerator() {
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <span>{lang === "en" ? "Live Extension Generator" : "在线扩展配置生成器"}</span>
               <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                {lang === "en" ? "Real-time Syntax Editor" : "实时语法高亮编辑器"}
+                {lang === "en" ? "i18n & Syntax Editor" : "双语与语法高亮编辑器"}
               </span>
             </h2>
             <p className="text-xs text-slate-400">
               {lang === "en"
-                ? "Author JavaScript code, generate validated Config.yaml manifests, and install with one click."
-                : "实时编写 JavaScript 代码，生成符合规范的 Config.yaml 并一键安装"}
+                ? "Author JavaScript code, generate validated multilingual Config.yaml manifests, and install with one click."
+                : "实时编写 JavaScript 代码，生成符合多语言规范的 Config.yaml 并一键安装"}
             </p>
           </div>
         </div>
@@ -367,25 +383,41 @@ export default function ExtensionGenerator() {
           {/* Metadata Cards */}
           <div className="space-y-4 bg-[#14161d] border border-[#2d3142] rounded-xl p-4">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
-              {lang === "en" ? "Metadata" : "基本元信息 (Metadata)"}
+              {lang === "en" ? "Metadata (Bilingual Name & Description)" : "基本元信息 (支持中英文多语言)"}
             </span>
 
+            {/* Bilingual Names */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-300 mb-1">
-                  {lang === "en" ? "Extension Name" : "扩展名称 (Name)"}
+                  {lang === "en" ? "Extension Name (English)" : "扩展英文名 (Name - EN)"}
                 </label>
                 <input
                   type="text"
-                  value={name}
+                  value={nameEn}
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setNameEn(e.target.value);
                     setId(`com.flyclip.extension.${e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`);
                   }}
                   className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  {lang === "en" ? "Extension Name (Chinese)" : "扩展中文名 (Name - 中文)"}
+                </label>
+                <input
+                  type="text"
+                  value={nameZh}
+                  onChange={(e) => setNameZh(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+            </div>
+
+            {/* Identifier & Icon */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-300 mb-1">
                   {lang === "en" ? "Identifier" : "唯一标识符 (Identifier)"}
@@ -397,9 +429,7 @@ export default function ExtensionGenerator() {
                   className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-xs font-mono text-slate-300 focus:outline-none focus:border-blue-500"
                 />
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-300 mb-1">
                   {lang === "en" ? "Icon" : "图标 (Icon)"}
@@ -412,15 +442,30 @@ export default function ExtensionGenerator() {
                   className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
+            </div>
 
+            {/* Bilingual Descriptions */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-slate-300 mb-1">
-                  {lang === "en" ? "Description" : "简要描述 (Description)"}
+                  {lang === "en" ? "Description (English)" : "功能描述 (EN)"}
                 </label>
                 <input
                   type="text"
-                  value={desc}
-                  onChange={(e) => setDesc(e.target.value)}
+                  value={descEn}
+                  onChange={(e) => setDescEn(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  {lang === "en" ? "Description (Chinese)" : "功能描述 (中文)"}
+                </label>
+                <input
+                  type="text"
+                  value={descZh}
+                  onChange={(e) => setDescZh(e.target.value)}
                   className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
@@ -825,9 +870,9 @@ export default function ExtensionGenerator() {
             </button>
             <p className="text-[11px] text-slate-500 text-center leading-normal">
               {lang === "en" ? (
-                <>Tip: Create folder <code>{name}.flyclipext/</code> and save this content as <code>Config.yaml</code> to test locally.</>
+                <>Tip: Create folder <code>{nameEn || "Extension"}.flyclipext/</code> and save this content as <code>Config.yaml</code> to test locally.</>
               ) : (
-                <>提示：创建文件夹 <code>{name}.flyclipext/</code> 并将此文件保存为 <code>Config.yaml</code> 放入其中，即可直接作为本地扩展使用。</>
+                <>提示：创建文件夹 <code>{nameEn || nameZh}.flyclipext/</code> 并将此文件保存为 <code>Config.yaml</code> 放入其中，即可直接作为本地扩展使用。</>
               )}
             </p>
           </div>

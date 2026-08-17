@@ -75,7 +75,12 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     hasOptions: true,
     optionsCount: 2,
     type: "js",
-    configYaml: `name: Pot 划词翻译
+    configYaml: `name:
+  en: Pot Translate
+  zh-CN: Pot 划词翻译
+description:
+  en: Send selected text to Pot Desktop via local HTTP API for instant translation/OCR.
+  zh-CN: 通过本地 HTTP 服务将选中文本发送至 Pot Desktop 进行划词翻译或 OCR。
 identifier: com.flyclip.extension.pot-desktop
 icon: Pot
 options:
@@ -111,7 +116,12 @@ actions:
     hasOptions: true,
     optionsCount: 2,
     type: "js",
-    configYaml: `name: STranslate 翻译
+    configYaml: `name:
+  en: STranslate
+  zh-CN: STranslate 翻译
+description:
+  en: Trigger Windows open-source STranslate tool for deep translation.
+  zh-CN: 通过本地服务或命令行调用 Windows 开源神器 STranslate 进行即时翻译。
 identifier: com.flyclip.extension.stranslate
 icon: ST
 platforms: [windows] # 标记 Windows 专属，WebDAV 多端同步自动静默适配
@@ -152,9 +162,13 @@ actions:
     hasOptions: true,
     optionsCount: 2,
     type: "url",
-    configYaml: `name: Google Translate
+    configYaml: `name:
+  en: Google Translate
+  zh-CN: Google 翻译
+description:
+  en: Translate selected text with Google Translate worldwide.
+  zh-CN: 使用 Google 翻译选中文本，支持多站点切换与目标语言设定。
 identifier: com.flyclip.extension.google-translate
-description: Translate selected text with Google Translate
 icon: iconify:simple-icons:googletranslate
 options:
   - identifier: site
@@ -187,7 +201,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: DeepL Translate
+    configYaml: `name:
+  en: DeepL Translate
+  zh-CN: DeepL 翻译
+description:
+  en: High-accuracy neural machine translation with DeepL.
+  zh-CN: 使用 DeepL 神经网络高质量翻译选中文本。
 identifier: com.flyclip.extension.deepl-translate
 icon: iconify:simple-icons:deepl
 options:
@@ -213,7 +232,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: Baidu Translate
+    configYaml: `name:
+  en: Baidu Translate
+  zh-CN: 百度翻译
+description:
+  en: Translate text with Baidu Translate.
+  zh-CN: 使用百度翻译引擎翻译选中文本。
 identifier: com.flyclip.extension.baidu-translate
 icon: iconify:simple-icons:baidu
 options:
@@ -238,7 +262,12 @@ actions:
     descriptionZh: "有道词典划词查词与权威翻译释义。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: Youdao Dictionary
+    configYaml: `name:
+  en: Youdao Dictionary
+  zh-CN: 有道词典
+description:
+  en: Look up words in Youdao Dictionary.
+  zh-CN: 有道词典划词查词与权威翻译释义。
 identifier: com.flyclip.extension.youdao-dict
 icon: 有道
 actions:
@@ -258,7 +287,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: Wikipedia
+    configYaml: `name:
+  en: Wikipedia
+  zh-CN: 维基百科
+description:
+  en: Search Wikipedia encyclopedia in multiple languages.
+  zh-CN: 在维基百科中搜索选中文本词条。
 identifier: com.flyclip.extension.wikipedia
 icon: iconify:simple-icons:wikipedia
 options:
@@ -284,7 +318,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: MDN Web Docs
+    configYaml: `name:
+  en: MDN Web Docs
+  zh-CN: MDN 开发者文档
+description:
+  en: Search web APIs, HTML, CSS, and JS reference docs on MDN.
+  zh-CN: 搜索 MDN Web Docs 权威开发者文档与 API 规范。
 identifier: com.flyclip.extension.mdn-web-docs
 icon: MDN
 options:
@@ -309,7 +348,12 @@ actions:
     descriptionZh: "在 Urban Dictionary 查询英语流行俚语与俗语含义。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: Urban Dictionary
+    configYaml: `name:
+  en: Urban Dictionary
+  zh-CN: Urban 俚语词典
+description:
+  en: Look up slang and idioms on Urban Dictionary.
+  zh-CN: 在 Urban Dictionary 查询英语流行俚语与俗语含义。
 identifier: com.flyclip.extension.urban-dictionary
 icon: UD
 actions:
@@ -331,7 +375,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: Google Search
+    configYaml: `name:
+  en: Google Search
+  zh-CN: Google 搜索
+description:
+  en: Search the web with Google Search.
+  zh-CN: 使用 Google 搜索选中的关键词。
 identifier: com.flyclip.extension.google-search
 icon: iconify:simple-icons:google
 options:
@@ -356,7 +405,12 @@ actions:
     descriptionZh: "使用百度搜索选中的关键词。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: 百度搜索
+    configYaml: `name:
+  en: Baidu Search
+  zh-CN: 百度搜索
+description:
+  en: Search with Baidu Search Engine.
+  zh-CN: 使用百度搜索选中的关键词。
 identifier: com.flyclip.extension.baidu-search
 icon: iconify:simple-icons:baidu
 actions:
@@ -375,7 +429,12 @@ actions:
     descriptionZh: "使用微软必应 Bing 搜索选中文本。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: Bing Search
+    configYaml: `name:
+  en: Bing Search
+  zh-CN: 必应搜索
+description:
+  en: Search with Microsoft Bing.
+  zh-CN: 使用微软必应 Bing 搜索选中文本。
 identifier: com.flyclip.extension.bing-search
 icon: iconify:simple-icons:microsoftbing
 actions:
@@ -394,7 +453,12 @@ actions:
     descriptionZh: "使用 DuckDuckGo 隐私无追踪搜索引擎。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: DuckDuckGo
+    configYaml: `name:
+  en: DuckDuckGo
+  zh-CN: DuckDuckGo
+description:
+  en: Privacy search with DuckDuckGo.
+  zh-CN: 使用 DuckDuckGo 隐私无追踪搜索引擎。
 identifier: com.flyclip.extension.duckduckgo
 icon: iconify:simple-icons:duckduckgo
 actions:
@@ -414,7 +478,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: GitHub Search
+    configYaml: `name:
+  en: GitHub Search
+  zh-CN: GitHub 搜索
+description:
+  en: Search repositories, code, and issues on GitHub.
+  zh-CN: 在 GitHub 搜索开源仓库、源码片段或 Issue 问题。
 identifier: com.flyclip.extension.github-search
 icon: iconify:simple-icons:github
 options:
@@ -439,7 +508,12 @@ actions:
     descriptionZh: "快速将选中文本发送给 ChatGPT 进行提问或智能分析。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: ChatGPT
+    configYaml: `name:
+  en: ChatGPT
+  zh-CN: ChatGPT
+description:
+  en: Ask ChatGPT or analyze text with OpenAI.
+  zh-CN: 快速将选中文本发送给 ChatGPT 进行提问或智能分析。
 identifier: com.flyclip.extension.chatgpt
 icon: iconify:simple-icons:openai
 actions:
@@ -458,7 +532,12 @@ actions:
     descriptionZh: "发送选中文本给 Anthropic Claude 对话交互。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: Claude
+    configYaml: `name:
+  en: Claude
+  zh-CN: Claude
+description:
+  en: Send selected text to Anthropic Claude AI.
+  zh-CN: 发送选中文本给 Anthropic Claude 对话交互。
 identifier: com.flyclip.extension.claude
 icon: iconify:simple-icons:anthropic
 actions:
@@ -477,7 +556,12 @@ actions:
     descriptionZh: "发送选中文本给 DeepSeek 深度求索 AI 助手分析。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: DeepSeek
+    configYaml: `name:
+  en: DeepSeek
+  zh-CN: DeepSeek 深度求索
+description:
+  en: Ask DeepSeek AI with selected text.
+  zh-CN: 发送选中文本给 DeepSeek 深度求索 AI 助手分析。
 identifier: com.flyclip.extension.deepseek
 icon: DS
 actions:
@@ -496,7 +580,12 @@ actions:
     descriptionZh: "在知乎搜索相关问题、高赞回答与专栏文章。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: 知乎搜索
+    configYaml: `name:
+  en: Zhihu Search
+  zh-CN: 知乎搜索
+description:
+  en: Search questions and discussions on Zhihu.
+  zh-CN: 在知乎搜索相关问题、高赞回答与专栏文章。
 identifier: com.flyclip.extension.zhihu-search
 icon: iconify:simple-icons:zhihu
 actions:
@@ -515,7 +604,12 @@ actions:
     descriptionZh: "在哔哩哔哩搜索精选视频、教程与UP主。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: 哔哩哔哩
+    configYaml: `name:
+  en: Bilibili Search
+  zh-CN: 哔哩哔哩
+description:
+  en: Search anime, tutorials, and creators on Bilibili.
+  zh-CN: 在哔哩哔哩搜索精选视频、教程与UP主。
 identifier: com.flyclip.extension.bilibili-search
 icon: iconify:simple-icons:bilibili
 actions:
@@ -534,7 +628,12 @@ actions:
     descriptionZh: "在 YouTube 上搜索全球精彩视频。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: YouTube
+    configYaml: `name:
+  en: YouTube Search
+  zh-CN: YouTube
+description:
+  en: Search videos on YouTube.
+  zh-CN: 在 YouTube 上搜索全球精彩视频。
 identifier: com.flyclip.extension.youtube-search
 icon: iconify:simple-icons:youtube
 actions:
@@ -555,7 +654,12 @@ actions:
     descriptionZh: "全能大小写命名风格转换（大写/小写/词首/小驼峰/下划线/连字符）。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: Case Converter
+    configYaml: `name:
+  en: Case Converter
+  zh-CN: 大小写转换
+description:
+  en: Convert text between UPPER, lower, Title, camelCase, snake_case, kebab-case.
+  zh-CN: 全能大小写命名风格转换（大写/小写/词首/小驼峰/下划线/连字符）。
 identifier: com.flyclip.extension.case-converter
 icon: Aa
 actions:
@@ -605,7 +709,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "js",
-    configYaml: `name: Base64
+    configYaml: `name:
+  en: Base64
+  zh-CN: Base64 编解码
+description:
+  en: Encode or decode Base64 strings with optional URL-safe mode.
+  zh-CN: Base64 快速编码与解码，支持 URL 安全模式开关。
 identifier: com.flyclip.extension.base64
 icon: B64
 options:
@@ -648,7 +757,12 @@ actions:
     descriptionZh: "URL 百分号编码与反向解码。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: URL Encode
+    configYaml: `name:
+  en: URL Encode
+  zh-CN: URL 编解码
+description:
+  en: Percent-encode and decode URL parameters.
+  zh-CN: URL 百分号编码与反向解码。
 identifier: com.flyclip.extension.url-encode
 icon: "%20"
 actions:
@@ -675,7 +789,12 @@ actions:
     descriptionZh: "HTML 特殊实体符号转义与反转义。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: HTML Encode
+    configYaml: `name:
+  en: HTML Encode
+  zh-CN: HTML 实体转义
+description:
+  en: Encode or decode HTML special character entities.
+  zh-CN: HTML 特殊实体符号转义与反转义。
 identifier: com.flyclip.extension.html-encode
 icon: "<&>"
 actions:
@@ -710,7 +829,12 @@ actions:
     descriptionZh: "JSON 格式化美化排版或单行压缩。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: JSON Formatter
+    configYaml: `name:
+  en: 
+  zh-CN: 
+description:
+  en: Prettify or minify JSON text in place.
+  zh-CN: JSON 格式化美化排版或单行压缩。
 identifier: com.flyclip.extension.json-formatter
 icon: "{}"
 actions:
@@ -744,7 +868,12 @@ actions:
     descriptionZh: "实时统计字符数、词数、行数与字节大小并展示于提示栏。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: Text Statistics
+    configYaml: `name:
+  en: Text Statistics
+  zh-CN: 字数与文本统计
+description:
+  en: Count characters, words, lines, and bytes in selected text.
+  zh-CN: 实时统计字符数、词数、行数与字节大小并展示于提示栏。
 identifier: com.flyclip.extension.text-statistics
 icon: "123"
 actions:
@@ -770,7 +899,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "js",
-    configYaml: `name: Sort Lines
+    configYaml: `name:
+  en: Sort Lines
+  zh-CN: 文本行排序与去重
+description:
+  en: Sort lines ascending, descending, or remove duplicate lines.
+  zh-CN: 多行文本升序、降序排序与行去重。
 identifier: com.flyclip.extension.sort-lines
 icon: AZ
 options:
@@ -822,7 +956,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "js",
-    configYaml: `name: Join Lines
+    configYaml: `name:
+  en: Join Lines
+  zh-CN: 多行合并为单行
+description:
+  en: Join multi-line text into a single line with custom delimiters.
+  zh-CN: 多行合并为单行，支持指定逗号、空格、分号等分隔符。
 identifier: com.flyclip.extension.join-lines
 icon: ->
 options:
@@ -851,7 +990,12 @@ actions:
     descriptionZh: "消除所有多余空格或压缩连续空白字符。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: Remove Spaces
+    configYaml: `name:
+  en: Remove Spaces
+  zh-CN: 清除多余空格
+description:
+  en: Collapse duplicate spaces or strip all whitespace characters.
+  zh-CN: 消除所有多余空格或压缩连续空白字符。
 identifier: com.flyclip.extension.remove-spaces
 icon: "␣"
 actions:
@@ -873,7 +1017,12 @@ actions:
     descriptionZh: "全角标点字符与半角英文字符双向转换。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: 全角半角转换
+    configYaml: `name:
+  en: Full/Half Width
+  zh-CN: 全角半角转换
+description:
+  en: Convert between Full-width and Half-width characters.
+  zh-CN: 全角标点字符与半角英文字符双向转换。
 identifier: com.flyclip.extension.full-half-width
 icon: 全半
 actions:
@@ -911,7 +1060,12 @@ actions:
     descriptionZh: "Unix 时间戳转换为本地日期时间，或获取当前秒级时间戳。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: Timestamp Converter
+    configYaml: `name:
+  en: Timestamp Converter
+  zh-CN: 时间戳转换
+description:
+  en: Convert Unix epoch timestamps to local date-time strings.
+  zh-CN: Unix 时间戳转换为本地日期时间，或获取当前秒级时间戳。
 identifier: com.flyclip.extension.timestamp-converter
 icon: ⏱️
 actions:
@@ -954,7 +1108,12 @@ actions:
     descriptionZh: "快速为选中文本添加 Markdown 粗体、行内代码、代码块或引用标记。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: Markdown Tools
+    configYaml: `name:
+  en: Markdown Tools
+  zh-CN: Markdown 格式化
+description:
+  en: Wrap text in Markdown bold, inline code, code blocks, or blockquotes.
+  zh-CN: 快速为选中文本添加 Markdown 粗体、行内代码、代码块或引用标记。
 identifier: com.flyclip.extension.markdown-tools
 icon: MD
 actions:
@@ -985,7 +1144,12 @@ actions:
     descriptionZh: "即时计算选中的数学表达式并显示结果。",
     hasOptions: false,
     type: "js",
-    configYaml: `name: Calculate
+    configYaml: `name:
+  en: Calculate
+  zh-CN: 即时数学计算
+description:
+  en: Evaluate math expressions instantly (e.g. 128*1024, (50+20)/3).
+  zh-CN: 即时计算选中的数学表达式并显示结果。
 identifier: com.flyclip.extension.calculate
 icon: "=?"
 actions:
@@ -1012,7 +1176,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: Regex101
+    configYaml: `name:
+  en: Regex101
+  zh-CN: Regex101 正则测试
+description:
+  en: Test and debug regular expressions in Regex101.
+  zh-CN: 在 Regex101 中测试并分析正则表达式。
 identifier: com.flyclip.extension.regex101
 icon: ".*"
 options:
@@ -1038,7 +1207,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: IP Lookup
+    configYaml: `name:
+  en: IP Lookup
+  zh-CN: IP 归属地查询
+description:
+  en: Query IP address geolocation and WHOIS info.
+  zh-CN: 查询 IP 地址的地理位置、归属地与网络 ASN 信息。
 identifier: com.flyclip.extension.ip-lookup
 icon: IP
 actions:
@@ -1058,7 +1232,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "powershell",
-    configYaml: `name: Hash Generator
+    configYaml: `name:
+  en: Hash Generator
+  zh-CN: 哈希值计算
+description:
+  en: Calculate MD5 and SHA-256 hashes of selected text.
+  zh-CN: 快速计算文本的 MD5 与 SHA-256 哈希值。
 identifier: com.flyclip.extension.hash-generator
 icon: "#"
 options:
@@ -1095,7 +1274,12 @@ actions:
     descriptionZh: "在 Iconify 搜索超过 20 万个开源矢量图标与 SVG 代码。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: Iconify Search
+    configYaml: `name:
+  en: Iconify Icons
+  zh-CN: Iconify 矢量图标
+description:
+  en: Search 200,000+ open source vector icons on Iconify.
+  zh-CN: 在 Iconify 搜索超过 20 万个开源矢量图标与 SVG 代码。
 identifier: com.flyclip.extension.iconify-search
 icon: iconify:simple-icons:iconify
 actions:
@@ -1116,7 +1300,12 @@ actions:
     descriptionZh: "在京东商城搜索选中的商品与数码好物。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: 京东搜索
+    configYaml: `name:
+  en: JD Search
+  zh-CN: 京东搜索
+description:
+  en: Search products on JD.com.
+  zh-CN: 在京东商城搜索选中的商品与数码好物。
 identifier: com.flyclip.extension.jd-search
 icon: iconify:simple-icons:jd
 actions:
@@ -1135,7 +1324,12 @@ actions:
     descriptionZh: "在淘宝网搜索选中的商品宝贝与优惠。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: 淘宝搜索
+    configYaml: `name:
+  en: Taobao Search
+  zh-CN: 淘宝搜索
+description:
+  en: Search items and deals on Taobao.
+  zh-CN: 在淘宝网搜索选中的商品宝贝与优惠。
 identifier: com.flyclip.extension.taobao-search
 icon: iconify:simple-icons:taobao
 actions:
@@ -1155,7 +1349,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: 豆瓣搜索
+    configYaml: `name:
+  en: Douban Search
+  zh-CN: 豆瓣搜索
+description:
+  en: Search movies, books, and music on Douban.
+  zh-CN: 在豆瓣搜索高分电影、热门图书与音乐条目。
 identifier: com.flyclip.extension.douban-search
 icon: iconify:simple-icons:douban
 options:
@@ -1180,7 +1379,12 @@ actions:
     descriptionZh: "在 IMDb 数据库搜索电影、剧集与演员资料。",
     hasOptions: false,
     type: "url",
-    configYaml: `name: IMDb
+    configYaml: `name:
+  en: IMDb
+  zh-CN: IMDb 影视资料
+description:
+  en: Search movies, TV shows, and cast on IMDb.
+  zh-CN: 在 IMDb 数据库搜索电影、剧集与演员资料。
 identifier: com.flyclip.extension.imdb
 icon: iconify:simple-icons:imdb
 actions:
@@ -1200,7 +1404,12 @@ actions:
     hasOptions: true,
     optionsCount: 1,
     type: "url",
-    configYaml: `name: Amazon
+    configYaml: `name:
+  en: Amazon
+  zh-CN: 亚马逊商城
+description:
+  en: Search Amazon worldwide with site selection.
+  zh-CN: 在全球 Amazon 亚马逊商城（美/中/日/英/德）搜索商品。
 identifier: com.flyclip.extension.amazon
 icon: iconify:simple-icons:amazon
 options:
