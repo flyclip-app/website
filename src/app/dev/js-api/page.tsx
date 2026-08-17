@@ -295,28 +295,47 @@ flyclip.pressKey("ctrl v");`}</pre>
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
           <Code className="text-cyan-400" size={20} />
-          <span>8. 剪贴板读写操作 (flyclip.clipboard / copy / paste)</span>
+          <span>8. 剪贴板读写与粘贴操作 (读取 / 写入 / 模拟粘贴)</span>
         </h2>
         <p className="text-xs sm:text-sm text-slate-400">
-          直接对系统剪贴板进行文本读取与写入，支持函数调用与属性访问两种风格。
+          提供对系统剪贴板的读写，以及直接向用户当前输入焦点模拟粘贴（Ctrl+V）的核心功能：
         </p>
-        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
-          <div className="font-mono text-xs text-cyan-300">
-            <strong>API 签名：</strong>
-            <ul className="mt-1 space-y-1 text-slate-300">
-              <li>• <code>flyclip.copy(text: string): boolean</code>（写入文本到剪贴板）</li>
-              <li>• <code>flyclip.paste(): string</code>（读取剪贴板当前文本）</li>
-              <li>• <code>flyclip.clipboard.read(): string</code> / <code>flyclip.clipboard.write(text: string): boolean</code></li>
-              <li>• <code>flyclip.clipboard.text</code>（Getter / Setter 属性访问）</li>
-            </ul>
-          </div>
-          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-cyan-200">
-            <pre>{`// 示例 1: 写入自定义文本到剪贴板
-flyclip.copy("Hello FlyClip!");
 
-// 示例 2: 读取当前剪贴板并在前后追加内容
-const clipText = flyclip.clipboard.text;
-flyclip.clipboard.text = "【已备份】" + clipText;`}</pre>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+            <div className="font-bold text-emerald-400">📖 1. 读取剪贴板内容</div>
+            <code className="text-slate-300 font-mono block">flyclip.clipboard.read()</code>
+            <code className="text-slate-300 font-mono block">flyclip.clipboard.text (Getter)</code>
+            <p className="text-slate-400 text-[11px]">获取当前剪贴板中的纯文本字符串。</p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+            <div className="font-bold text-blue-400">✍️ 2. 写入剪贴板内容</div>
+            <code className="text-slate-300 font-mono block">flyclip.copy(text)</code>
+            <code className="text-slate-300 font-mono block">flyclip.clipboard.write(text)</code>
+            <code className="text-slate-300 font-mono block">flyclip.clipboard.text = &quot;...&quot;</code>
+            <p className="text-slate-400 text-[11px]">将指定文本写入系统剪贴板备用。</p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+            <div className="font-bold text-cyan-400">📋 3. 模拟粘贴到当前窗口</div>
+            <code className="text-slate-300 font-mono block">flyclip.paste()</code>
+            <code className="text-slate-300 font-mono block">flyclip.paste(text)</code>
+            <p className="text-slate-400 text-[11px]">底层直接发送 Ctrl+V 快捷键将文本粘贴至焦点输入框。</p>
+          </div>
+        </div>
+
+        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+          <h4 className="font-bold text-white text-xs uppercase tracking-wider">实战代码示例：</h4>
+          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-cyan-200 space-y-2">
+            <div className="text-slate-500">// 示例 1: 读取当前剪贴板并前后加工，然后写回剪贴板</div>
+            <pre>{`const current = flyclip.clipboard.read();
+flyclip.copy("【格式化】" + current);`}</pre>
+
+            <div className="text-slate-500 mt-2">// 示例 2: 将特定处理结果直接模拟粘贴到当前输入框</div>
+            <pre>{`const processed = flyclip.input.text.trim().toLowerCase();
+// 写入剪贴板并立即发送 Ctrl+V 粘贴
+flyclip.paste(processed);`}</pre>
           </div>
         </div>
       </div>
