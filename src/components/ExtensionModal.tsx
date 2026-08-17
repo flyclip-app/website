@@ -5,6 +5,7 @@ import { X, Copy, Check, Download, Zap, ArrowRight, ExternalLink } from "lucide-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useI18n } from "@/i18n/LanguageContext";
+import ExtensionIcon from "@/components/ExtensionIcon";
 
 interface Props {
   extension: ExtensionItem | null;
@@ -53,8 +54,8 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
         {/* Header */}
         <div className="p-5 border-b border-[#2d3142] flex items-center justify-between bg-[#14161d]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-[#1c1e27] border border-[#2d3142] flex items-center justify-center font-bold text-blue-400">
-              {extension.icon}
+            <div className="w-10 h-10 rounded-lg bg-[#1c1e27] border border-[#2d3142] flex items-center justify-center font-bold text-blue-400 flex-shrink-0">
+              <ExtensionIcon icon={extension.icon} name={extension.name} className="w-5 h-5" size={20} />
             </div>
             <div>
               <h3 className="font-bold text-slate-100 text-lg">

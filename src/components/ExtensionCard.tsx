@@ -3,6 +3,7 @@
 import { ExtensionItem, getExtensionPackageName } from "@/data/extensions";
 import { Download, Eye, Settings, Zap } from "lucide-react";
 import { useI18n } from "@/i18n/LanguageContext";
+import ExtensionIcon from "@/components/ExtensionIcon";
 
 interface Props {
   extension: ExtensionItem;
@@ -70,7 +71,7 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
         {/* Header */}
         <div className="flex items-start gap-3.5 mb-3">
           <div className="w-11 h-11 rounded-lg bg-[#14161d] border border-[#2d3142] flex items-center justify-center font-bold text-base text-blue-400 group-hover:border-blue-500/40 transition-colors flex-shrink-0">
-            {extension.icon}
+            <ExtensionIcon icon={extension.icon} name={extension.name} className="w-6 h-6" size={24} />
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="font-bold text-slate-100 text-base leading-snug truncate">
