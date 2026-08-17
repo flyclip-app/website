@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/sync-extensions.js",
     "build": "next build",
+    "sync-ext": "node scripts/sync-extensions.js",
     "start": "next start",
     "lint": "eslint"
   },
@@ -15,7 +17,8 @@
     "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
