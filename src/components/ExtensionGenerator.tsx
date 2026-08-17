@@ -2,6 +2,7 @@
 
 import { useState, useRef, useMemo } from "react";
 import { Copy, Check, Sparkles, Wrench, Download, Zap, Code, Terminal, Globe, Keyboard, Play, FileCode, CheckCircle2 } from "lucide-react";
+import { useI18n } from "@/i18n/LanguageContext";
 
 interface OptionItem {
   id: string;
@@ -148,6 +149,7 @@ const JS_PRESETS = [
 ];
 
 export default function ExtensionGenerator() {
+  const { lang, t } = useI18n();
   const [name, setName] = useState("文本大写转换");
   const [id, setId] = useState("com.flyclip.extension.uppercase");
   const [icon, setIcon] = useState("Aa");

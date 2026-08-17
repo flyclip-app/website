@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Zap, Code, Globe, Terminal, Keyboard, Cpu, Sparkles, CheckCircle2 } from "lucide-react";
+import { useI18n } from "@/i18n/LanguageContext";
 
 export default function DevJsApiPage() {
+  const { lang } = useI18n();
   return (
     <div className="space-y-12 text-slate-300 leading-relaxed text-sm sm:text-base">
       {/* Header */}

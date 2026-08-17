@@ -1,7 +1,59 @@
+"use client";
+
 import Link from "next/link";
-import { HelpCircle, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { useI18n } from "@/i18n/LanguageContext";
 
 export default function GuideTroubleshootingPage() {
+  const { lang } = useI18n();
+
+  if (lang === "en") {
+    return (
+      <div className="space-y-8 text-slate-300 leading-relaxed text-sm sm:text-base">
+        <div>
+          <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">User Guide / Troubleshooting</div>
+          <h1 className="text-3xl font-extrabold text-white mb-3">Troubleshooting & FAQ</h1>
+          <p className="text-slate-400">
+            Frequently asked questions and troubleshooting steps for common scenarios.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+            <h3 className="font-bold text-white text-base">Q: Why does the action bar not popup in some specific applications?</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              A: For elevated/admin programs (e.g. Task Manager, Registry Editor), standard user processes cannot query UI elements due to Windows UIPI security rules. Run FlyClip as Administrator if you need support in elevated windows.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+            <h3 className="font-bold text-white text-base">Q: How do I completely uninstall an extension?</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              A: Open FlyClip Settings, click &quot;Open Extensions Folder&quot;, and delete the corresponding <code>.flyclipext</code> folder to remove it completely.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+            <h3 className="font-bold text-white text-base">Q: How do I adjust spacing if the palette covers adjacent lines of text?</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              A: Increase the &quot;Vertical Offset&quot; setting in Preferences (e.g. change 6px to 12px) to expand safety margins around selections.
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
+          <Link href="/guide/settings" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
+            <ArrowLeft size={14} />
+            <span>Prev: Preferences</span>
+          </Link>
+          <Link href="/dev" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+            <span>Go to Developer Reference</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 text-slate-300 leading-relaxed text-sm sm:text-base">
       <div>

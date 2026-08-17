@@ -1,9 +1,10 @@
 "use client";
 
 import { ExtensionItem, getExtensionPackageName } from "@/data/extensions";
-import { X, Copy, Check, Info, Download, Sparkles, Zap, Globe, ArrowRight, ExternalLink } from "lucide-react";
+import { X, Copy, Check, Download, Zap, ArrowRight, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useI18n } from "@/i18n/LanguageContext";
 
 interface Props {
   extension: ExtensionItem | null;
@@ -14,6 +15,7 @@ interface Props {
 export default function ExtensionModal({ extension, autoTriggerInstall, onClose }: Props) {
   const [copied, setCopied] = useState(false);
   const [schemeInvoked, setSchemeInvoked] = useState(false);
+  const { lang, t } = useI18n();
 
   useEffect(() => {
     if (extension && autoTriggerInstall) {
@@ -75,45 +77,61 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 font-bold text-white">
                   <Zap size={16} className="text-amber-400 animate-pulse" />
-                  <span>正在尝试呼起 FlyClip 客户端安装...</span>
+                  <span>{lang === "zh" ? "正在尝试呼起 FlyClip 客户端安装..." : "Attempting to launch FlyClip client..."}</span>
                 </div>
                 <button
                   onClick={triggerScheme}
                   className="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors flex items-center gap-1"
                 >
                   <ExternalLink size={12} />
-                  <span>重新呼起</span>
+                  <span>{lang === "zh" ? "重新呼起" : "Re-trigger"}</span>
                 </button>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                若您的浏览器弹出授权提示，请点击「打开 FlyClip」。若您的电脑尚未安装 FlyClip，可{" "}
-                <Link href="/download" className="text-blue-400 underline hover:text-blue-300">下载客户端</Link>
-                {" "}或直接选择下方【方式二：下载离线扩展包】。
+                {lang === "zh" ? (
+                  <>
+                    若您的浏览器弹出授权提示，请点击「打开 FlyClip」。若您的电脑尚未安装 FlyClip，可{" "}
+                    <Link href="/download" className="text-blue-400 underline hover:text-blue-300">下载客户端</Link>
+                    {" "}或直接选择下方【方式二：下载离线扩展包】。
+                  </>
+                ) : (
+                  <>
+                    If prompted by your browser, click &quot;Open FlyClip&quot;. If FlyClip is not yet installed on your PC, you can{" "}
+                    <Link href="/download" className="text-blue-400 underline hover:text-blue-300">Download Client</Link>
+                    {" "}or choose Method 2 below to download offline package.
+                  </>
+                )}
               </p>
             </div>
           )}
 
           <div>
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">功能描述</span>
-            <p className="text-slate-300">{extension.descriptionZh || extension.description}</p>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+              {lang === "zh" ? "功能描述" : "Description"}
+            </span>
+            <p className="text-slate-300">
+              {lang === "en" ? (extension.description || extension.descriptionZh) : (extension.descriptionZh || extension.description)}
+            </p>
           </div>
 
           {/* Installation Methods */}
           <div className="space-y-3">
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
-              安装与更新方式
+              {lang === "zh" ? "安装与更新方式" : "Installation Methods"}
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Method 1: URL Scheme Online Package with target _blank */}
+              {/* Method 1 */}
               <div className="p-4 rounded-xl bg-[#14161d] border border-blue-500/40 space-y-2 flex flex-col justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-white text-xs">
                     <Zap size={14} className="text-amber-400" />
-                    <span>方式一：一键唤起安装 (绑定更新源)</span>
+                    <span>{lang === "zh" ? "方式一：一键唤起安装 (绑定更新源)" : "Method 1: One-Click Install (Auto Updates)"}</span>
                   </div>
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    在新窗口呼出 <code>flyclip://</code> 协议，自动绑定官方更新源，支持后续无感自动更新。
+                    {lang === "zh"
+                      ? "呼出 flyclip:// 协议，自动绑定官方更新源，支持后续无感自动更新。"
+                      : "Triggers flyclip:// protocol, automatically connects to official update source for updates."}
                   </p>
                 </div>
                 <a
@@ -124,20 +142,22 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
                   className="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-md shadow-blue-500/20"
                 >
                   <Zap size={13} className="text-amber-300" />
-                  <span>一键安装到 FlyClip</span>
+                  <span>{lang === "zh" ? "一键安装到 FlyClip" : "Install to FlyClip"}</span>
                   <ExternalLink size={12} />
                 </a>
               </div>
 
-              {/* Method 2: Offline Package */}
+              {/* Method 2 */}
               <div className="p-4 rounded-xl bg-[#14161d] border border-[#2d3142] space-y-2 flex flex-col justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-white text-xs">
                     <Download size={14} className="text-blue-400" />
-                    <span>方式二：下载离线包 (.flyclipextz)</span>
+                    <span>{lang === "zh" ? "方式二：下载离线包 (.flyclipextz)" : "Method 2: Offline Package (.flyclipextz)"}</span>
                   </div>
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    下载 <code>{pkgName}.flyclipextz</code> 文件，双击或拖入 FlyClip 窗口即可完成安装。
+                    {lang === "zh"
+                      ? `下载 ${pkgName}.flyclipextz 文件，双击或拖入 FlyClip 窗口即可完成安装。`
+                      : `Download ${pkgName}.flyclipextz and double-click or drag into FlyClip to install.`}
                   </p>
                 </div>
                 <a
@@ -146,7 +166,7 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
                   className="w-full py-2 px-3 rounded-lg bg-[#1c1e27] border border-[#2d3142] hover:border-slate-400 text-slate-200 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                 >
                   <Download size={13} />
-                  <span>下载离线文件</span>
+                  <span>{lang === "zh" ? "下载离线文件" : "Download File"}</span>
                 </a>
               </div>
             </div>
@@ -156,7 +176,7 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                方式三：划选即装 Snippet (直接用鼠标划选下方文本即可)
+                {lang === "zh" ? "方式三：划选即装 Snippet (直接用鼠标划选下方文本)" : "Method 3: Text Snippet (Select text below to install)"}
               </span>
               <div className="flex items-center gap-3">
                 <a
@@ -166,7 +186,7 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
                   className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-medium"
                 >
                   <Zap size={12} />
-                  <span>载入 Snippet</span>
+                  <span>{lang === "zh" ? "载入 Snippet" : "Load Snippet"}</span>
                   <ExternalLink size={11} />
                 </a>
                 <button
@@ -174,7 +194,7 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
                   className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 font-medium"
                 >
                   {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
-                  <span>{copied ? "已复制" : "复制代码"}</span>
+                  <span>{copied ? (lang === "zh" ? "已复制" : "Copied") : (lang === "zh" ? "复制代码" : "Copy Code")}</span>
                 </button>
               </div>
             </div>
@@ -190,7 +210,7 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
             href="/download"
             className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 font-medium"
           >
-            <span>还没有 FlyClip 客户端？立即下载</span>
+            <span>{lang === "zh" ? "还没有 FlyClip 客户端？立即下载" : "Need FlyClip client? Download now"}</span>
             <ArrowRight size={13} />
           </Link>
           <div className="flex items-center gap-2">
@@ -201,14 +221,14 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
               className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm transition-colors flex items-center gap-1.5 shadow-md shadow-blue-500/20"
             >
               <Zap size={14} className="text-amber-300" />
-              <span>一键安装</span>
+              <span>{lang === "zh" ? "一键安装" : "Install"}</span>
               <ExternalLink size={12} />
             </a>
             <button
               onClick={onClose}
               className="px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] hover:bg-[#242733] text-slate-300 font-medium text-xs sm:text-sm transition-colors"
             >
-              关闭
+              {lang === "zh" ? "关闭" : "Close"}
             </button>
           </div>
         </div>

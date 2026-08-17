@@ -1,7 +1,115 @@
+"use client";
+
 import Link from "next/link";
-import { Download, Sparkles, FolderDown, ArrowRight, ArrowLeft, RefreshCw, Zap, Globe } from "lucide-react";
+import { Download, Sparkles, FolderDown, ArrowRight, ArrowLeft, Zap } from "lucide-react";
+import { useI18n } from "@/i18n/LanguageContext";
 
 export default function GuideExtensionsPage() {
+  const { lang } = useI18n();
+
+  if (lang === "en") {
+    return (
+      <div className="space-y-8 text-slate-300 leading-relaxed text-sm sm:text-base">
+        <div>
+          <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">User Guide / Extensions</div>
+          <h1 className="text-3xl font-extrabold text-white mb-3">Extension Installation & Protocol Specs</h1>
+          <p className="text-slate-400">
+            FlyClip supports <code>flyclip://</code> custom protocols, automatic online updates, text snippet selection installs, and local packages.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">Four Installation Methods</h2>
+
+          <div className="space-y-4">
+            {/* Method 1 */}
+            <div className="p-5 rounded-xl bg-[#1c1e27] border border-blue-500/40 space-y-2">
+              <div className="flex items-center gap-2 text-white font-bold text-base">
+                <Zap size={18} className="text-amber-400" />
+                <span>Method 1: One-Click Web Install (URL Scheme: <code>flyclip://</code>) — Recommended</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300">
+                Click <strong>&quot;One-Click Install&quot;</strong> in the Extension Hub. Your browser launches FlyClip, which downloads and installs the extension while <strong>automatically binding the URL as its update source</strong> for seamless background updates.
+              </p>
+            </div>
+
+            {/* Method 2 */}
+            <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+              <div className="flex items-center gap-2 text-white font-bold text-base">
+                <Download size={18} className="text-blue-400" />
+                <span>Method 2: Offline Package (.flyclipextz)</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300">
+                Download the <code>.flyclipextz</code> archive file. Double-click it (associated with FlyClip) or drag it into FlyClip to complete installation.
+              </p>
+            </div>
+
+            {/* Method 3 */}
+            <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+              <div className="flex items-center gap-2 text-white font-bold text-base">
+                <Sparkles size={18} className="text-amber-400" />
+                <span>Method 3: Magic Text Snippet Install</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300">
+                Select text starting with <code># flyclip</code> or <code># popclip</code> anywhere on your screen. FlyClip detects it and pops up an <strong>&quot;Install Extension&quot;</strong> action button immediately.
+              </p>
+            </div>
+
+            {/* Method 4 */}
+            <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
+              <div className="flex items-center gap-2 text-white font-bold text-base">
+                <FolderDown size={18} className="text-slate-400" />
+                <span>Method 4: Developer Folder Mode (.flyclipext)</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300">
+                Create a <code>MyTool.flyclipext</code> directory under <code>%APPDATA%\flyclip\extensions\</code> with a <code>Config.yaml</code> for live local debugging.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* URL Scheme Protocol Spec */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">flyclip:// Protocol Specification</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-[#2d3142] text-slate-400">
+                  <th className="py-2.5 px-3">Protocol Format</th>
+                  <th className="py-2.5 px-3">Parameters</th>
+                  <th className="py-2.5 px-3">Behavior</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#2d3142] text-slate-300">
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">flyclip://install-extension?url=&lt;URL&gt;</td>
+                  <td className="py-3 px-3"><code>url</code>: Remote package URL (.flyclipextz / .yaml)</td>
+                  <td className="py-3 px-3">Downloads and installs package, binding update source URL.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">flyclip://install-extension?data=&lt;CODE&gt;</td>
+                  <td className="py-3 px-3"><code>data</code>: URL-encoded YAML / JSON manifest string</td>
+                  <td className="py-3 px-3">Installs configuration directly into client without temp files.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
+          <Link href="/guide/actions" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
+            <ArrowLeft size={14} />
+            <span>Prev: Actions</span>
+          </Link>
+          <Link href="/guide/settings" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+            <span>Next: Preferences</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 text-slate-300 leading-relaxed text-sm sm:text-base">
       <div>

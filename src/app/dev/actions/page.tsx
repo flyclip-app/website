@@ -1,7 +1,158 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Zap, Globe, AlertTriangle, CheckCircle2, Terminal, Code, Cpu } from "lucide-react";
+import { ArrowLeft, ArrowRight, Zap, Globe, AlertTriangle, Code, Cpu, Terminal } from "lucide-react";
+import { useI18n } from "@/i18n/LanguageContext";
 
 export default function DevActionsPage() {
+  const { lang } = useI18n();
+
+  if (lang === "en") {
+    return (
+      <div className="space-y-10 text-slate-300 leading-relaxed text-sm sm:text-base">
+        <div>
+          <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Developer Reference / Actions</div>
+          <h1 className="text-3xl font-extrabold text-white mb-3">Action Categories & Examples</h1>
+          <p className="text-slate-400">
+            FlyClip follows a clean cross-platform layered architecture. To ensure consistency and high performance, JavaScript and URL actions are strongly recommended.
+          </p>
+        </div>
+
+        {/* Zero Heavy Runtime Banner */}
+        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs sm:text-sm text-emerald-300 space-y-1">
+          <div className="flex items-center gap-2 font-bold text-emerald-400">
+            <Zap size={16} />
+            <span>Zero Heavy Runtime Guarantee</span>
+          </div>
+          <p>
+            FlyClip <strong>never relies on WebView2 (150MB+ RAM overhead)</strong> and <strong>does not require Node.js</strong>. Built with a Rust statically-linked QuickJS engine with &lt;1ms cold start and &lt;1.5MB resident memory increment.
+          </p>
+        </div>
+
+        {/* Priority Matrix Table */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">Action Type Priority Matrix</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-[#2d3142] text-slate-400">
+                  <th className="py-2.5 px-3">Action Type</th>
+                  <th className="py-2.5 px-3">Priority</th>
+                  <th className="py-2.5 px-3">Compatibility</th>
+                  <th className="py-2.5 px-3">Usage & Best Practices</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#2d3142] text-slate-300">
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">JavaScript / TS</td>
+                  <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold text-xs">🥇 Primary Choice</span></td>
+                  <td className="py-3 px-3"><span className="text-emerald-400 font-medium">🌐 Universal</span></td>
+                  <td className="py-3 px-3">Recommended. Embedded QuickJS with cross-platform native process and async HTTP fetch.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400 font-bold">URL Template</td>
+                  <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-semibold text-xs">🥇 Primary Choice</span></td>
+                  <td className="py-3 px-3"><span className="text-blue-400 font-medium">🌐 Universal</span></td>
+                  <td className="py-3 px-3">Ideal for search engines, web translation, and browser navigation.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-slate-300">Key Combo</td>
+                  <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-[#14161d] text-slate-300 font-semibold text-xs">🥈 Secondary</span></td>
+                  <td className="py-3 px-3"><span className="text-slate-300">🌐 Universal</span></td>
+                  <td className="py-3 px-3">Simulates standard keyboard shortcuts (e.g. <code>ctrl c</code>, <code>ctrl v</code>).</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-amber-400">PowerShell (.ps1)</td>
+                  <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-semibold text-xs">⚠️ Not Recommended</span></td>
+                  <td className="py-3 px-3"><span className="text-amber-400 font-medium">🪟 Windows Only</span></td>
+                  <td className="py-3 px-3">Cannot run on macOS/Linux. Use only as fallback for deep Windows .NET APIs.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Real-World Code Examples */}
+        <div className="space-y-8">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">Code Examples</h2>
+
+          {/* Example 1 */}
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+            <h3 className="font-bold text-white text-base text-blue-400 flex items-center gap-2">
+              <Globe size={16} />
+              <span>Example 1: Universal Web Search Extension</span>
+            </h3>
+            <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-blue-200">
+              <pre>{`name: Google Search
+identifier: com.flyclip.extension.google-search
+description: Search selected text on Google
+icon: iconify:simple-icons:google
+actions:
+  - title: Google
+    url: https://www.google.com/search?q=***
+    requirements: [text]`}</pre>
+            </div>
+          </div>
+
+          {/* Example 2 */}
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+            <h3 className="font-bold text-white text-base text-emerald-400 flex items-center gap-2">
+              <Code size={16} />
+              <span>Example 2: Pure JavaScript Text Transform (Recommended)</span>
+            </h3>
+            <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-emerald-200">
+              <pre>{`name: CamelCase Convert
+identifier: com.flyclip.extension.camel-case
+description: Convert text with underscores or spaces to camelCase
+icon: Aa
+actions:
+  - title: CamelCase
+    javascript: |
+      const text = flyclip.input.text.trim();
+      return text.replace(/[-_\\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : "");
+    requirements: [text]
+    after: paste-result`}</pre>
+            </div>
+          </div>
+
+          {/* Example 3 */}
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+            <h3 className="font-bold text-white text-base text-emerald-400 flex items-center gap-2">
+              <Terminal size={16} />
+              <span>Example 3: Cross-Platform Native Command (flyclip.run)</span>
+            </h3>
+            <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-emerald-200">
+              <pre>{`name: Git Status
+identifier: com.flyclip.extension.git-status
+icon: iconify:simple-icons:git
+actions:
+  - title: Git Status
+    javascript: |
+      const res = flyclip.run("git", ["status", "--short"]);
+      if (res.code !== 0) {
+        return \`Git Error: \${res.stderr}\`;
+      }
+      return res.stdout.trim() || "Working tree clean";
+    requirements: [text]
+    after: show-result`}</pre>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
+          <Link href="/dev/options" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
+            <ArrowLeft size={14} />
+            <span>Prev: Options</span>
+          </Link>
+          <Link href="/dev/js-api" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+            <span>Next: JavaScript API Reference</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-10 text-slate-300 leading-relaxed text-sm sm:text-base">
       <div>
@@ -61,27 +212,9 @@ export default function DevActionsPage() {
                 <td className="py-3 px-3"><span className="text-amber-400 font-medium">🪟 Windows 专属</span></td>
                 <td className="py-3 px-3">无法在 macOS/Linux 运行。仅作为 Windows 深度 API 调用的逃生通道。</td>
               </tr>
-              <tr>
-                <td className="py-3 px-3 font-mono text-amber-400">Shell Script (.sh)</td>
-                <td className="py-3 px-3"><span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-semibold text-xs">⚠️ 不推荐</span></td>
-                <td className="py-3 px-3"><span className="text-amber-400 font-medium">🍎 macOS/Linux 专属</span></td>
-                <td className="py-3 px-3">无法在 Windows 默认运行，不具备跨平台通用性。</td>
-              </tr>
             </tbody>
           </table>
         </div>
-      </div>
-
-      {/* Why Avoid Shell/PS1 Callout */}
-      <div className="p-5 rounded-xl bg-amber-500/10 border border-amber-500/25 space-y-3">
-        <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
-          <AlertTriangle size={18} />
-          <span>为什么强烈不推荐使用 .ps1 或 .sh 脚本？</span>
-        </div>
-        <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm text-amber-200/90 leading-relaxed">
-          <li><strong>破坏跨平台通用性</strong>：PowerShell 在 macOS/Linux 上不可用，Bash 脚本在 Windows 上不可用，会导致扩展无法跨平台复用。</li>
-          <li><strong>JavaScript 已内置跨平台本地命令调用</strong>：在 JS 中直接调用 <code>flyclip.run(&quot;command&quot;, [&quot;args&quot;])</code>，由底层 Rust 引擎统一跨平台派生子进程，一次编写处处运行！</li>
-        </ul>
       </div>
 
       {/* Real-World Code Examples */}
@@ -133,9 +266,6 @@ actions:
             <Terminal size={16} />
             <span>示例 3：JavaScript 跨平台调用本地 CLI 命令 (flyclip.run)</span>
           </h3>
-          <p className="text-xs text-slate-400">
-            直接在 JS 中调用本地外部 CLI 工具，由 Rust 宿主在各操作系统中安全派生子进程：
-          </p>
           <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-emerald-200">
             <pre>{`name: Git 状态速览
 identifier: com.flyclip.extension.git-status
@@ -143,7 +273,6 @@ icon: iconify:simple-icons:git
 actions:
   - title: Git 状态
     javascript: |
-      // 调用本地 git 命令 (跨平台由 Rust 统一执行)
       const res = flyclip.run("git", ["status", "--short"]);
       if (res.code !== 0) {
         return \`Git 错误: \${res.stderr}\`;
@@ -153,102 +282,6 @@ actions:
     after: show-result`}</pre>
           </div>
         </div>
-
-        {/* Example 4: Local HTTP API Calling (Pot Desktop & STranslate) */}
-        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
-          <h3 className="font-bold text-white text-base text-cyan-400 flex items-center gap-2">
-            <Globe size={16} />
-            <span>示例 4：调用本地/远程 HTTP 服务 (以 Pot Desktop & STranslate 为例)</span>
-          </h3>
-          <p className="text-xs text-slate-400">
-            通过 <code>flyclip.fetch()</code> 调用第三方本地常驻工具（如 Pot 翻译、STranslate）提供的 Local HTTP API：
-          </p>
-          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-cyan-200">
-            <pre>{`name: Pot 划词翻译
-identifier: com.flyclip.extension.pot-desktop
-icon: Pot
-options:
-  - identifier: port
-    label: 本地端口
-    type: string
-    default value: "60828"
-actions:
-  - title: Pot 翻译
-    javascript: |
-      const text = flyclip.input.text.trim();
-      const port = flyclip.options.port || "60828";
-      // 发送本地 HTTP 请求给 Pot Desktop
-      await flyclip.fetch(\`http://127.0.0.1:\${port}/api/translate\`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
-      });
-    requirements: [text]`}</pre>
-          </div>
-        </div>
-
-        {/* Example 5: Platform Constraint & STranslate */}
-        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-white text-base text-purple-400 flex items-center gap-2">
-              <Cpu size={16} />
-              <span>示例 5：平台标记与 WebDAV 多端同步规范 (STranslate 示例)</span>
-            </h3>
-            <span className="text-[11px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 font-semibold border border-purple-500/20">
-              WebDAV 同步友好
-            </span>
-          </div>
-          <p className="text-xs text-slate-400">
-            当某个扩展关联了特定系统的专有工具（如仅 Windows 有 STranslate），声明 <code>platforms: [windows]</code>。通过 WebDAV 同步到 macOS/Linux 时<strong>允许安装保留配置，但在非 Windows 系统下自动静默禁用</strong>：
-          </p>
-          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-purple-200">
-            <pre>{`name: STranslate 翻译
-identifier: com.flyclip.extension.stranslate
-icon: ST
-platforms: [windows] # 标记为仅 Windows 启用，跨端同步自动静默适配
-options:
-  - identifier: port
-    label: HTTP 端口
-    type: string
-    default value: "50020"
-actions:
-  - title: STranslate
-    javascript: |
-      const text = flyclip.input.text.trim();
-      const port = flyclip.options.port || "50020";
-      await flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`);
-    requirements: [text]`}</pre>
-          </div>
-        </div>
-
-        {/* Example 5 */}
-        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-white text-base text-amber-400 flex items-center gap-2">
-              <AlertTriangle size={16} />
-              <span>示例 5：Windows 专属 PowerShell 扩展 (⚠️ 仅限特殊系统调用)</span>
-            </h3>
-            <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20">
-              Windows-Only
-            </span>
-          </div>
-          <p className="text-xs text-slate-400">
-            仅当需要调用 Windows 原生 .NET 特有类库时使用，必须声明 <code>platforms: [windows]</code>：
-          </p>
-          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-amber-200">
-            <pre>{`name: Windows 原生哈希
-identifier: com.flyclip.extension.win-hash
-platforms: [windows]
-actions:
-  - title: SHA256 (PowerShell)
-    shell script: |
-      $bytes = [System.Text.Encoding]::UTF8.GetBytes($env:FLYCLIP_TEXT)
-      $sha = [System.Security.Cryptography.SHA256]::Create().ComputeHash($bytes)
-      Write-Host -NoNewline ([BitConverter]::ToString($sha).Replace('-','').ToLower())
-    requirements: [text]
-    after: paste-result`}</pre>
-          </div>
-        </div>
       </div>
 
       <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
@@ -256,8 +289,8 @@ actions:
           <ArrowLeft size={14} />
           <span>上一页：参数选项规范</span>
         </Link>
-        <Link href="/dev/variables" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
-          <span>下一步：占位符与环境变量</span>
+        <Link href="/dev/js-api" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+          <span>下一步：JavaScript API 手册</span>
           <ArrowRight size={14} />
         </Link>
       </div>
