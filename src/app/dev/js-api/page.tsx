@@ -320,6 +320,67 @@ if (res.ok) {
         </div>
       </div>
 
+      {/* 9. Standalone Script Files & npm Libraries */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+          <Code className="text-amber-400" size={20} />
+          <span>9. 独立 JS 脚本文件与使用外部 npm 依赖库</span>
+        </h2>
+
+        {/* 9.1 Standalone File */}
+        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+          <h3 className="font-bold text-white text-sm text-emerald-400">
+            9.1 引用独立的 .js 脚本文件
+          </h3>
+          <p className="text-xs text-slate-300">
+            当脚本逻辑较长时，可以在扩展目录中创建独立的 <code>.js</code> 文件（如 <code>main.js</code>），并在 <code>Config.yaml</code> 中直接指向该文件：
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+            <div className="p-3.5 rounded-lg bg-[#14161d] border border-[#2d3142]">
+              <span className="text-slate-500 block mb-1"># 目录结构</span>
+              <pre>{`MyExt.flyclipext/
+├── Config.yaml
+└── main.js`}</pre>
+            </div>
+            <div className="p-3.5 rounded-lg bg-[#14161d] border border-[#2d3142]">
+              <span className="text-slate-500 block mb-1"># Config.yaml 引用</span>
+              <pre>{`name: 文本处理
+actions:
+  - title: 执行
+    javascript: main.js
+    after: paste-result`}</pre>
+            </div>
+          </div>
+        </div>
+
+        {/* 9.2 Using npm Libraries */}
+        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-4">
+          <h3 className="font-bold text-white text-sm text-blue-400">
+            9.2 引入外部 npm 依赖库（如 lodash、dayjs、pinyin、crypto-js 等）
+          </h3>
+          <p className="text-xs text-slate-300">
+            如果您在开发中需要使用庞大的 npm 生态库，只需在开发阶段使用现代轻量打包工具（如 <strong>esbuild</strong>、<strong>bun</strong> 或 <strong>tsup</strong>）将代码及第三方 npm 依赖打包为一个单文件 <code>bundle.js</code>：
+          </p>
+
+          <div className="p-3.5 rounded-lg bg-[#14161d] border border-[#2d3142] font-mono text-xs text-blue-200 space-y-2">
+            <div className="text-slate-500">// 1. 安装所需 npm 库</div>
+            <div className="text-slate-300">npm install dayjs</div>
+            <div className="text-slate-500 mt-2">// 2. 在 src/index.js 中编写代码</div>
+            <pre>{`import dayjs from "dayjs";
+
+const text = flyclip.input.text.trim();
+const formatted = dayjs(text).format("YYYY-MM-DD HH:mm:ss");
+return formatted;`}</pre>
+            <div className="text-slate-500 mt-2">// 3. 使用 esbuild 单文件打包 (几毫秒完成)</div>
+            <div className="text-emerald-400">npx esbuild src/index.js --bundle --outfile=action.js --format=iife</div>
+          </div>
+
+          <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300">
+            💡 <strong>打包优势</strong>：打包后的 <code>action.js</code> 是自包含的纯 JavaScript 文件。分发给其他用户时，<strong>用户电脑无需安装 Node.js 或 npm</strong>，FlyClip 内置的 QuickJS 引擎即可直接极速运行！
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Nav */}
       <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
         <Link href="/dev/actions" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
