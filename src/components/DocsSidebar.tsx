@@ -24,11 +24,11 @@ interface Props {
 export default function DocsSidebar({ sections, basePath }: Props) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const { lang, t } = useI18n();
+  const { lang, getLocalizedHref } = useI18n();
 
   const activeSections = useMemo(() => {
-    if (basePath === "/dev") return getDevNav(lang);
-    if (basePath === "/guide") return getGuideNav(lang);
+    if (basePath === "/dev" || basePath === "/zh/dev") return getDevNav(lang);
+    if (basePath === "/guide" || basePath === "/zh/guide") return getGuideNav(lang);
     return sections || [];
   }, [basePath, lang, sections]);
 
@@ -41,9 +41,9 @@ export default function DocsSidebar({ sections, basePath }: Props) {
           className="flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white"
         >
           {isOpen ? <X size={16} /> : <Menu size={16} />}
-          <span>文档导航目录</span>
+          <span>{lang === "zh" ? "文档导航目录" : "Documentation Menu"}</span>
         </button>
-        <span className="text-xs text-slate-500">FlyClip 文档</span>
+        <span className="text-xs text-slate-500">FlyClip Docs</span>
       </div>
 
       {/* Sidebar Content */}
@@ -60,11 +60,12 @@ export default function DocsSidebar({ sections, basePath }: Props) {
               </h4>
               <ul className="space-y-1">
                 {section.items.map((item) => {
-                  const isActive = pathname === item.href || (item.href !== "/" && pathname === item.href);
+                  const localizedHref = getLocalizedHref(item.href);
+                  const isActive = pathname === localizedHref || pathname === item.href;
                   return (
                     <li key={item.href}>
                       <Link
-                        href={item.href}
+                        href={localizedHref}
                         onClick={() => setIsOpen(false)}
                         className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                           isActive
@@ -88,7 +89,7 @@ export default function DocsSidebar({ sections, basePath }: Props) {
         </div>
       </aside>
 
-      {/* Backdrop for mobile drawer */}
+      {/* Overlay on mobile */}
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}

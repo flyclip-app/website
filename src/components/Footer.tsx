@@ -5,7 +5,7 @@ import { Globe, Code, ShieldCheck } from "lucide-react";
 import { useI18n } from "@/i18n/LanguageContext";
 
 export default function Footer() {
-  const { t } = useI18n();
+  const { t, getLocalizedHref } = useI18n();
 
   return (
     <footer className="border-t border-[#2d3142] bg-[#14161d] text-slate-400 py-12 mt-auto">
@@ -28,10 +28,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white text-sm mb-3">{t("footer.product")}</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/download" className="hover:text-blue-400 transition-colors">{t("footer.download")}</Link></li>
-              <li><Link href="/extensions" className="hover:text-blue-400 transition-colors">{t("footer.extensions")}</Link></li>
-              <li><Link href="/guide" className="hover:text-blue-400 transition-colors">{t("footer.guide")}</Link></li>
-              <li><Link href="/dev" className="hover:text-blue-400 transition-colors">{t("footer.developers")}</Link></li>
+              <li><Link href={getLocalizedHref("/download")} className="hover:text-blue-400 transition-colors">{t("footer.download")}</Link></li>
+              <li><Link href={getLocalizedHref("/extensions")} className="hover:text-blue-400 transition-colors">{t("footer.extensions")}</Link></li>
+              <li><Link href={getLocalizedHref("/guide")} className="hover:text-blue-400 transition-colors">{t("footer.guide")}</Link></li>
+              <li><Link href={getLocalizedHref("/dev")} className="hover:text-blue-400 transition-colors">{t("footer.developers")}</Link></li>
             </ul>
           </div>
 
@@ -63,15 +63,21 @@ export default function Footer() {
             <h4 className="font-semibold text-white text-sm mb-3">Open Source & License</h4>
             <ul className="space-y-2 text-sm">
               <li><a href="https://github.com/flyclip-app/flyclip/blob/main/LICENSE" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">MIT License</a></li>
-              <li><Link href="/dev#disclaimer" className="hover:text-blue-400 transition-colors flex items-center gap-1.5"><ShieldCheck size={14} /> Disclaimer</Link></li>
-              <li><Link href="/download#changelog" className="hover:text-blue-400 transition-colors">Changelog</Link></li>
+              <li><Link href={getLocalizedHref("/dev")} className="hover:text-blue-400 transition-colors flex items-center gap-1.5"><ShieldCheck size={14} /> Disclaimer</Link></li>
+              <li><Link href={getLocalizedHref("/download")} className="hover:text-blue-400 transition-colors">Changelog</Link></li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-[#2d3142] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© 2026 FlyClip Organization. Released under the MIT License.</p>
-          <p>FlyClip is an independent Windows utility and is not affiliated with Pilotmoon Software.</p>
+        <div className="border-t border-[#2d3142] pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+          <p>© {new Date().getFullYear()} FlyClip. Open-source text selection productivity tool for Windows.</p>
+          <div className="flex items-center gap-4">
+            <span>Powered by Rust & QuickJS</span>
+            <span>•</span>
+            <a href="https://github.com/flyclip-app/flyclip" target="_blank" rel="noreferrer" className="hover:text-slate-400 transition-colors">
+              GitHub
+            </a>
+          </div>
         </div>
       </div>
     </footer>

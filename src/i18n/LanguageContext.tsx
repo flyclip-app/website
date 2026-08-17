@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useCallback, useMemo } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { zh } from "./locales/zh";
 import { en } from "./locales/en";
 
@@ -9,7 +10,8 @@ export type Language = "zh" | "en";
 interface LanguageContextType {
   lang: Language;
   setLang: (lang: Language) => void;
-  toggleLang: () => void;
+  switchLanguage: (targetLang: Language) => void;
+  getLocalizedHref: (href: string) => string;
   t: (path: string, fallback?: string) => string;
 }
 
@@ -21,38 +23,76 @@ const translations: Record<Language, any> = {
 const LanguageContext = createContext<LanguageContextType>({
   lang: "zh",
   setLang: () => {},
-  toggleLang: () => {},
+  switchLanguage: () => {},
+  getLocalizedHref: (href: string) => href,
   t: (path: string, fallback?: string) => fallback || path,
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>("zh");
-  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Compute lang directly from URL path
+  const isZhPath = pathname === "/zh" || pathname.startsWith("/zh/");
+  const lang: Language = isZhPath ? "zh" : "en";
 
   useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("flyclip_lang") as Language;
-    if (saved === "zh" || saved === "en") {
-      setLangState(saved);
-      document.documentElement.lang = saved === "zh" ? "zh-CN" : "en";
-    } else {
-      const browserLang = typeof navigator !== "undefined" ? navigator.language.toLowerCase() : "zh";
-      const initial = browserLang.startsWith("zh") ? "zh" : "en";
-      setLangState(initial);
-      document.documentElement.lang = initial === "zh" ? "zh-CN" : "en";
-    }
-  }, []);
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  }, [lang]);
 
-  const setLang = useCallback((newLang: Language) => {
-    setLangState(newLang);
-    localStorage.setItem("flyclip_lang", newLang);
-    document.documentElement.lang = newLang === "zh" ? "zh-CN" : "en";
-  }, []);
+  const getLocalizedHref = useCallback(
+    (href: string): string => {
+      // External links or hash links
+      if (href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("flyclip:")) {
+        return href;
+      }
 
-  const toggleLang = useCallback(() => {
-    const next = lang === "zh" ? "en" : "zh";
-    setLang(next);
-  }, [lang, setLang]);
+      if (lang === "zh") {
+        if (href === "/") return "/zh";
+        if (href.startsWith("/zh")) return href;
+        return `/zh${href}`;
+      } else {
+        if (href === "/zh") return "/";
+        if (href.startsWith("/zh/")) return href.replace(/^\/zh/, "") || "/";
+        return href;
+      }
+    },
+    [lang]
+  );
+
+  const switchLanguage = useCallback(
+    (targetLang: Language) => {
+      localStorage.setItem("flyclip_lang", targetLang);
+      document.documentElement.lang = targetLang === "zh" ? "zh-CN" : "en";
+
+      let targetPath = pathname;
+      if (targetLang === "zh") {
+        if (pathname === "/") {
+          targetPath = "/zh";
+        } else if (!pathname.startsWith("/zh")) {
+          targetPath = `/zh${pathname}`;
+        }
+      } else {
+        if (pathname === "/zh") {
+          targetPath = "/";
+        } else if (pathname.startsWith("/zh/")) {
+          targetPath = pathname.replace(/^\/zh/, "") || "/";
+        }
+      }
+
+      if (targetPath !== pathname) {
+        router.push(targetPath);
+      }
+    },
+    [pathname, router]
+  );
+
+  const setLang = useCallback(
+    (newLang: Language) => {
+      switchLanguage(newLang);
+    },
+    [switchLanguage]
+  );
 
   const t = useCallback(
     (path: string, fallback?: string): string => {
@@ -72,7 +112,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, toggleLang, t }}>
+    <LanguageContext.Provider value={{ lang, setLang, switchLanguage, getLocalizedHref, t }}>
       {children}
     </LanguageContext.Provider>
   );

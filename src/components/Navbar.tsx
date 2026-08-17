@@ -2,20 +2,33 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Sun, Moon, Download, Menu, X, Globe } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Sun, Moon, Download, Menu, X, Globe, Check, ChevronDown } from "lucide-react";
 import { useI18n } from "@/i18n/LanguageContext";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [theme, setTheme] = useState("dark");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { lang, toggleLang, t } = useI18n();
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { lang, switchLanguage, getLocalizedHref, t } = useI18n();
 
   useEffect(() => {
     const saved = localStorage.getItem("flyclip_theme") || "dark";
     setTheme(saved);
     document.documentElement.setAttribute("data-theme", saved);
+  }, []);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setLangDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleTheme = () => {
@@ -37,7 +50,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-[#0d0e12]/80 dark:bg-[#0d0e12]/80 backdrop-blur-md border-b border-[#2d3142] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href={getLocalizedHref("/")} className="flex items-center gap-3 group">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
             <span className="text-white font-black text-lg">F</span>
           </div>
@@ -47,11 +60,16 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const localizedHref = getLocalizedHref(link.href);
+            const isActive =
+              pathname === localizedHref ||
+              pathname === link.href ||
+              (link.href !== "/" && (pathname.startsWith(link.href) || pathname.startsWith(`/zh${link.href}`)));
+
             return (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localizedHref}
                 className={`px-3.5 py-1.5 rounded-md text-sm font-medium transition-colors ${
                   isActive
                     ? "text-blue-400 bg-blue-500/10 font-semibold"
@@ -66,15 +84,55 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-2.5">
-          {/* Language Switcher */}
-          <button
-            onClick={toggleLang}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#2d3142] bg-[#14161d] text-xs font-semibold text-slate-300 hover:text-white hover:border-blue-500 transition-colors"
-            title={lang === "zh" ? "Switch to English" : "切换为中文"}
-          >
-            <Globe size={14} className="text-blue-400" />
-            <span>{lang === "zh" ? "EN" : "中"}</span>
-          </button>
+          {/* Gopeed-style Language Dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#2d3142] bg-[#14161d] text-xs font-semibold text-slate-300 hover:text-white hover:border-blue-500 transition-colors"
+              aria-label="Switch language"
+              title={lang === "zh" ? "切换语言 (Switch Language)" : "Switch Language"}
+            >
+              <Globe size={14} className="text-blue-400" />
+              <span>{lang === "zh" ? "简体中文" : "English"}</span>
+              <ChevronDown size={12} className={`text-slate-400 transition-transform ${langDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {langDropdownOpen && (
+              <div className="absolute right-0 mt-1.5 w-36 rounded-xl bg-[#1c1e27] border border-[#2d3142] shadow-2xl py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                <button
+                  onClick={() => {
+                    switchLanguage("zh");
+                    setLangDropdownOpen(false);
+                  }}
+                  className={`w-full px-3 py-2 text-left text-xs flex items-center justify-between hover:bg-blue-500/10 transition-colors ${
+                    lang === "zh" ? "text-blue-400 font-bold bg-blue-500/10" : "text-slate-300"
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span>🇨🇳</span>
+                    <span>简体中文</span>
+                  </span>
+                  {lang === "zh" && <Check size={14} className="text-blue-400" />}
+                </button>
+
+                <button
+                  onClick={() => {
+                    switchLanguage("en");
+                    setLangDropdownOpen(false);
+                  }}
+                  className={`w-full px-3 py-2 text-left text-xs flex items-center justify-between hover:bg-blue-500/10 transition-colors ${
+                    lang === "en" ? "text-blue-400 font-bold bg-blue-500/10" : "text-slate-300"
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span>🇺🇸</span>
+                    <span>English</span>
+                  </span>
+                  {lang === "en" && <Check size={14} className="text-blue-400" />}
+                </button>
+              </div>
+            )}
+          </div>
 
           <button
             onClick={toggleTheme}
@@ -95,43 +153,46 @@ export default function Navbar() {
           </a>
 
           <Link
-            href="/download"
+            href={getLocalizedHref("/download")}
             className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 transition-all hover:-translate-y-0.5"
           >
             <Download size={16} />
-            <span>{t("nav.downloadApp")}</span>
+            <span>{t("nav.downloadBtn")}</span>
           </Link>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-[#2d3142] bg-[#14161d] text-slate-300"
+            className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-[#2d3142] bg-[#14161d] text-slate-300 hover:text-white"
           >
-            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-[#2d3142] bg-[#14161d] px-4 py-3 space-y-1">
+        <div className="md:hidden border-b border-[#2d3142] bg-[#14161d] px-4 pt-2 pb-4 space-y-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={getLocalizedHref(link.href)}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800"
+              className="block px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800"
             >
               {link.name}
             </Link>
           ))}
-          <Link
-            href="/download"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center justify-center gap-2 w-full mt-2 px-4 py-2.5 rounded-lg bg-blue-600 text-white font-medium text-sm"
-          >
-            <Download size={16} />
-            <span>下载客户端</span>
-          </Link>
+          <div className="pt-2">
+            <Link
+              href={getLocalizedHref("/download")}
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm"
+            >
+              <Download size={16} />
+              <span>{t("nav.downloadBtn")}</span>
+            </Link>
+          </div>
         </div>
       )}
     </header>
