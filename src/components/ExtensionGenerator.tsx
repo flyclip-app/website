@@ -140,6 +140,11 @@ const JS_PRESETS = [
     code: `// 统计字数并在 FlyClip 提示栏浮层中展示\nconst text = flyclip.input.text;\nconst chars = text.length;\nconst words = (text.match(/\\S+/g) || []).length;\nreturn \`\${chars} 字符 · \${words} 词\`;`,
     after: "show-result",
   },
+  {
+    name: "剪贴板读写 (加工并粘贴)",
+    code: `// 读取剪贴板，加工后写回并模拟粘贴\nconst clip = flyclip.readClipboard();\nflyclip.copy(clip.trim());\nflyclip.paste();`,
+    after: "none",
+  },
 ];
 
 export default function ExtensionGenerator() {
