@@ -7,7 +7,7 @@ export interface ExtensionItem {
   descriptionZh: string;
   hasOptions: boolean;
   optionsCount?: number;
-  type: 'url' | 'powershell' | 'keys';
+  type: 'url' | 'js' | 'powershell' | 'keys';
   configYaml: string;
 }
 
@@ -70,7 +70,7 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     descriptionZh: "通过本地 HTTP 服务将选中文本发送至 Pot Desktop 进行划词翻译或 OCR。",
     hasOptions: true,
     optionsCount: 2,
-    type: "url",
+    type: "js",
     configYaml: `name: Pot 划词翻译
 identifier: com.flyclip.extension.pot-desktop
 icon: Pot
@@ -104,7 +104,7 @@ actions:
     descriptionZh: "通过本地服务或命令行调用 Windows 开源神器 STranslate 进行即时翻译。",
     hasOptions: true,
     optionsCount: 2,
-    type: "powershell",
+    type: "js",
     configYaml: `name: STranslate 翻译
 identifier: com.flyclip.extension.stranslate
 icon: ST
@@ -501,7 +501,7 @@ actions:
     requirements: [text]`
   },
 
-  // --- Text Tools (PowerShell / Native) ---
+  // --- Text Tools (JavaScript / Native) ---
   {
     id: "com.flyclip.extension.case-converter",
     name: "Case Converter",
@@ -510,23 +510,43 @@ actions:
     description: "Convert text between UPPER, lower, Title, camelCase, snake_case, kebab-case.",
     descriptionZh: "全能大小写命名风格转换（大写/小写/词首/小驼峰/下划线/连字符）。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Case Converter
 identifier: com.flyclip.extension.case-converter
 icon: Aa
 actions:
   - title: 大写 (UPPER)
-    shell script: Write-Host -NoNewline $env:FLYCLIP_TEXT.ToUpper()
+    javascript: return flyclip.input.text.toUpperCase();
     after: paste-result
   - title: 小写 (lower)
-    shell script: Write-Host -NoNewline $env:FLYCLIP_TEXT.ToLower()
+    javascript: return flyclip.input.text.toLowerCase();
+    after: paste-result
+  - title: 词首大写 (Title)
+    javascript: return flyclip.input.text.replace(/\\w\\S*/g, (w) => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase());
     after: paste-result
   - title: 驼峰 (camelCase)
-    shell script: |
-      $words = [regex]::Split($env:FLYCLIP_TEXT, '[^a-zA-Z0-9]+') | Where-Object { $_ }
-      $first = $words[0].ToLower()
-      $rest = $words | Select-Object -Skip 1 | ForEach-Object { $_.Substring(0,1).ToUpper() + $_.Substring(1).ToLower() }
-      Write-Host -NoNewline ($first + ($rest -join ''))
+    javascript: |
+      const words = flyclip.input.text.split(/[^a-zA-Z0-9]+/).filter(Boolean);
+      if (words.length === 0) return flyclip.input.text;
+      const first = words[0].toLowerCase();
+      const rest = words.slice(1).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('');
+      return first + rest;
+    after: paste-result
+  - title: 下划线 (snake_case)
+    javascript: |
+      return flyclip.input.text
+        .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+        .replace(/[^a-zA-Z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .toLowerCase();
+    after: paste-result
+  - title: 连字符 (kebab-case)
+    javascript: |
+      return flyclip.input.text
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+        .replace(/[^a-zA-Z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .toLowerCase();
     after: paste-result`
   },
   {
@@ -538,7 +558,7 @@ actions:
     descriptionZh: "Base64 快速编码与解码，支持 URL 安全模式开关。",
     hasOptions: true,
     optionsCount: 1,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Base64
 identifier: com.flyclip.extension.base64
 icon: B64
@@ -549,17 +569,26 @@ options:
     default value: false
 actions:
   - title: Base64 编码
-    shell script: |
-      $bytes = [System.Text.Encoding]::UTF8.GetBytes($env:FLYCLIP_TEXT)
-      $b64 = [Convert]::ToBase64String($bytes)
-      if ($env:FLYCLIP_OPTION_URL_SAFE -eq "1") { $b64 = $b64.Replace('+','-').Replace('/','_').TrimEnd('=') }
-      Write-Host -NoNewline $b64
+    javascript: |
+      const str = flyclip.input.text;
+      let b64 = btoa(unescape(encodeURIComponent(str)));
+      if (flyclip.options.url_safe === "1" || flyclip.options.url_safe === true) {
+        b64 = b64.replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');
+      }
+      return b64;
     after: paste-result
   - title: Base64 解码
-    shell script: |
-      $s = $env:FLYCLIP_TEXT.Trim()
-      if ($env:FLYCLIP_OPTION_URL_SAFE -eq "1") { $s = $s.Replace('-','+').Replace('_','/') }
-      Write-Host -NoNewline ([System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($s)))
+    javascript: |
+      let s = flyclip.input.text.trim();
+      if (flyclip.options.url_safe === "1" || flyclip.options.url_safe === true) {
+        s = s.replace(/-/g, '+').replace(/_/g, '/');
+        while (s.length % 4 !== 0) { s += '='; }
+      }
+      try {
+        return decodeURIComponent(escape(atob(s)));
+      } catch (e) {
+        return "[Base64 解码错误: 格式不合法]";
+      }
     after: paste-result`
   },
   {
@@ -570,16 +599,21 @@ actions:
     description: "Percent-encode and decode URL parameters.",
     descriptionZh: "URL 百分号编码与反向解码。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: URL Encode
 identifier: com.flyclip.extension.url-encode
 icon: "%20"
 actions:
   - title: URL 编码
-    shell script: Write-Host -NoNewline ([System.Uri]::EscapeDataString($env:FLYCLIP_TEXT))
+    javascript: return encodeURIComponent(flyclip.input.text);
     after: paste-result
   - title: URL 解码
-    shell script: Write-Host -NoNewline ([System.Uri]::UnescapeDataString($env:FLYCLIP_TEXT))
+    javascript: |
+      try {
+        return decodeURIComponent(flyclip.input.text);
+      } catch (e) {
+        return flyclip.input.text;
+      }
     after: paste-result`
   },
   {
@@ -590,16 +624,29 @@ actions:
     description: "Encode or decode HTML special character entities.",
     descriptionZh: "HTML 特殊实体符号转义与反转义。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: HTML Encode
 identifier: com.flyclip.extension.html-encode
 icon: "<&>"
 actions:
   - title: HTML 转义
-    shell script: Write-Host -NoNewline ([System.Net.WebUtility]::HtmlEncode($env:FLYCLIP_TEXT))
+    javascript: |
+      return flyclip.input.text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     after: paste-result
   - title: HTML 反转义
-    shell script: Write-Host -NoNewline ([System.Net.WebUtility]::HtmlDecode($env:FLYCLIP_TEXT))
+    javascript: |
+      return flyclip.input.text
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'")
+        .replace(/&#39;/g, "'");
     after: paste-result`
   },
   {
@@ -610,20 +657,28 @@ actions:
     description: "Prettify or minify JSON text in place.",
     descriptionZh: "JSON 格式化美化排版或单行压缩。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: JSON Formatter
 identifier: com.flyclip.extension.json-formatter
 icon: "{}"
 actions:
   - title: 格式化 JSON
-    shell script: |
-      $obj = $env:FLYCLIP_TEXT | ConvertFrom-Json
-      Write-Host -NoNewline ($obj | ConvertTo-Json -Depth 100)
+    javascript: |
+      try {
+        const obj = JSON.parse(flyclip.input.text);
+        return JSON.stringify(obj, null, 2);
+      } catch (e) {
+        return "[JSON 解析失败: 语法格式有误]";
+      }
     after: paste-result
   - title: 压缩 JSON
-    shell script: |
-      $obj = $env:FLYCLIP_TEXT | ConvertFrom-Json
-      Write-Host -NoNewline ($obj | ConvertTo-Json -Compress -Depth 100)
+    javascript: |
+      try {
+        const obj = JSON.parse(flyclip.input.text);
+        return JSON.stringify(obj);
+      } catch (e) {
+        return "[JSON 解析失败: 语法格式有误]";
+      }
     after: paste-result`
   },
   {
@@ -634,19 +689,19 @@ actions:
     description: "Count characters, words, lines, and bytes in selected text.",
     descriptionZh: "实时统计字符数、词数、行数与字节大小并展示于提示栏。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Text Statistics
 identifier: com.flyclip.extension.text-statistics
 icon: "123"
 actions:
   - title: 字数统计
-    shell script: |
-      $t = $env:FLYCLIP_TEXT
-      $chars = $t.Length
-      $lines = ($t -split "\`r\`n|\`r|\`n").Length
-      $words = ($t -split '\s+' | Where-Object { $_ }).Length
-      $bytes = [System.Text.Encoding]::UTF8.GetByteCount($t)
-      Write-Host -NoNewline "$chars 字符 · $words 词 · $lines 行 · $bytes B"
+    javascript: |
+      const t = flyclip.input.text;
+      const chars = t.length;
+      const words = (t.match(/\\S+/g) || []).length;
+      const lines = t.split(/\\r\\n|\\r|\\n/).length;
+      const bytes = new TextEncoder().encode(t).length;
+      return \`\${chars} 字符 · \${words} 词 · \${lines} 行 · \${bytes} B\`;
     after: show-result`
   },
   {
@@ -658,7 +713,7 @@ actions:
     descriptionZh: "多行文本升序、降序排序与行去重。",
     hasOptions: true,
     optionsCount: 1,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Sort Lines
 identifier: com.flyclip.extension.sort-lines
 icon: AZ
@@ -669,9 +724,34 @@ options:
     default value: false
 actions:
   - title: 升序排序 (A-Z)
-    shell script: |
-      $lines = $env:FLYCLIP_TEXT -split "\`r\`n|\`r|\`n"
-      Write-Host -NoNewline (($lines | Sort-Object) -join "\`r\`n")
+    javascript: |
+      const cs = flyclip.options.case_sensitive === "1" || flyclip.options.case_sensitive === true;
+      const lines = flyclip.input.text.split(/\\r\\n|\\r|\\n/);
+      lines.sort((a, b) => cs ? a.localeCompare(b, undefined, { sensitivity: 'case' }) : a.localeCompare(b));
+      return lines.join("\\n");
+    after: paste-result
+  - title: 降序排序 (Z-A)
+    javascript: |
+      const cs = flyclip.options.case_sensitive === "1" || flyclip.options.case_sensitive === true;
+      const lines = flyclip.input.text.split(/\\r\\n|\\r|\\n/);
+      lines.sort((a, b) => cs ? b.localeCompare(a, undefined, { sensitivity: 'case' }) : b.localeCompare(a));
+      return lines.join("\\n");
+    after: paste-result
+  - title: 行去重 (Unique)
+    javascript: |
+      const cs = flyclip.options.case_sensitive === "1" || flyclip.options.case_sensitive === true;
+      const lines = flyclip.input.text.split(/\\r\\n|\\r|\\n/);
+      if (cs) {
+        return Array.from(new Set(lines)).join("\\n");
+      } else {
+        const seen = new Set();
+        const result = [];
+        for (const line of lines) {
+          const lower = line.toLowerCase();
+          if (!seen.has(lower)) { seen.add(lower); result.push(line); }
+        }
+        return result.join("\\n");
+      }
     after: paste-result`
   },
   {
@@ -683,7 +763,7 @@ actions:
     descriptionZh: "多行合并为单行，支持指定逗号、空格、分号等分隔符。",
     hasOptions: true,
     optionsCount: 1,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Join Lines
 identifier: com.flyclip.extension.join-lines
 icon: ->
@@ -695,10 +775,11 @@ options:
     default value: comma_space
 actions:
   - title: 合并单行
-    shell script: |
-      $lines = $env:FLYCLIP_TEXT -split "\`r\`n|\`r|\`n" | Where-Object { $_.Trim() }
-      $delim = switch ($env:FLYCLIP_OPTION_DELIMITER) { "comma" {","} "space" {" "} default {", "} }
-      Write-Host -NoNewline ($lines -join $delim)
+    javascript: |
+      const lines = flyclip.input.text.split(/\\r\\n|\\r|\\n/).filter(l => l.trim().length > 0);
+      const delimMap = { comma: ",", space: " ", semicolon: "; ", comma_space: ", " };
+      const delim = delimMap[flyclip.options.delimiter] || ", ";
+      return lines.join(delim);
     after: paste-result`
   },
   {
@@ -709,16 +790,16 @@ actions:
     description: "Collapse duplicate spaces or strip all whitespace characters.",
     descriptionZh: "消除所有多余空格或压缩连续空白字符。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Remove Spaces
 identifier: com.flyclip.extension.remove-spaces
 icon: "␣"
 actions:
   - title: 压缩空格
-    shell script: Write-Host -NoNewline ([regex]::Replace($env:FLYCLIP_TEXT, '\s+', ' ').Trim())
+    javascript: return flyclip.input.text.replace(/\\s+/g, ' ').trim();
     after: paste-result
   - title: 消除所有空格
-    shell script: Write-Host -NoNewline ([regex]::Replace($env:FLYCLIP_TEXT, '\s+', ''))
+    javascript: return flyclip.input.text.replace(/\\s+/g, '');
     after: paste-result`
   },
   {
@@ -729,20 +810,32 @@ actions:
     description: "Convert between Full-width and Half-width characters.",
     descriptionZh: "全角标点字符与半角英文字符双向转换。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: 全角半角转换
 identifier: com.flyclip.extension.full-half-width
 icon: 全半
 actions:
   - title: 全角转半角
-    shell script: |
-      $chars = $env:FLYCLIP_TEXT.ToCharArray()
-      for ($i=0; $i -lt $chars.Length; $i++) {
-        $c = [int]$chars[$i]
-        if ($c -eq 12288) { $chars[$i] = [char]32 }
-        elseif ($c -ge 65281 -and $c -le 65374) { $chars[$i] = [char]($c - 65248) }
+    javascript: |
+      let str = "";
+      for (let i = 0; i < flyclip.input.text.length; i++) {
+        let code = flyclip.input.text.charCodeAt(i);
+        if (code === 12288) str += String.fromCharCode(32);
+        else if (code >= 65281 && code <= 65374) str += String.fromCharCode(code - 65248);
+        else str += flyclip.input.text[i];
       }
-      Write-Host -NoNewline (New-Object String(,$chars))
+      return str;
+    after: paste-result
+  - title: 半角转全角
+    javascript: |
+      let str = "";
+      for (let i = 0; i < flyclip.input.text.length; i++) {
+        let code = flyclip.input.text.charCodeAt(i);
+        if (code === 32) str += String.fromCharCode(12288);
+        else if (code >= 33 && code <= 126) str += String.fromCharCode(code + 65248);
+        else str += flyclip.input.text[i];
+      }
+      return str;
     after: paste-result`
   },
   {
@@ -753,20 +846,37 @@ actions:
     description: "Convert Unix epoch timestamps to local date-time strings.",
     descriptionZh: "Unix 时间戳转换为本地日期时间，或获取当前秒级时间戳。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Timestamp Converter
 identifier: com.flyclip.extension.timestamp-converter
 icon: ⏱️
 actions:
   - title: 转日期
-    shell script: |
-      $s = $env:FLYCLIP_TEXT.Trim()
-      if ($s -match '^\d{10}$') {
-        Write-Host -NoNewline ([DateTimeOffset]::FromUnixTimeSeconds([int64]$s).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss"))
+    javascript: |
+      const s = flyclip.input.text.trim();
+      if (/^\\d{10}$/.test(s)) {
+        const d = new Date(parseInt(s, 10) * 1000);
+        return d.getFullYear() + '-' +
+          String(d.getMonth() + 1).padStart(2, '0') + '-' +
+          String(d.getDate()).padStart(2, '0') + ' ' +
+          String(d.getHours()).padStart(2, '0') + ':' +
+          String(d.getMinutes()).padStart(2, '0') + ':' +
+          String(d.getSeconds()).padStart(2, '0');
+      } else if (/^\\d{13}$/.test(s)) {
+        const d = new Date(parseInt(s, 10));
+        return d.getFullYear() + '-' +
+          String(d.getMonth() + 1).padStart(2, '0') + '-' +
+          String(d.getDate()).padStart(2, '0') + ' ' +
+          String(d.getHours()).padStart(2, '0') + ':' +
+          String(d.getMinutes()).padStart(2, '0') + ':' +
+          String(d.getSeconds()).padStart(2, '0') + '.' +
+          String(d.getMilliseconds()).padStart(3, '0');
+      } else {
+        return "[无效的时间戳: 需为 10 位秒级或 13 位毫秒级数字]";
       }
     after: paste-result
   - title: 当前时间戳
-    shell script: Write-Host -NoNewline ([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
+    javascript: return Math.floor(Date.now() / 1000).toString();
     after: paste-result`
   },
   {
@@ -777,21 +887,23 @@ actions:
     description: "Wrap text in Markdown bold, inline code, code blocks, or blockquotes.",
     descriptionZh: "快速为选中文本添加 Markdown 粗体、行内代码、代码块或引用标记。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Markdown Tools
 identifier: com.flyclip.extension.markdown-tools
 icon: MD
 actions:
   - title: 粗体
-    shell script: Write-Host -NoNewline ("**" + $env:FLYCLIP_TEXT + "**")
+    javascript: return \`**\${flyclip.input.text}**\`;
     after: paste-result
   - title: 行内代码
-    shell script: Write-Host -NoNewline ("\`" + $env:FLYCLIP_TEXT + "\`")
+    javascript: return \`\\\`\${flyclip.input.text}\\\`\`;
     after: paste-result
   - title: 引用
-    shell script: |
-      $lines = $env:FLYCLIP_TEXT -split "\`r\`n|\`r|\`n"
-      Write-Host -NoNewline (($lines | ForEach-Object { "> $_" }) -join "\`r\`n")
+    javascript: |
+      return flyclip.input.text
+        .split(/\\r\\n|\\r|\\n/)
+        .map(line => \`> \${line}\`)
+        .join("\\n");
     after: paste-result`
   },
 
@@ -804,16 +916,20 @@ actions:
     description: "Evaluate math expressions instantly (e.g. 128*1024, (50+20)/3).",
     descriptionZh: "即时计算选中的数学表达式并显示结果。",
     hasOptions: false,
-    type: "powershell",
+    type: "js",
     configYaml: `name: Calculate
 identifier: com.flyclip.extension.calculate
 icon: "=?"
 actions:
   - title: 计算结果
-    shell script: |
-      $expr = $env:FLYCLIP_TEXT.Trim()
-      $res = Invoke-Expression $expr
-      Write-Host -NoNewline "$expr = $res"
+    javascript: |
+      const expr = flyclip.input.text.trim();
+      try {
+        const res = Function(\`'use strict'; return (\${expr})\`)();
+        return \`\${expr} = \${res}\`;
+      } catch (e) {
+        return "[计算出错: 表达式无效]";
+      }
     after: show-result`
   },
   {
