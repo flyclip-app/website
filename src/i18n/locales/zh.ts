@@ -8,6 +8,7 @@ export const zh = {
     toggleTheme: "切换主题",
     github: "GitHub 组织与源码",
     downloadApp: "下载 FlyClip",
+    downloadBtn: "下载 FlyClip",
     langName: "中文",
     langSwitch: "English",
   },

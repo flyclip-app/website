@@ -8,6 +8,7 @@ export const en = {
     toggleTheme: "Toggle Theme",
     github: "GitHub Organization & Source",
     downloadApp: "Download FlyClip",
+    downloadBtn: "Download FlyClip",
     langName: "English",
     langSwitch: "中文",
   },
