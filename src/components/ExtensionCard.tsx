@@ -73,7 +73,9 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
             {extension.icon}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-bold text-slate-100 text-base leading-snug truncate">{extension.name}</h3>
+            <h3 className="font-bold text-slate-100 text-base leading-snug truncate">
+              {lang === "en" ? (extension.nameEn || extension.name) : (extension.nameZh || extension.name)}
+            </h3>
             <p className="text-xs text-slate-500 font-mono truncate">{extension.id}</p>
           </div>
         </div>

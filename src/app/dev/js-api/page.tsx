@@ -5,7 +5,326 @@ import { ArrowLeft, ArrowRight, Zap, Code, Globe, Terminal, Keyboard, Cpu, Spark
 import { useI18n } from "@/i18n/LanguageContext";
 
 export default function DevJsApiPage() {
-  const { lang } = useI18n();
+  const { lang, getLocalizedHref } = useI18n();
+
+  if (lang === "en") {
+    return (
+      <div className="space-y-12 text-slate-300 leading-relaxed text-sm sm:text-base">
+        {/* Header */}
+        <div>
+          <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Developer Reference / JavaScript Runtime</div>
+          <h1 className="text-3xl font-extrabold text-white mb-3">JavaScript API Reference Manual</h1>
+          <p className="text-slate-400">
+            FlyClip features a high-performance QuickJS engine statically embedded with Rust (fully supporting modern ES2020 syntax). This manual documents all global host objects, built-in functions, configuration parameters, and real-world code examples.
+          </p>
+        </div>
+
+        {/* Runtime Features Badge */}
+        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs sm:text-sm text-emerald-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2 font-bold text-emerald-400">
+            <Zap size={18} />
+            <span>QuickJS Performance: Sub-millisecond cold start · Zero external dependencies · Native cross-platform</span>
+          </div>
+          <span className="text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-semibold">
+            ES2020 Full Standard
+          </span>
+        </div>
+
+        {/* 1. Global Host Objects */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <Code className="text-blue-400" size={20} />
+            <span>1. Global Host Objects</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            When executing JavaScript actions, FlyClip automatically injects global namespaces, supporting both <code className="text-emerald-400 font-bold">flyclip</code> and <code className="text-blue-400 font-bold">popclip</code> as bidirectional equivalent aliases:
+          </p>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-[#2d3142] text-slate-400">
+                  <th className="py-2.5 px-3">Property / Method</th>
+                  <th className="py-2.5 px-3">Type</th>
+                  <th className="py-2.5 px-3">Description</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#2d3142] text-slate-300">
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.input</td>
+                  <td className="py-3 px-3 font-mono text-slate-400">Object</td>
+                  <td className="py-3 px-3">Object containing the currently selected text and regex extractions.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.options</td>
+                  <td className="py-3 px-3 font-mono text-slate-400">Object</td>
+                  <td className="py-3 px-3">Key-value dictionary of user preferences configured for this extension.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.copy(text) / copyText(text)</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Writes the specified string to the system clipboard.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.paste(text?) / pasteText(text?)</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Simulates Ctrl+V to paste into current focus (or writes text first if provided).</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.readClipboard()</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Reads and returns current plain text from the system clipboard.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.openUrl(url)</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Opens the specified URL in the default system browser.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.showText(text)</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Displays a notification toast / result banner on the floating palette.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.pressKey(combo)</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Simulates hardware keyboard shortcuts (e.g. <code>&quot;ctrl c&quot;</code>).</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.run(cmd, args)</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Synchronously runs a local executable CLI tool and returns <code>&#123; stdout, stderr, code &#125;</code>.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.fetch(url, opts)</td>
+                  <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                  <td className="py-3 px-3">Performs async HTTP/HTTPS requests with custom timeout and body options.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.process</td>
+                  <td className="py-3 px-3 font-mono text-slate-400">string</td>
+                  <td className="py-3 px-3">Process name of the active foreground window (e.g. <code>&quot;chrome.exe&quot;</code>).</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.actionIdentifier</td>
+                  <td className="py-3 px-3 font-mono text-slate-400">string</td>
+                  <td className="py-3 px-3">Identifier of the specific action clicked.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* 2. flyclip.input */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <Sparkles className="text-emerald-400" size={20} />
+            <span>2. Selection Input (flyclip.input)</span>
+          </h2>
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+            <ul className="space-y-2 text-xs sm:text-sm">
+              <li><code className="text-emerald-400 font-mono font-bold">flyclip.input.text</code>: Currently selected text (or regex-matched substring if regex is specified).</li>
+              <li><code className="text-emerald-400 font-mono font-bold">flyclip.input.matched</code>: Equivalent alias for <code>text</code>.</li>
+              <li><code className="text-emerald-400 font-mono font-bold">flyclip.input.fullText</code>: Full raw selected string before regex extraction.</li>
+            </ul>
+            <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-emerald-200">
+              <pre>{`// Example: Get selected text and convert to uppercase
+const text = flyclip.input.text;
+return text.toUpperCase();`}</pre>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. flyclip.options */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <Cpu className="text-purple-400" size={20} />
+            <span>3. Extension Parameters (flyclip.options)</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            When <code>options</code> are declared in <code>Config.yaml</code>, user configurations are automatically populated in <code>flyclip.options</code>:
+          </p>
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+            <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-purple-200">
+              <pre>{`// Read configured prefix and port
+const prefix = flyclip.options.prefix || ">>";
+const port = flyclip.options.port || "50020";
+
+return prefix + " " + flyclip.input.text;`}</pre>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. flyclip.pressKey */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <Keyboard className="text-cyan-400" size={20} />
+            <span>4. Keyboard Simulation (flyclip.pressKey)</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Dispatches hardware-level keystrokes to the focused window. Returns <code>true</code> on success.
+          </p>
+
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-4">
+            <div className="font-mono text-xs text-cyan-300">
+              <strong>Signature:</strong> <code>flyclip.pressKey(combo: string): boolean</code>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider">Supported Key Combos:</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+                <div className="p-2.5 rounded bg-[#14161d] border border-[#2d3142] text-slate-200">
+                  <span className="text-cyan-400">&quot;ctrl c&quot;</span> <span className="text-slate-500">// Copy</span>
+                </div>
+                <div className="p-2.5 rounded bg-[#14161d] border border-[#2d3142] text-slate-200">
+                  <span className="text-cyan-400">&quot;ctrl v&quot;</span> <span className="text-slate-500">// Paste</span>
+                </div>
+                <div className="p-2.5 rounded bg-[#14161d] border border-[#2d3142] text-slate-200">
+                  <span className="text-cyan-400">&quot;ctrl shift f&quot;</span> <span className="text-slate-500">// Global Search</span>
+                </div>
+                <div className="p-2.5 rounded bg-[#14161d] border border-[#2d3142] text-slate-200">
+                  <span className="text-cyan-400">&quot;alt f4&quot;</span> <span className="text-slate-500">// Close Window</span>
+                </div>
+                <div className="p-2.5 rounded bg-[#14161d] border border-[#2d3142] text-slate-200">
+                  <span className="text-cyan-400">&quot;enter&quot; / &quot;escape&quot;</span> <span className="text-slate-500">// Enter / Esc</span>
+                </div>
+                <div className="p-2.5 rounded bg-[#14161d] border border-[#2d3142] text-slate-200">
+                  <span className="text-cyan-400">&quot;wait 50&quot;</span> <span className="text-slate-500">// 50ms pause</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. flyclip.run */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <Terminal className="text-emerald-400" size={20} />
+            <span>5. Run Native Commands (flyclip.run)</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Spawns a native sub-process via the Rust host layer synchronously to run local CLI utilities and capture stdout/stderr without requiring await.
+          </p>
+
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-4">
+            <div className="font-mono text-xs text-emerald-300">
+              <strong>Signature:</strong> <code>flyclip.run(command: string, args?: string[]): &#123; stdout: string, stderr: string, code: number &#125;</code>
+            </div>
+
+            <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-emerald-200">
+              <pre>{`// Example: Run git status and capture output
+const res = flyclip.run("git", ["status", "--short"]);
+if (res.code !== 0) {
+  return "Git error: " + res.stderr;
+}
+return res.stdout.trim() || "Working tree clean";`}</pre>
+            </div>
+          </div>
+        </div>
+
+        {/* 6. flyclip.fetch */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <Globe className="text-blue-400" size={20} />
+            <span>6. HTTP Network Requests (flyclip.fetch)</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Perform async HTTP/HTTPS requests to local daemon APIs (e.g. STranslate on port 50020, Pot Desktop on port 60828) or remote web endpoints.
+          </p>
+
+          <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-4">
+            <div className="font-mono text-xs text-blue-300">
+              <strong>Signature:</strong>
+              <pre className="mt-1 p-2.5 rounded bg-[#14161d] text-blue-200">{`flyclip.fetch(url: string, options?: {
+  method?: "GET" | "POST" | "PUT" | "DELETE" | "HEAD",
+  headers?: Record<string, string>,
+  body?: string,
+  timeout?: number    // Milliseconds (default: 10000)
+}): {
+  status: number,
+  statusText: string,
+  ok: boolean,
+  data: string,
+  text(): string,
+  json(): any
+}`}</pre>
+            </div>
+
+            <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-blue-200 space-y-3">
+              <div>
+                <span className="text-slate-500">// Example: Call Pot Desktop Local API</span>
+                <pre>{`const text = flyclip.input.text.trim();
+const port = flyclip.options.port || "60828";
+const res = await flyclip.fetch(\`http://127.0.0.1:\${port}/api/translate\`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ text }),
+  timeout: 5000
+});
+if (res.ok) {
+  return res.json().result || "No translation";
+}`}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 7. Sleep & Built-in Globals */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <CheckCircle2 className="text-emerald-400" size={20} />
+            <span>7. Standard Built-in JavaScript Globals</span>
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
+              <div className="font-bold text-white flex items-center gap-1.5">
+                <span className="text-emerald-400">●</span> JSON Parsing
+              </div>
+              <code className="text-slate-300 font-mono block">JSON.parse(str)</code>
+              <code className="text-slate-300 font-mono block">JSON.stringify(obj, null, 2)</code>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
+              <div className="font-bold text-white flex items-center gap-1.5">
+                <span className="text-blue-400">●</span> Regular Expressions (RegExp)
+              </div>
+              <code className="text-slate-300 font-mono block">/^[a-z0-9_-]+$/i.test(text)</code>
+              <code className="text-slate-300 font-mono block">text.replace(/pattern/g, fn)</code>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
+              <div className="font-bold text-white flex items-center gap-1.5">
+                <span className="text-cyan-400">●</span> URL Encoding & Base64
+              </div>
+              <code className="text-slate-300 font-mono block">encodeURIComponent(text)</code>
+              <code className="text-slate-300 font-mono block">btoa(str) / atob(str)</code>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
+              <div className="font-bold text-white flex items-center gap-1.5">
+                <span className="text-amber-400">●</span> Async Sleep & Console
+              </div>
+              <code className="text-slate-300 font-mono block">await sleep(ms) / wait(ms)</code>
+              <code className="text-slate-300 font-mono block">console.log(val)</code>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Nav */}
+        <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
+          <Link href={getLocalizedHref("/dev/actions")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
+            <ArrowLeft size={14} />
+            <span>Prev: Actions</span>
+          </Link>
+          <Link href={getLocalizedHref("/dev/generator")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors">
+            <span>Try in Live Generator</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-12 text-slate-300 leading-relaxed text-sm sm:text-base">
       {/* Header */}
@@ -295,7 +614,7 @@ if (res.ok) {
         </p>
         <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
           <div className="font-mono text-xs text-amber-300">
-            <strong>函数签名：</strong> <code>await sleep(ms: number): Promise&lt;void&gt;</code> / <code>sleep(ms: number): void</code>
+            <strong>函数签名：</strong> <code>await sleep(ms: number): Promise&lt;void&gt;</code>
           </div>
           <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-amber-200">
             <pre>{`// 示例：先按下复制，等待 50 毫秒后再触发粘贴
@@ -390,112 +709,18 @@ flyclip.paste(processed);`}</pre>
               <span className="text-amber-400">●</span> 异步延时与控制台
             </div>
             <code className="text-slate-300 font-mono block">await sleep(ms) / wait(ms)</code>
-            <code className="text-slate-300 font-mono block">console.log(val) / print(val)</code>
-          </div>
-
-          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
-            <div className="font-bold text-white flex items-center gap-1.5">
-              <span className="text-purple-400">●</span> 数学计算 (Math) 与时间 (Date)
-            </div>
-            <code className="text-slate-300 font-mono block">Math.round(), Math.random(), Math.floor()</code>
-            <code className="text-slate-300 font-mono block">Date.now(), new Date().toISOString()</code>
-          </div>
-        </div>
-      </div>
-
-      {/* 10. Return Value & After Steps */}
-      <div className="space-y-4">
-        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">10. 脚本返回值与后续流水线处理 (after)</h2>
-        <p className="text-xs sm:text-sm text-slate-400">
-          脚本末尾使用 <code>return &quot;结果字符串&quot;</code> 返回文本时，FlyClip 会根据动作配置中的 <code>after</code> 字段自动执行相应后续动作：
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
-            <div className="font-mono font-bold text-emerald-400">after: paste-result</div>
-            <p className="text-slate-300">自动用返回的文本替换当前选区的内容（如大小写转换、格式化等）。</p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
-            <div className="font-mono font-bold text-blue-400">after: show-result</div>
-            <p className="text-slate-300">在 FlyClip 悬浮栏中直接弹出提示气泡展示返回结果（如字数统计、哈希计算）。</p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
-            <div className="font-mono font-bold text-purple-400">after: copy-result</div>
-            <p className="text-slate-300">自动将返回的文本写入系统剪贴板备用。</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 11. Standalone Script Files & npm Libraries */}
-      <div className="space-y-6">
-        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
-          <Code className="text-amber-400" size={20} />
-          <span>11. 独立 JS 脚本文件与使用外部 npm 依赖库</span>
-        </h2>
-
-        {/* 11.1 Standalone File */}
-        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
-          <h3 className="font-bold text-white text-sm text-emerald-400">
-            11.1 引用独立的 .js 脚本文件
-          </h3>
-          <p className="text-xs text-slate-300">
-            当脚本逻辑较长时，可以在扩展目录中创建独立的 <code>.js</code> 文件（如 <code>main.js</code>），并在 <code>Config.yaml</code> 中直接指向该文件：
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
-            <div className="p-3.5 rounded-lg bg-[#14161d] border border-[#2d3142]">
-              <span className="text-slate-500 block mb-1"># 目录结构</span>
-              <pre>{`MyExt.flyclipext/
-├── Config.yaml
-└── main.js`}</pre>
-            </div>
-            <div className="p-3.5 rounded-lg bg-[#14161d] border border-[#2d3142]">
-              <span className="text-slate-500 block mb-1"># Config.yaml 引用</span>
-              <pre>{`name: 文本处理
-actions:
-  - title: 执行
-    javascript: main.js
-    after: paste-result`}</pre>
-            </div>
-          </div>
-        </div>
-
-        {/* 9.2 Using npm Libraries */}
-        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-4">
-          <h3 className="font-bold text-white text-sm text-blue-400">
-            9.2 引入外部 npm 依赖库（如 lodash、dayjs、pinyin、crypto-js 等）
-          </h3>
-          <p className="text-xs text-slate-300">
-            如果您在开发中需要使用庞大的 npm 生态库，只需在开发阶段使用现代轻量打包工具（如 <strong>esbuild</strong>、<strong>bun</strong> 或 <strong>tsup</strong>）将代码及第三方 npm 依赖打包为一个单文件 <code>bundle.js</code>：
-          </p>
-
-          <div className="p-3.5 rounded-lg bg-[#14161d] border border-[#2d3142] font-mono text-xs text-blue-200 space-y-2">
-            <div className="text-slate-500">// 1. 安装所需 npm 库</div>
-            <div className="text-slate-300">npm install dayjs</div>
-            <div className="text-slate-500 mt-2">// 2. 在 src/index.js 中编写代码</div>
-            <pre>{`import dayjs from "dayjs";
-
-const text = flyclip.input.text.trim();
-const formatted = dayjs(text).format("YYYY-MM-DD HH:mm:ss");
-return formatted;`}</pre>
-            <div className="text-slate-500 mt-2">// 3. 使用 esbuild 单文件打包 (几毫秒完成)</div>
-            <div className="text-emerald-400">npx esbuild src/index.js --bundle --outfile=action.js --format=iife</div>
-          </div>
-
-          <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300">
-            💡 <strong>打包优势</strong>：打包后的 <code>action.js</code> 是自包含的纯 JavaScript 文件。分发给其他用户时，<strong>用户电脑无需安装 Node.js 或 npm</strong>，FlyClip 内置的 QuickJS 引擎即可直接极速运行！
+            <code className="text-slate-300 font-mono block">console.log(val)</code>
           </div>
         </div>
       </div>
 
       {/* Bottom Nav */}
       <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
-        <Link href="/dev/actions" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
+        <Link href={getLocalizedHref("/dev/actions")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
           <ArrowLeft size={14} />
           <span>上一页：动作类型与脚本</span>
         </Link>
-        <Link href="/dev/generator" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors">
+        <Link href={getLocalizedHref("/dev/generator")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors">
           <span>进入在线扩展生成器实测</span>
           <ArrowRight size={14} />
         </Link>

@@ -1,6 +1,8 @@
 export interface ExtensionItem {
   id: string;
   name: string;
+  nameZh?: string;
+  nameEn?: string;
   category: 'translation' | 'search_ai' | 'text_tools' | 'developer' | 'shopping';
   icon: string;
   description: string;
@@ -64,6 +66,8 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
   {
     id: "com.flyclip.extension.pot-desktop",
     name: "Pot 划词翻译",
+    nameZh: "Pot 划词翻译",
+    nameEn: "Pot Translate",
     category: "translation",
     icon: "Pot",
     description: "Send selected text to Pot Desktop via local HTTP API for instant translation/OCR.",
@@ -98,6 +102,8 @@ actions:
   {
     id: "com.flyclip.extension.stranslate",
     name: "STranslate 翻译",
+    nameZh: "STranslate 翻译",
+    nameEn: "STranslate",
     category: "translation",
     icon: "ST",
     description: "Trigger Windows open-source STranslate tool for deep translation.",
@@ -137,6 +143,8 @@ actions:
   {
     id: "com.flyclip.extension.google-translate",
     name: "Google Translate",
+    nameZh: "Google 翻译",
+    nameEn: "Google Translate",
     category: "translation",
     icon: "GT",
     description: "Translate selected text with Google Translate worldwide.",
@@ -170,6 +178,8 @@ actions:
   {
     id: "com.flyclip.extension.deepl-translate",
     name: "DeepL Translate",
+    nameZh: "DeepL 翻译",
+    nameEn: "DeepL Translate",
     category: "translation",
     icon: "DL",
     description: "High-accuracy neural machine translation with DeepL.",
@@ -194,6 +204,8 @@ actions:
   {
     id: "com.flyclip.extension.baidu-translate",
     name: "百度翻译",
+    nameZh: "百度翻译",
+    nameEn: "Baidu Translate",
     category: "translation",
     icon: "百翻",
     description: "Translate text with Baidu Translate.",
@@ -218,6 +230,8 @@ actions:
   {
     id: "com.flyclip.extension.youdao-dict",
     name: "有道词典",
+    nameZh: "有道词典",
+    nameEn: "Youdao Dictionary",
     category: "translation",
     icon: "有道",
     description: "Look up words in Youdao Dictionary.",
@@ -235,6 +249,8 @@ actions:
   {
     id: "com.flyclip.extension.wikipedia",
     name: "Wikipedia",
+    nameZh: "维基百科",
+    nameEn: "Wikipedia",
     category: "translation",
     icon: "W",
     description: "Search Wikipedia encyclopedia in multiple languages.",
@@ -259,6 +275,8 @@ actions:
   {
     id: "com.flyclip.extension.mdn-web-docs",
     name: "MDN Web Docs",
+    nameZh: "MDN 开发者文档",
+    nameEn: "MDN Web Docs",
     category: "translation",
     icon: "MDN",
     description: "Search web APIs, HTML, CSS, and JS reference docs on MDN.",
@@ -283,6 +301,8 @@ actions:
   {
     id: "com.flyclip.extension.urban-dictionary",
     name: "Urban Dictionary",
+    nameZh: "Urban 俚语词典",
+    nameEn: "Urban Dictionary",
     category: "translation",
     icon: "UD",
     description: "Look up slang and idioms on Urban Dictionary.",
@@ -302,6 +322,8 @@ actions:
   {
     id: "com.flyclip.extension.google-search",
     name: "Google Search",
+    nameZh: "Google 搜索",
+    nameEn: "Google Search",
     category: "search_ai",
     icon: "G",
     description: "Search the web with Google Search.",
@@ -326,6 +348,8 @@ actions:
   {
     id: "com.flyclip.extension.baidu-search",
     name: "百度搜索",
+    nameZh: "百度搜索",
+    nameEn: "Baidu Search",
     category: "search_ai",
     icon: "百度",
     description: "Search with Baidu Search Engine.",
@@ -343,6 +367,8 @@ actions:
   {
     id: "com.flyclip.extension.bing-search",
     name: "Bing Search",
+    nameZh: "必应搜索",
+    nameEn: "Bing Search",
     category: "search_ai",
     icon: "Bing",
     description: "Search with Microsoft Bing.",
@@ -360,6 +386,8 @@ actions:
   {
     id: "com.flyclip.extension.duckduckgo",
     name: "DuckDuckGo",
+    nameZh: "DuckDuckGo",
+    nameEn: "DuckDuckGo",
     category: "search_ai",
     icon: "DDG",
     description: "Privacy search with DuckDuckGo.",
@@ -377,6 +405,8 @@ actions:
   {
     id: "com.flyclip.extension.github-search",
     name: "GitHub Search",
+    nameZh: "GitHub 搜索",
+    nameEn: "GitHub Search",
     category: "search_ai",
     icon: "GH",
     description: "Search repositories, code, and issues on GitHub.",
@@ -401,6 +431,8 @@ actions:
   {
     id: "com.flyclip.extension.chatgpt",
     name: "ChatGPT",
+    nameZh: "ChatGPT",
+    nameEn: "ChatGPT",
     category: "search_ai",
     icon: "GPT",
     description: "Ask ChatGPT or analyze text with OpenAI.",
@@ -418,6 +450,8 @@ actions:
   {
     id: "com.flyclip.extension.claude",
     name: "Claude",
+    nameZh: "Claude",
+    nameEn: "Claude",
     category: "search_ai",
     icon: "Claude",
     description: "Send selected text to Anthropic Claude AI.",
@@ -435,6 +469,8 @@ actions:
   {
     id: "com.flyclip.extension.deepseek",
     name: "DeepSeek",
+    nameZh: "DeepSeek 深度求索",
+    nameEn: "DeepSeek",
     category: "search_ai",
     icon: "DS",
     description: "Ask DeepSeek AI with selected text.",
@@ -452,6 +488,8 @@ actions:
   {
     id: "com.flyclip.extension.zhihu-search",
     name: "知乎搜索",
+    nameZh: "知乎搜索",
+    nameEn: "Zhihu Search",
     category: "search_ai",
     icon: "知",
     description: "Search questions and discussions on Zhihu.",
@@ -469,6 +507,8 @@ actions:
   {
     id: "com.flyclip.extension.bilibili-search",
     name: "哔哩哔哩",
+    nameZh: "哔哩哔哩",
+    nameEn: "Bilibili Search",
     category: "search_ai",
     icon: "B站",
     description: "Search anime, tutorials, and creators on Bilibili.",
@@ -486,6 +526,8 @@ actions:
   {
     id: "com.flyclip.extension.youtube-search",
     name: "YouTube",
+    nameZh: "YouTube",
+    nameEn: "YouTube Search",
     category: "search_ai",
     icon: "YT",
     description: "Search videos on YouTube.",
@@ -505,6 +547,8 @@ actions:
   {
     id: "com.flyclip.extension.case-converter",
     name: "Case Converter",
+    nameZh: "大小写转换",
+    nameEn: "Case Converter",
     category: "text_tools",
     icon: "Aa",
     description: "Convert text between UPPER, lower, Title, camelCase, snake_case, kebab-case.",
@@ -552,6 +596,8 @@ actions:
   {
     id: "com.flyclip.extension.base64",
     name: "Base64",
+    nameZh: "Base64 编解码",
+    nameEn: "Base64",
     category: "text_tools",
     icon: "B64",
     description: "Encode or decode Base64 strings with optional URL-safe mode.",
@@ -594,6 +640,8 @@ actions:
   {
     id: "com.flyclip.extension.url-encode",
     name: "URL Encode",
+    nameZh: "URL 编解码",
+    nameEn: "URL Encode",
     category: "text_tools",
     icon: "%20",
     description: "Percent-encode and decode URL parameters.",
@@ -619,6 +667,8 @@ actions:
   {
     id: "com.flyclip.extension.html-encode",
     name: "HTML Encode",
+    nameZh: "HTML 实体转义",
+    nameEn: "HTML Encode",
     category: "text_tools",
     icon: "<&>",
     description: "Encode or decode HTML special character entities.",
@@ -652,6 +702,8 @@ actions:
   {
     id: "com.flyclip.extension.json-formatter",
     name: "JSON Formatter",
+    nameZh: "JSON 格式化",
+    nameEn: "JSON Formatter",
     category: "text_tools",
     icon: "{}",
     description: "Prettify or minify JSON text in place.",
@@ -684,6 +736,8 @@ actions:
   {
     id: "com.flyclip.extension.text-statistics",
     name: "Text Statistics",
+    nameZh: "字数与文本统计",
+    nameEn: "Text Statistics",
     category: "text_tools",
     icon: "123",
     description: "Count characters, words, lines, and bytes in selected text.",
@@ -707,6 +761,8 @@ actions:
   {
     id: "com.flyclip.extension.sort-lines",
     name: "Sort Lines",
+    nameZh: "文本行排序与去重",
+    nameEn: "Sort Lines",
     category: "text_tools",
     icon: "AZ",
     description: "Sort lines ascending, descending, or remove duplicate lines.",
@@ -757,6 +813,8 @@ actions:
   {
     id: "com.flyclip.extension.join-lines",
     name: "Join Lines",
+    nameZh: "多行合并为单行",
+    nameEn: "Join Lines",
     category: "text_tools",
     icon: "->",
     description: "Join multi-line text into a single line with custom delimiters.",
@@ -785,6 +843,8 @@ actions:
   {
     id: "com.flyclip.extension.remove-spaces",
     name: "Remove Spaces",
+    nameZh: "清除多余空格",
+    nameEn: "Remove Spaces",
     category: "text_tools",
     icon: "␣",
     description: "Collapse duplicate spaces or strip all whitespace characters.",
@@ -805,6 +865,8 @@ actions:
   {
     id: "com.flyclip.extension.full-half-width",
     name: "全角半角转换",
+    nameZh: "全角半角转换",
+    nameEn: "Full/Half Width",
     category: "text_tools",
     icon: "全半",
     description: "Convert between Full-width and Half-width characters.",
@@ -841,6 +903,8 @@ actions:
   {
     id: "com.flyclip.extension.timestamp-converter",
     name: "Timestamp Converter",
+    nameZh: "时间戳转换",
+    nameEn: "Timestamp Converter",
     category: "text_tools",
     icon: "⏱️",
     description: "Convert Unix epoch timestamps to local date-time strings.",
@@ -882,6 +946,8 @@ actions:
   {
     id: "com.flyclip.extension.markdown-tools",
     name: "Markdown Tools",
+    nameZh: "Markdown 格式化",
+    nameEn: "Markdown Tools",
     category: "text_tools",
     icon: "MD",
     description: "Wrap text in Markdown bold, inline code, code blocks, or blockquotes.",
@@ -911,6 +977,8 @@ actions:
   {
     id: "com.flyclip.extension.calculate",
     name: "Calculate",
+    nameZh: "即时数学计算",
+    nameEn: "Calculate",
     category: "developer",
     icon: "=?",
     description: "Evaluate math expressions instantly (e.g. 128*1024, (50+20)/3).",
@@ -935,6 +1003,8 @@ actions:
   {
     id: "com.flyclip.extension.regex101",
     name: "Regex101",
+    nameZh: "Regex101 正则测试",
+    nameEn: "Regex101",
     category: "developer",
     icon: ".*",
     description: "Test and debug regular expressions in Regex101.",
@@ -959,6 +1029,8 @@ actions:
   {
     id: "com.flyclip.extension.ip-lookup",
     name: "IP Lookup",
+    nameZh: "IP 归属地查询",
+    nameEn: "IP Lookup",
     category: "developer",
     icon: "IP",
     description: "Query IP address geolocation and WHOIS info.",
@@ -977,6 +1049,8 @@ actions:
   {
     id: "com.flyclip.extension.hash-generator",
     name: "Hash Generator",
+    nameZh: "哈希值计算",
+    nameEn: "Hash Generator",
     category: "developer",
     icon: "#",
     description: "Calculate MD5 and SHA-256 hashes of selected text.",
@@ -1013,6 +1087,8 @@ actions:
   {
     id: "com.flyclip.extension.iconify-search",
     name: "Iconify Icons",
+    nameZh: "Iconify 矢量图标",
+    nameEn: "Iconify Icons",
     category: "developer",
     icon: "Icon",
     description: "Search 200,000+ open source vector icons on Iconify.",
@@ -1032,6 +1108,8 @@ actions:
   {
     id: "com.flyclip.extension.jd-search",
     name: "京东搜索",
+    nameZh: "京东搜索",
+    nameEn: "JD Search",
     category: "shopping",
     icon: "JD",
     description: "Search products on JD.com.",
@@ -1049,6 +1127,8 @@ actions:
   {
     id: "com.flyclip.extension.taobao-search",
     name: "淘宝搜索",
+    nameZh: "淘宝搜索",
+    nameEn: "Taobao Search",
     category: "shopping",
     icon: "淘",
     description: "Search items and deals on Taobao.",
@@ -1066,6 +1146,8 @@ actions:
   {
     id: "com.flyclip.extension.douban-search",
     name: "豆瓣搜索",
+    nameZh: "豆瓣搜索",
+    nameEn: "Douban Search",
     category: "shopping",
     icon: "豆",
     description: "Search movies, books, and music on Douban.",
@@ -1090,6 +1172,8 @@ actions:
   {
     id: "com.flyclip.extension.imdb",
     name: "IMDb",
+    nameZh: "IMDb 影视资料",
+    nameEn: "IMDb",
     category: "shopping",
     icon: "IMDb",
     description: "Search movies, TV shows, and cast on IMDb.",
@@ -1107,6 +1191,8 @@ actions:
   {
     id: "com.flyclip.extension.amazon",
     name: "Amazon",
+    nameZh: "亚马逊商城",
+    nameEn: "Amazon",
     category: "shopping",
     icon: "Amz",
     description: "Search Amazon worldwide with site selection.",

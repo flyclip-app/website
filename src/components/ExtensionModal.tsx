@@ -57,7 +57,9 @@ export default function ExtensionModal({ extension, autoTriggerInstall, onClose 
               {extension.icon}
             </div>
             <div>
-              <h3 className="font-bold text-slate-100 text-lg">{extension.name}</h3>
+              <h3 className="font-bold text-slate-100 text-lg">
+                {lang === "en" ? (extension.nameEn || extension.name) : (extension.nameZh || extension.name)}
+              </h3>
               <p className="text-xs text-slate-500 font-mono">{extension.id}</p>
             </div>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useMemo } from "react";
-import { Copy, Check, Sparkles, Wrench, Download, Zap, Code, Terminal, Globe, Keyboard, Play, FileCode, CheckCircle2 } from "lucide-react";
+import { Copy, Check, Sparkles, Wrench, Download, Zap, Code, Terminal, Globe, Keyboard } from "lucide-react";
 import { useI18n } from "@/i18n/LanguageContext";
 
 interface OptionItem {
@@ -52,11 +52,11 @@ function highlightJavaScript(code: string): string {
     } else if (groups.flyclip) {
       html += `<span class="text-cyan-300 font-bold">${matchedText}</span>`;
     } else if (groups.builtin) {
-      html += `<span class="text-amber-300 font-semibold">${matchedText}</span>`;
+      html += `<span class="text-amber-300">${matchedText}</span>`;
     } else if (groups.boolean) {
-      html += `<span class="text-rose-400 font-semibold">${matchedText}</span>`;
+      html += `<span class="text-rose-400 font-bold">${matchedText}</span>`;
     } else if (groups.number) {
-      html += `<span class="text-orange-300">${matchedText}</span>`;
+      html += `<span class="text-amber-400 font-mono">${matchedText}</span>`;
     } else if (groups.operator) {
       html += `<span class="text-pink-400">${matchedText}</span>`;
     } else {
@@ -74,17 +74,16 @@ function highlightJavaScript(code: string): string {
 }
 
 function highlightYAML(yaml: string): string {
-  if (!yaml) return "";
   const escapeHtml = (str: string) =>
     str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  const lines = yaml.split("\n");
-  return lines
+  return yaml
+    .split("\n")
     .map((line) => {
       if (line.trim().startsWith("#")) {
         return `<span class="text-slate-500 italic">${escapeHtml(line)}</span>`;
       }
-      const match = line.match(/^(\s*)([a-zA-Z0-9_\-\s]+)(:)(.*)$/);
+      const match = line.match(/^(\s*)([a-zA-Z0-9_-]+)(\s*:)(.*)$/);
       if (match) {
         const indent = escapeHtml(match[1]);
         const key = escapeHtml(match[2]);
@@ -110,65 +109,99 @@ function highlightYAML(yaml: string): string {
     .join("\n");
 }
 
-const JS_PRESETS = [
-  {
-    name: "文本转换 (大写)",
-    code: `// 获取选中文本并转换为大写\nconst text = flyclip.input.text;\nreturn text.toUpperCase();`,
-    after: "paste-result",
-  },
-  {
-    name: "模拟快捷键 (Ctrl+C)",
-    code: `// 使用 JS 模拟触发快捷键组合 (如 Ctrl+C, Ctrl+V, Ctrl+Shift+F 等)\nflyclip.pressKey("ctrl c");`,
-    after: "none",
-  },
-  {
-    name: "正则清理 (消除多余空格)",
-    code: `// 使用正则将连续多余空格压缩为单个空格\nconst text = flyclip.input.text;\nreturn text.replace(/\\s+/g, ' ').trim();`,
-    after: "paste-result",
-  },
-  {
-    name: "HTTP 请求 (API 翻译/调用)",
-    code: `// 发送本地或远程 HTTP 请求\nconst text = flyclip.input.text.trim();\nconst port = flyclip.options.port || "50020";\n\ntry {\n  const res = await flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`);\n  // 如果接口有返回内容，可直接返回结果\n} catch (e) {\n  // 异常回退：唤起 CLI 或提示\n  flyclip.run("cmd", ["/c", "start", \`pot:translate?text=\${encodeURIComponent(text)}\`]);\n}`,
-    after: "none",
-  },
-  {
-    name: "命令行调用 (运行本地程序)",
-    code: `// 跨平台调用本地可执行文件\nconst text = flyclip.input.text;\nflyclip.run("notepad.exe", [text]);`,
-    after: "none",
-  },
-  {
-    name: "字数统计 (提示栏显示)",
-    code: `// 统计字数并在 FlyClip 提示栏浮层中展示\nconst text = flyclip.input.text;\nconst chars = text.length;\nconst words = (text.match(/\\S+/g) || []).length;\nreturn \`\${chars} 字符 · \${words} 词\`;`,
-    after: "show-result",
-  },
-  {
-    name: "剪贴板读写 (加工并粘贴)",
-    code: `// 读取剪贴板，加工后写回并模拟粘贴\nconst clip = flyclip.readClipboard();\nflyclip.copy(clip.trim());\nflyclip.paste();`,
-    after: "none",
-  },
-];
-
 export default function ExtensionGenerator() {
-  const { lang, t } = useI18n();
-  const [name, setName] = useState("文本大写转换");
+  const { lang } = useI18n();
+
+  const JS_PRESETS = useMemo(() => {
+    if (lang === "en") {
+      return [
+        {
+          name: "Uppercase Transform",
+          code: `// Get selected text and convert to uppercase\nconst text = flyclip.input.text;\nreturn text.toUpperCase();`,
+          after: "paste-result",
+        },
+        {
+          name: "Simulate Key (Ctrl+C)",
+          code: `// Simulate keyboard shortcut combo\nflyclip.pressKey("ctrl c");`,
+          after: "none",
+        },
+        {
+          name: "Regex Clean Spaces",
+          code: `// Collapse duplicate whitespace into single spaces\nconst text = flyclip.input.text;\nreturn text.replace(/\\s+/g, ' ').trim();`,
+          after: "paste-result",
+        },
+        {
+          name: "HTTP API Call",
+          code: `// Send local or remote HTTP request\nconst text = flyclip.input.text.trim();\nconst port = flyclip.options.port || "50020";\n\ntry {\n  const res = await flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`);\n} catch (e) {\n  flyclip.run("cmd", ["/c", "start", \`pot:translate?text=\${encodeURIComponent(text)}\`]);\n}`,
+          after: "none",
+        },
+        {
+          name: "CLI Execution (Run App)",
+          code: `// Run local executable via native sub-process\nconst text = flyclip.input.text;\nflyclip.run("notepad.exe", [text]);`,
+          after: "none",
+        },
+        {
+          name: "Word Count (Show Result)",
+          code: `// Count characters and display in floating palette\nconst text = flyclip.input.text;\nconst chars = text.length;\nconst words = (text.match(/\\S+/g) || []).length;\nreturn \`\${chars} chars · \${words} words\`;`,
+          after: "show-result",
+        },
+      ];
+    }
+    return [
+      {
+        name: "文本转换 (大写)",
+        code: `// 获取选中文本并转换为大写\nconst text = flyclip.input.text;\nreturn text.toUpperCase();`,
+        after: "paste-result",
+      },
+      {
+        name: "模拟快捷键 (Ctrl+C)",
+        code: `// 使用 JS 模拟触发快捷键组合\nflyclip.pressKey("ctrl c");`,
+        after: "none",
+      },
+      {
+        name: "正则清理 (消除多余空格)",
+        code: `// 使用正则将连续多余空格压缩为单个空格\nconst text = flyclip.input.text;\nreturn text.replace(/\\s+/g, ' ').trim();`,
+        after: "paste-result",
+      },
+      {
+        name: "HTTP 请求 (API 翻译/调用)",
+        code: `// 发送本地或远程 HTTP 请求\nconst text = flyclip.input.text.trim();\nconst port = flyclip.options.port || "50020";\n\ntry {\n  const res = await flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`);\n} catch (e) {\n  flyclip.run("cmd", ["/c", "start", \`pot:translate?text=\${encodeURIComponent(text)}\`]);\n}`,
+        after: "none",
+      },
+      {
+        name: "命令行调用 (运行本地程序)",
+        code: `// 跨平台调用本地可执行文件\nconst text = flyclip.input.text;\nflyclip.run("notepad.exe", [text]);`,
+        after: "none",
+      },
+      {
+        name: "字数统计 (提示栏显示)",
+        code: `// 统计字数并在 FlyClip 提示栏浮层中展示\nconst text = flyclip.input.text;\nconst chars = text.length;\nconst words = (text.match(/\\S+/g) || []).length;\nreturn \`\${chars} 字符 · \${words} 词\`;`,
+        after: "show-result",
+      },
+    ];
+  }, [lang]);
+
+  const [name, setName] = useState("Uppercase Converter");
   const [id, setId] = useState("com.flyclip.extension.uppercase");
   const [icon, setIcon] = useState("Aa");
-  const [desc, setDesc] = useState("选中文本快速转换为大写");
+  const [desc, setDesc] = useState("Quickly convert selected text to uppercase");
   const [actionType, setActionType] = useState<"javascript" | "url" | "powershell" | "keys">("javascript");
-  
+
   // Action Contents
-  const [jsCode, setJsCode] = useState(JS_PRESETS[0].code);
+  const [jsCode, setJsCode] = useState(
+    `// Convert text to uppercase\nconst text = flyclip.input.text;\nreturn text.toUpperCase();`
+  );
   const [urlTemplate, setUrlTemplate] = useState("https://www.google.com/search?q=***");
   const [psCode, setPsCode] = useState("Write-Host -NoNewline $env:FLYCLIP_TEXT.ToUpper()");
   const [keyCombo, setKeyCombo] = useState("ctrl c");
-  
+
   const [afterStep, setAfterStep] = useState("paste-result");
   const [requirements, setRequirements] = useState("text");
-  
+
   // Options
   const [hasOptions, setHasOptions] = useState(false);
   const [options, setOptions] = useState<OptionItem[]>([
-    { id: "port", label: "本地端口", type: "string", defaultValue: "50020" }
+    { id: "port", label: "Port", type: "string", defaultValue: "50020" },
   ]);
 
   const [copied, setCopied] = useState(false);
@@ -179,7 +212,6 @@ export default function ExtensionGenerator() {
 
   const highlightedJsHtml = useMemo(() => highlightJavaScript(jsCode), [jsCode]);
 
-  // Handle Tab key in JavaScript Code Editor
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Tab") {
       e.preventDefault();
@@ -194,7 +226,7 @@ export default function ExtensionGenerator() {
     }
   };
 
-  const applyPreset = (preset: typeof JS_PRESETS[0]) => {
+  const applyPreset = (preset: { code: string; after: string }) => {
     setJsCode(preset.code);
     setAfterStep(preset.after);
   };
@@ -202,43 +234,45 @@ export default function ExtensionGenerator() {
   const generateYaml = useMemo(() => {
     let yaml = `name: ${name}\n`;
     yaml += `identifier: ${id}\n`;
-    yaml += `description: ${desc}\n`;
+    if (desc.trim()) {
+      yaml += `description: ${desc}\n`;
+    }
     yaml += `icon: ${icon}\n`;
 
     if (hasOptions && options.length > 0) {
       yaml += `options:\n`;
-      options.forEach(opt => {
+      options.forEach((opt) => {
         yaml += `  - identifier: ${opt.id}\n`;
         yaml += `    label: ${opt.label}\n`;
         yaml += `    type: ${opt.type}\n`;
         if (opt.type === "multiple" && opt.values) {
-          const vals = opt.values.split(",").map(v => v.trim()).filter(Boolean);
-          yaml += `    values: [${vals.join(", ")}]\n`;
+          const valList = opt.values.split(",").map((v) => v.trim()).filter(Boolean);
+          yaml += `    values: [${valList.join(", ")}]\n`;
         }
-        if (opt.defaultValue) {
-          yaml += `    default value: ${opt.type === "boolean" ? opt.defaultValue : `"${opt.defaultValue}"`}\n`;
+        if (opt.defaultValue.trim()) {
+          yaml += `    default value: ${opt.defaultValue}\n`;
         }
       });
     }
 
     yaml += `actions:\n`;
     yaml += `  - title: ${name}\n`;
-    
+
     if (actionType === "javascript") {
-      const indented = jsCode
-        .split("\n")
-        .map(line => line.length > 0 ? `      ${line}` : "")
-        .join("\n");
-      yaml += `    javascript: |\n${indented}\n`;
+      yaml += `    javascript: |\n`;
+      const lines = jsCode.split("\n");
+      lines.forEach((line) => {
+        yaml += `      ${line}\n`;
+      });
     } else if (actionType === "url") {
       yaml += `    url: ${urlTemplate}\n`;
     } else if (actionType === "powershell") {
       if (psCode.includes("\n")) {
-        const indented = psCode
-          .split("\n")
-          .map(line => line.length > 0 ? `      ${line}` : "")
-          .join("\n");
-        yaml += `    shell script: |\n${indented}\n`;
+        yaml += `    shell script: |\n`;
+        const lines = psCode.split("\n");
+        lines.forEach((line) => {
+          yaml += `      ${line}\n`;
+        });
       } else {
         yaml += `    shell script: ${psCode}\n`;
       }
@@ -247,7 +281,7 @@ export default function ExtensionGenerator() {
     }
 
     if (requirements.trim()) {
-      const reqList = requirements.split(",").map(r => r.trim()).filter(Boolean);
+      const reqList = requirements.split(",").map((r) => r.trim()).filter(Boolean);
       yaml += `    requirements: [${reqList.join(", ")}]\n`;
     }
 
@@ -298,12 +332,16 @@ export default function ExtensionGenerator() {
           </div>
           <div>
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span>在线扩展配置生成器</span>
+              <span>{lang === "en" ? "Live Extension Generator" : "在线扩展配置生成器"}</span>
               <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                实时语法高亮编辑器
+                {lang === "en" ? "Real-time Syntax Editor" : "实时语法高亮编辑器"}
               </span>
             </h2>
-            <p className="text-xs text-slate-400">实时编写 JavaScript 代码，生成符合规范的 <code>Config.yaml</code> 并一键安装</p>
+            <p className="text-xs text-slate-400">
+              {lang === "en"
+                ? "Author JavaScript code, generate validated Config.yaml manifests, and install with one click."
+                : "实时编写 JavaScript 代码，生成符合规范的 Config.yaml 并一键安装"}
+            </p>
           </div>
         </div>
 
@@ -311,10 +349,14 @@ export default function ExtensionGenerator() {
           <button
             onClick={handleInstallToFlyClip}
             className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all shadow-md shadow-blue-500/20 active:scale-95"
-            title="一键唤起 FlyClip 客户端安装此扩展"
+            title={lang === "en" ? "One-click install into FlyClip" : "一键唤起 FlyClip 客户端安装此扩展"}
           >
             <Zap size={14} className="text-amber-300" />
-            <span>{installed ? "已唤起安装..." : "一键安装到 FlyClip"}</span>
+            <span>
+              {installed
+                ? lang === "en" ? "Launched..." : "已唤起安装..."
+                : lang === "en" ? "One-Click Install" : "一键安装到 FlyClip"}
+            </span>
           </button>
         </div>
       </div>
@@ -324,11 +366,15 @@ export default function ExtensionGenerator() {
         <div className="lg:col-span-7 space-y-6">
           {/* Metadata Cards */}
           <div className="space-y-4 bg-[#14161d] border border-[#2d3142] rounded-xl p-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">基本元信息 (Metadata)</span>
-            
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+              {lang === "en" ? "Metadata" : "基本元信息 (Metadata)"}
+            </span>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">扩展名称 (Name)</label>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  {lang === "en" ? "Extension Name" : "扩展名称 (Name)"}
+                </label>
                 <input
                   type="text"
                   value={name}
@@ -341,7 +387,9 @@ export default function ExtensionGenerator() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">唯一标识符 (Identifier)</label>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  {lang === "en" ? "Identifier" : "唯一标识符 (Identifier)"}
+                </label>
                 <input
                   type="text"
                   value={id}
@@ -353,18 +401,22 @@ export default function ExtensionGenerator() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">图标 (Icon)</label>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  {lang === "en" ? "Icon" : "图标 (Icon)"}
+                </label>
                 <input
                   type="text"
                   value={icon}
-                  placeholder="如 Aa, ⚡, 或 iconify:lucide:search"
+                  placeholder={lang === "en" ? "e.g. Aa, ⚡, or iconify:lucide:search" : "如 Aa, ⚡, 或 iconify:lucide:search"}
                   onChange={(e) => setIcon(e.target.value)}
                   className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">简要描述 (Description)</label>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  {lang === "en" ? "Description" : "简要描述 (Description)"}
+                </label>
                 <input
                   type="text"
                   value={desc}
@@ -378,7 +430,7 @@ export default function ExtensionGenerator() {
           {/* Action Type Selector */}
           <div className="space-y-3">
             <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">
-              选择动作类型 (Action Type)
+              {lang === "en" ? "Action Type" : "选择动作类型 (Action Type)"}
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <button
@@ -392,7 +444,9 @@ export default function ExtensionGenerator() {
               >
                 <Code size={18} className={actionType === "javascript" ? "text-emerald-400" : "text-slate-400"} />
                 <span className="text-xs">JavaScript</span>
-                <span className="text-[10px] text-emerald-400/80">🥇 首选推荐</span>
+                <span className="text-[10px] text-emerald-400/80">
+                  {lang === "en" ? "🥇 Recommended" : "🥇 首选推荐"}
+                </span>
               </button>
 
               <button
@@ -405,8 +459,10 @@ export default function ExtensionGenerator() {
                 }`}
               >
                 <Globe size={18} className={actionType === "url" ? "text-blue-400" : "text-slate-400"} />
-                <span className="text-xs">URL 模板</span>
-                <span className="text-[10px] text-blue-400/80">网页/搜索</span>
+                <span className="text-xs">{lang === "en" ? "URL Template" : "URL 模板"}</span>
+                <span className="text-[10px] text-blue-400/80">
+                  {lang === "en" ? "Web / Search" : "网页/搜索"}
+                </span>
               </button>
 
               <button
@@ -420,7 +476,9 @@ export default function ExtensionGenerator() {
               >
                 <Terminal size={18} className={actionType === "powershell" ? "text-amber-400" : "text-slate-400"} />
                 <span className="text-xs">PowerShell</span>
-                <span className="text-[10px] text-amber-400/80">Windows 专用</span>
+                <span className="text-[10px] text-amber-400/80">
+                  {lang === "en" ? "Windows Only" : "Windows 专用"}
+                </span>
               </button>
 
               <button
@@ -433,8 +491,8 @@ export default function ExtensionGenerator() {
                 }`}
               >
                 <Keyboard size={18} className={actionType === "keys" ? "text-purple-400" : "text-slate-400"} />
-                <span className="text-xs">快捷键模拟</span>
-                <span className="text-[10px] text-purple-400/80">Key Combo</span>
+                <span className="text-xs">{lang === "en" ? "Key Combo" : "快捷键模拟"}</span>
+                <span className="text-[10px] text-purple-400/80">Hotkeys</span>
               </button>
             </div>
           </div>
@@ -446,10 +504,16 @@ export default function ExtensionGenerator() {
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5">
                   <Sparkles size={13} className="text-emerald-400" />
-                  <span>JavaScript 脚本代码编辑器 (内置语法高亮)</span>
+                  <span>
+                    {lang === "en"
+                      ? "JavaScript Code Editor (Syntax Highlighted)"
+                      : "JavaScript 脚本代码编辑器 (内置语法高亮)"}
+                  </span>
                 </span>
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[11px] text-slate-500">预设模版:</span>
+                  <span className="text-[11px] text-slate-500">
+                    {lang === "en" ? "Presets:" : "预设模版:"}
+                  </span>
                   {JS_PRESETS.map((preset, idx) => (
                     <button
                       key={idx}
@@ -473,7 +537,9 @@ export default function ExtensionGenerator() {
                     <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
                     <span className="text-slate-300 font-semibold ml-2">action.js</span>
                   </div>
-                  <span className="text-[11px] text-slate-500">支持 Tab 缩进 (2 空格)</span>
+                  <span className="text-[11px] text-slate-500">
+                    {lang === "en" ? "Supports Tab indent (2 spaces)" : "支持 Tab 缩进 (2 空格)"}
+                  </span>
                 </div>
 
                 {/* Editor with Gutter and Synchronized Syntax Highlighting */}
@@ -487,7 +553,6 @@ export default function ExtensionGenerator() {
 
                   {/* Code Area with Syntax Highlighting Backdrop */}
                   <div className="flex-1 relative overflow-hidden">
-                    {/* Highlighted Backdrop (pre) */}
                     <pre
                       ref={preRef}
                       aria-hidden="true"
@@ -495,7 +560,6 @@ export default function ExtensionGenerator() {
                       dangerouslySetInnerHTML={{ __html: highlightedJsHtml + "\n" }}
                     />
 
-                    {/* Editable Input (textarea) */}
                     <textarea
                       ref={textareaRef}
                       value={jsCode}
@@ -509,7 +573,11 @@ export default function ExtensionGenerator() {
                       }}
                       spellCheck={false}
                       className="absolute inset-0 w-full h-full p-3 m-0 bg-transparent text-transparent caret-cyan-400 font-mono text-xs leading-5 whitespace-pre-wrap break-all focus:outline-none resize-none z-10 selection:bg-blue-500/30 selection:text-white"
-                      placeholder="// 在此输入 JavaScript 代码，支持 flyclip.input.text, flyclip.pressKey, flyclip.fetch, flyclip.run 等"
+                      placeholder={
+                        lang === "en"
+                          ? "// Enter JavaScript code here. Access flyclip.input.text, flyclip.pressKey, flyclip.fetch, etc."
+                          : "// 在此输入 JavaScript 代码，支持 flyclip.input.text, flyclip.pressKey, flyclip.fetch, flyclip.run 等"
+                      }
                     />
                   </div>
                 </div>
@@ -517,7 +585,15 @@ export default function ExtensionGenerator() {
 
               <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 space-y-1">
                 <p>
-                  <strong>💡 JS 常用 API 说明</strong>：<code>flyclip.input.text</code>（选中文本）、<code>flyclip.pressKey(&quot;ctrl c&quot;)</code>（模拟快捷键）、<code>flyclip.options.*</code>（配置项）、<code>return &quot;结果&quot;</code>（配合 <code>after: paste-result</code> 自动替换选区）、<code>await flyclip.fetch(url, options)</code>（HTTP 请求）、<code>flyclip.run(cmd, args)</code>（唤起本地程序）。
+                  {lang === "en" ? (
+                    <>
+                      <strong>💡 Standard JS APIs</strong>: <code>flyclip.input.text</code> (selected text), <code>flyclip.pressKey(&quot;ctrl c&quot;)</code> (simulate keys), <code>flyclip.options.*</code> (parameters), <code>return &quot;result&quot;</code> (auto-replaces selection with <code>after: paste-result</code>), <code>await flyclip.fetch()</code> (HTTP fetch), <code>flyclip.run()</code> (native sub-process).
+                    </>
+                  ) : (
+                    <>
+                      <strong>💡 JS 常用 API 说明</strong>：<code>flyclip.input.text</code>（选中文本）、<code>flyclip.pressKey(&quot;ctrl c&quot;)</code>（模拟快捷键）、<code>flyclip.options.*</code>（配置项）、<code>return &quot;结果&quot;</code>（配合 <code>after: paste-result</code> 自动替换选区）、<code>await flyclip.fetch(url, options)</code>（HTTP 请求）、<code>flyclip.run(cmd, args)</code>（唤起本地程序）。
+                    </>
+                  )}
                 </p>
               </div>
             </div>
@@ -526,7 +602,9 @@ export default function ExtensionGenerator() {
           {actionType === "url" && (
             <div className="space-y-2">
               <label className="block text-xs font-medium text-slate-300">
-                URL 模板 (支持 <code>***</code> 或 <code>&#123;flyclip text&#125;</code> 占位符)
+                {lang === "en"
+                  ? <>URL Template (supports <code>***</code> or <code>&#123;flyclip text&#125;</code> placeholders)</>
+                  : <>URL 模板 (支持 <code>***</code> 或 <code>&#123;flyclip text&#125;</code> 占位符)</>}
               </label>
               <input
                 type="text"
@@ -536,7 +614,9 @@ export default function ExtensionGenerator() {
                 placeholder="https://www.google.com/search?q=***"
               />
               <p className="text-[11px] text-slate-500">
-                支持参数替换，例如：<code>https://example.com/search?q=&#123;flyclip text&#125;&amp;lang=&#123;flyclip option target_lang&#125;</code>
+                {lang === "en"
+                  ? "Example: https://example.com/search?q={flyclip text}&lang={flyclip option target_lang}"
+                  : "支持参数替换，例如：https://example.com/search?q={flyclip text}&lang={flyclip option target_lang}"}
               </p>
             </div>
           )}
@@ -544,7 +624,9 @@ export default function ExtensionGenerator() {
           {actionType === "powershell" && (
             <div className="space-y-2">
               <label className="block text-xs font-medium text-slate-300">
-                PowerShell 脚本命令 (接收 <code>$env:FLYCLIP_TEXT</code>)
+                {lang === "en"
+                  ? <>PowerShell Command (Receives <code>$env:FLYCLIP_TEXT</code>)</>
+                  : <>PowerShell 脚本命令 (接收 <code>$env:FLYCLIP_TEXT</code>)</>}
               </label>
               <textarea
                 value={psCode}
@@ -559,14 +641,14 @@ export default function ExtensionGenerator() {
           {actionType === "keys" && (
             <div className="space-y-2">
               <label className="block text-xs font-medium text-slate-300">
-                按键序列 (Key Combo)
+                {lang === "en" ? "Key Combo Sequence" : "按键序列 (Key Combo)"}
               </label>
               <input
                 type="text"
                 value={keyCombo}
                 onChange={(e) => setKeyCombo(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-lg bg-[#14161d] border border-[#2d3142] font-mono text-xs text-purple-300 focus:outline-none focus:border-purple-500"
-                placeholder="例如: ctrl c 或 ctrl shift f"
+                placeholder={lang === "en" ? "e.g. ctrl c or ctrl shift f" : "例如: ctrl c 或 ctrl shift f"}
               />
             </div>
           )}
@@ -574,21 +656,25 @@ export default function ExtensionGenerator() {
           {/* After Step & Requirements */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-[#14161d] border border-[#2d3142] rounded-xl p-4">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">执行后后续动作 (After Step)</label>
+              <label className="block text-xs font-medium text-slate-300 mb-1">
+                {lang === "en" ? "After Step" : "执行后后续动作 (After Step)"}
+              </label>
               <select
                 value={afterStep}
                 onChange={(e) => setAfterStep(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-xs text-slate-200 focus:outline-none focus:border-blue-500"
               >
-                <option value="none">无 (None / 仅执行)</option>
-                <option value="paste-result">直接粘贴替换选区 (paste-result)</option>
-                <option value="show-result">浮层提示栏展示 (show-result)</option>
-                <option value="copy-result">仅复制到剪贴板 (copy-result)</option>
+                <option value="none">{lang === "en" ? "None (Execute only)" : "无 (None / 仅执行)"}</option>
+                <option value="paste-result">{lang === "en" ? "Paste & Replace Selection (paste-result)" : "直接粘贴替换选区 (paste-result)"}</option>
+                <option value="show-result">{lang === "en" ? "Show in Palette (show-result)" : "浮层提示栏展示 (show-result)"}</option>
+                <option value="copy-result">{lang === "en" ? "Copy to Clipboard (copy-result)" : "仅复制到剪贴板 (copy-result)"}</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">触发条件 (Requirements)</label>
+              <label className="block text-xs font-medium text-slate-300 mb-1">
+                {lang === "en" ? "Requirements" : "触发条件 (Requirements)"}
+              </label>
               <input
                 type="text"
                 value={requirements}
@@ -609,15 +695,15 @@ export default function ExtensionGenerator() {
                   onChange={(e) => setHasOptions(e.target.checked)}
                   className="w-4 h-4 rounded text-blue-600 bg-[#14161d] border-[#2d3142] focus:ring-0"
                 />
-                <span>添加扩展配置选项 (Options)</span>
+                <span>{lang === "en" ? "Declare Configurable Options" : "添加扩展配置选项 (Options)"}</span>
               </label>
               {hasOptions && (
                 <button
                   type="button"
-                  onClick={() => setOptions([...options, { id: `opt_${options.length + 1}`, label: "新选项", type: "string", defaultValue: "" }])}
+                  onClick={() => setOptions([...options, { id: `opt_${options.length + 1}`, label: lang === "en" ? "New Option" : "新选项", type: "string", defaultValue: "" }])}
                   className="text-xs text-blue-400 hover:text-blue-300 font-semibold"
                 >
-                  + 添加选项
+                  {lang === "en" ? "+ Add Option" : "+ 添加选项"}
                 </button>
               )}
             </div>
@@ -627,7 +713,7 @@ export default function ExtensionGenerator() {
                 {options.map((opt, idx) => (
                   <div key={idx} className="grid grid-cols-1 sm:grid-cols-4 gap-2 pb-3 border-b border-[#2d3142] last:border-b-0 last:pb-0">
                     <div>
-                      <span className="text-[10px] text-slate-400 block mb-1">选项 ID</span>
+                      <span className="text-[10px] text-slate-400 block mb-1">{lang === "en" ? "Option ID" : "选项 ID"}</span>
                       <input
                         type="text"
                         value={opt.id}
@@ -640,7 +726,7 @@ export default function ExtensionGenerator() {
                       />
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 block mb-1">显示标签 (Label)</span>
+                      <span className="text-[10px] text-slate-400 block mb-1">{lang === "en" ? "Label" : "显示标签 (Label)"}</span>
                       <input
                         type="text"
                         value={opt.label}
@@ -653,7 +739,7 @@ export default function ExtensionGenerator() {
                       />
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 block mb-1">类型</span>
+                      <span className="text-[10px] text-slate-400 block mb-1">{lang === "en" ? "Type" : "类型"}</span>
                       <select
                         value={opt.type}
                         onChange={(e) => {
@@ -663,14 +749,14 @@ export default function ExtensionGenerator() {
                         }}
                         className="w-full px-2 py-1.5 rounded bg-[#1c1e27] border border-[#2d3142] text-xs text-slate-200"
                       >
-                        <option value="string">文本 (string)</option>
-                        <option value="boolean">开关 (boolean)</option>
-                        <option value="multiple">多选列表 (multiple)</option>
-                        <option value="secret">凭据/Token (secret)</option>
+                        <option value="string">{lang === "en" ? "Text (string)" : "文本 (string)"}</option>
+                        <option value="boolean">{lang === "en" ? "Switch (boolean)" : "开关 (boolean)"}</option>
+                        <option value="multiple">{lang === "en" ? "Choice Chips (multiple)" : "多选列表 (multiple)"}</option>
+                        <option value="secret">{lang === "en" ? "Secret Key (secret)" : "凭据/Token (secret)"}</option>
                       </select>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 block mb-1">默认值</span>
+                      <span className="text-[10px] text-slate-400 block mb-1">{lang === "en" ? "Default Value" : "默认值"}</span>
                       <input
                         type="text"
                         value={opt.defaultValue}
@@ -695,17 +781,17 @@ export default function ExtensionGenerator() {
             <div className="flex items-center justify-between pb-3 border-b border-[#2d3142] mb-3">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles size={14} className="text-blue-400" />
-                <span>实时生成的 Config.yaml</span>
+                <span>{lang === "en" ? "Generated Config.yaml" : "实时生成的 Config.yaml"}</span>
               </span>
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={handleDownload}
-                  title="下载为 Config.yaml 文件"
+                  title={lang === "en" ? "Download as Config.yaml" : "下载为 Config.yaml 文件"}
                   className="px-2.5 py-1 rounded bg-[#1c1e27] hover:bg-[#252836] border border-[#2d3142] text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors"
                 >
                   <Download size={12} />
-                  <span>下载</span>
+                  <span>{lang === "en" ? "Download" : "下载"}</span>
                 </button>
                 <button
                   type="button"
@@ -713,7 +799,7 @@ export default function ExtensionGenerator() {
                   className="px-2.5 py-1 rounded bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors"
                 >
                   {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
-                  <span>{copied ? "已复制" : "复制"}</span>
+                  <span>{copied ? (lang === "en" ? "Copied" : "已复制") : (lang === "en" ? "Copy" : "复制")}</span>
                 </button>
               </div>
             </div>
@@ -735,10 +821,14 @@ export default function ExtensionGenerator() {
               className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/25 active:scale-95"
             >
               <Zap size={15} className="text-amber-300" />
-              <span>直接载入 Snippet 到 FlyClip 安装</span>
+              <span>{lang === "en" ? "Install Snippet to FlyClip" : "直接载入 Snippet 到 FlyClip 安装"}</span>
             </button>
             <p className="text-[11px] text-slate-500 text-center leading-normal">
-              提示：创建文件夹 <code>{name}.flyclipext/</code> 并将此文件保存为 <code>Config.yaml</code> 放入其中，即可直接作为本地扩展使用。
+              {lang === "en" ? (
+                <>Tip: Create folder <code>{name}.flyclipext/</code> and save this content as <code>Config.yaml</code> to test locally.</>
+              ) : (
+                <>提示：创建文件夹 <code>{name}.flyclipext/</code> 并将此文件保存为 <code>Config.yaml</code> 放入其中，即可直接作为本地扩展使用。</>
+              )}
             </p>
           </div>
         </div>
@@ -746,4 +836,3 @@ export default function ExtensionGenerator() {
     </div>
   );
 }
-
