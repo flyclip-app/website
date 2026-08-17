@@ -5,12 +5,14 @@ import { EXTENSIONS_DATA, ExtensionItem } from "@/data/extensions";
 import ExtensionCard from "@/components/ExtensionCard";
 import ExtensionModal from "@/components/ExtensionModal";
 import { Search, Sparkles } from "lucide-react";
+import { useI18n } from "@/i18n/LanguageContext";
 
 export default function ExtensionsPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [selectedExt, setSelectedExt] = useState<ExtensionItem | null>(null);
   const [autoInstall, setAutoInstall] = useState(false);
+  const { t, lang } = useI18n();
 
   const handleOpenModal = (ext: ExtensionItem, autoTrigger = false) => {
     setSelectedExt(ext);
@@ -18,12 +20,12 @@ export default function ExtensionsPage() {
   };
 
   const categories = [
-    { id: "all", label: "全部" },
-    { id: "translation", label: "翻译词典" },
-    { id: "search_ai", label: "搜索与 AI" },
-    { id: "text_tools", label: "文本处理" },
-    { id: "developer", label: "开发工具" },
-    { id: "shopping", label: "电商媒体" },
+    { id: "all", label: t("extensions.all") },
+    { id: "translation", label: t("extensions.trans") },
+    { id: "search_ai", label: t("extensions.search") },
+    { id: "text_tools", label: t("extensions.prod") },
+    { id: "developer", label: t("extensions.dev") },
+    { id: "shopping", label: t("extensions.util") },
   ];
 
   const filtered = EXTENSIONS_DATA.filter((ext) => {
@@ -43,9 +45,9 @@ export default function ExtensionsPage() {
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
         <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Extension Marketplace</span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white">官方与社区扩展中心</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white">{t("extensions.title")}</h1>
         <p className="text-slate-400 text-sm sm:text-base">
-          已为 Windows 深度优化 40+ 个原生扩展，点击「一键安装」或下载扩展包即可秒级使用。
+          {t("extensions.subtitle")}
         </p>
       </div>
 
@@ -55,7 +57,7 @@ export default function ExtensionsPage() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
           <input
             type="text"
-            placeholder="搜索扩展名称、标识符、功能描述或关键词..."
+            placeholder={t("extensions.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-500 shadow-lg"
@@ -80,7 +82,7 @@ export default function ExtensionsPage() {
           </div>
 
           <span className="text-xs text-slate-500 font-medium">
-            找到 {filtered.length} 个扩展
+            {lang === "zh" ? `找到 ${filtered.length} 个扩展` : `Found ${filtered.length} extensions`}
           </span>
         </div>
       </div>
@@ -95,20 +97,19 @@ export default function ExtensionsPage() {
       ) : (
         <div className="text-center py-20 bg-[#14161d] border border-[#2d3142] rounded-2xl p-8">
           <Sparkles className="w-10 h-10 text-slate-500 mx-auto mb-3" />
-          <h3 className="text-lg font-bold text-white mb-1">没有找到匹配的扩展</h3>
-          <p className="text-sm text-slate-400">尝试更换搜索词或选择其他分类</p>
+          <h3 className="text-lg font-bold text-white mb-1">{lang === "zh" ? "没有找到匹配的扩展" : "No matching extensions"}</h3>
+          <p className="text-sm text-slate-400">{lang === "zh" ? "尝试更换搜索词或选择其他分类" : "Try searching another term or choosing another category"}</p>
         </div>
       )}
 
-      {/* Modal */}
-      <ExtensionModal
-        extension={selectedExt}
-        autoTriggerInstall={autoInstall}
-        onClose={() => {
-          setSelectedExt(null);
-          setAutoInstall(false);
-        }}
-      />
+      {/* Detail Modal */}
+      {selectedExt && (
+        <ExtensionModal
+          extension={selectedExt}
+          onClose={() => setSelectedExt(null)}
+          autoTriggerInstall={autoInstall}
+        />
+      )}
     </div>
   );
 }

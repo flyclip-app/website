@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useState, useMemo } from "react";
+import { useI18n } from "@/i18n/LanguageContext";
+import { getDevNav, getGuideNav } from "@/data/docsNav";
 
 export interface NavSection {
   title: string;
@@ -15,13 +17,20 @@ export interface NavSection {
 }
 
 interface Props {
-  sections: NavSection[];
+  sections?: NavSection[];
   basePath: string;
 }
 
-export default function DocsSidebar({ sections }: Props) {
+export default function DocsSidebar({ sections, basePath }: Props) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { lang, t } = useI18n();
+
+  const activeSections = useMemo(() => {
+    if (basePath === "/dev") return getDevNav(lang);
+    if (basePath === "/guide") return getGuideNav(lang);
+    return sections || [];
+  }, [basePath, lang, sections]);
 
   return (
     <>
@@ -44,7 +53,7 @@ export default function DocsSidebar({ sections }: Props) {
         }`}
       >
         <div className="space-y-6">
-          {sections.map((section, idx) => (
+          {activeSections.map((section, idx) => (
             <div key={idx}>
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5 px-2">
                 {section.title}

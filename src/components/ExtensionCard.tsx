@@ -2,6 +2,7 @@
 
 import { ExtensionItem, getExtensionPackageName } from "@/data/extensions";
 import { Download, Eye, Settings, Zap } from "lucide-react";
+import { useI18n } from "@/i18n/LanguageContext";
 
 interface Props {
   extension: ExtensionItem;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function ExtensionCard({ extension, onOpenModal }: Props) {
+  const { lang, t } = useI18n();
   const pkgName = getExtensionPackageName(extension.id);
   const packageUrl = `https://flyclip-app.github.io/downloads/extensions/${pkgName}.flyclipextz`;
   const schemeInstallUrl = `flyclip://install-extension?url=${encodeURIComponent(packageUrl)}&id=${encodeURIComponent(extension.id)}&name=${encodeURIComponent(extension.name)}`;
@@ -16,15 +18,23 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
 
   const handleInstallClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // 1. Trigger protocol scheme in blank target
     try {
       window.open(schemeInstallUrl, "_blank");
     } catch (_) {}
-    // 2. Open the rich install feedback modal
     onOpenModal(extension, true);
   };
 
   const getCategoryLabel = (cat: string) => {
+    if (lang === "en") {
+      switch (cat) {
+        case "translation": return "Translation";
+        case "search_ai": return "Search & AI";
+        case "text_tools": return "Productivity";
+        case "developer": return "Developer";
+        case "shopping": return "Utilities";
+        default: return "General";
+      }
+    }
     switch (cat) {
       case "translation": return "翻译词典";
       case "search_ai": return "搜索与AI";
@@ -36,6 +46,15 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
   };
 
   const getTypeLabel = (type: string) => {
+    if (lang === "en") {
+      switch (type) {
+        case "js": return "JavaScript";
+        case "url": return "URL Action";
+        case "powershell": return "PowerShell";
+        case "keys": return "Key Combo";
+        default: return type.toUpperCase();
+      }
+    }
     switch (type) {
       case "js": return "JavaScript";
       case "url": return "URL 模板";
@@ -61,7 +80,7 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
 
         {/* Description */}
         <p className="text-sm text-slate-400 leading-relaxed mb-4 line-clamp-2">
-          {extension.descriptionZh || extension.description}
+          {lang === "en" ? (extension.description || extension.descriptionZh) : (extension.descriptionZh || extension.description)}
         </p>
       </div>
 
@@ -84,41 +103,38 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
           </span>
           {extension.hasOptions && (
             <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
-              <Settings size={11} /> 选项配置
+              <Settings size={11} /> {lang === "zh" ? "选项配置" : "Options"}
             </span>
           )}
         </div>
 
         {/* Actions */}
         <div className="pt-3 border-t border-[#2d3142] flex items-center gap-2">
-          {/* Primary: 1-Click Install Button -> opens modal & triggers _blank protocol */}
           <button
             onClick={handleInstallClick}
-            title="一键打开安装引导并唤起客户端"
+            title={lang === "zh" ? "一键打开安装引导并唤起客户端" : "One-click install into FlyClip"}
             className="flex-1 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/20 active:scale-95"
           >
             <Zap size={13} className="text-amber-300" />
-            <span>一键安装</span>
+            <span>{t("extensions.installBtn")}</span>
           </button>
 
-          {/* Fallback 1: Direct File Download */}
           <a
             href={downloadUrl}
             download={`${pkgName}.flyclipextz`}
-            title="下载离线 .flyclipextz 文件"
+            title={lang === "zh" ? "下载离线 .flyclipextz 文件" : "Download offline .flyclipextz file"}
             className="p-1.5 rounded-lg bg-[#14161d] border border-[#2d3142] hover:border-slate-400 text-slate-300 hover:text-white transition-colors"
           >
             <Download size={14} />
           </a>
 
-          {/* Fallback 2: Details Modal */}
           <button
             onClick={() => onOpenModal(extension, false)}
-            title="查看扩展详情与源码"
+            title={lang === "zh" ? "查看扩展详情与源码" : "View details and source"}
             className="py-1.5 px-2.5 rounded-lg bg-[#14161d] border border-[#2d3142] hover:border-slate-400 text-slate-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1 transition-colors"
           >
             <Eye size={13} />
-            <span>详情</span>
+            <span>{lang === "zh" ? "详情" : "Details"}</span>
           </button>
         </div>
       </div>

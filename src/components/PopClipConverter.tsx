@@ -18,6 +18,7 @@ import {
   Code
 } from "lucide-react";
 import JSZip from "jszip";
+import { useI18n } from "@/i18n/LanguageContext";
 
 interface ConversionReport {
   originalFormat: "plist" | "yaml" | "json" | "unknown";
@@ -183,6 +184,7 @@ function objectToYaml(obj: any, indent = 0): string {
 }
 
 export default function PopClipConverter() {
+  const { t, lang } = useI18n();
   const [inputText, setInputText] = useState("");
   const [isConverting, setIsConverting] = useState(false);
   const [report, setReport] = useState<ConversionReport | null>(null);
@@ -601,7 +603,7 @@ popclip.pasteText();`);
           }`}
         >
           <Code size={16} />
-          <span>直接粘贴代码转换 (Plist / YAML / JS)</span>
+          <span>{t("converter.tabPaste")}</span>
         </button>
         <button
           onClick={() => setActiveTab("upload")}
@@ -612,7 +614,7 @@ popclip.pasteText();`);
           }`}
         >
           <Upload size={16} />
-          <span>上传文件转换 (.popclipextz / .plist)</span>
+          <span>{t("converter.tabUpload")}</span>
         </button>
       </div>
 
@@ -620,20 +622,20 @@ popclip.pasteText();`);
       {activeTab === "paste" && (
         <div className="space-y-4">
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>在下方粘贴 PopClip 扩展的 <code>Config.plist</code> (XML) 或旧 YAML / JS 代码：</span>
+            <span>{t("converter.pastePrompt")}</span>
             <div className="flex gap-2">
               <button
                 onClick={() => loadExample("plist")}
                 className="text-blue-400 hover:underline"
               >
-                加载 Plist 示例
+                {t("converter.loadPlistSample")}
               </button>
               <span>·</span>
               <button
                 onClick={() => loadExample("js")}
                 className="text-emerald-400 hover:underline"
               >
-                加载 JS 示例
+                {t("converter.loadJsSample")}
               </button>
             </div>
           </div>
@@ -642,7 +644,7 @@ popclip.pasteText();`);
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             rows={10}
-            placeholder="在此粘贴 <?xml ...> <dict> ... </dict> </plist> 或旧版 YAML / JS 脚本"
+            placeholder={t("converter.placeholder")}
             className="w-full p-4 rounded-xl bg-[#14161d] border border-[#2d3142] font-mono text-xs text-slate-200 focus:outline-none focus:border-blue-500 transition-colors leading-relaxed"
           />
 
@@ -652,7 +654,7 @@ popclip.pasteText();`);
             className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
           >
             <RefreshCw size={16} className={isConverting ? "animate-spin" : ""} />
-            <span>{isConverting ? "正在解析并重构规范..." : "一键转换为 FlyClip 现代扩展格式"}</span>
+            <span>{isConverting ? t("converter.converting") : t("converter.convertBtn")}</span>
           </button>
         </div>
       )}
@@ -668,8 +670,8 @@ popclip.pasteText();`);
               <Upload size={24} />
             </div>
             <div>
-              <div className="font-bold text-white text-sm">点击选择文件或将扩展包拖拽至此处</div>
-              <div className="text-xs text-slate-400 mt-1">支持 <code>.popclipextz</code>、<code>.zip</code> 压缩包或 <code>Config.plist</code> 属性列表</div>
+              <div className="font-bold text-white text-sm">{t("converter.uploadDrop")}</div>
+              <div className="text-xs text-slate-400 mt-1">{t("converter.uploadHelp")}</div>
             </div>
             <input
               ref={fileInputRef}
@@ -696,10 +698,10 @@ popclip.pasteText();`);
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
               <CheckCircle2 className="text-emerald-400" size={20} />
-              <span>转换完成报告 ({report.name})</span>
+              <span>{t("converter.reportTitle")} ({report.name})</span>
             </h3>
             <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
-              包含 {report.actionsCount} 个动作
+              {lang === "zh" ? `包含 ${report.actionsCount} 个动作` : `${report.actionsCount} actions`}
             </span>
           </div>
 
@@ -709,7 +711,7 @@ popclip.pasteText();`);
               <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-2">
                 <div className="font-bold text-emerald-400 flex items-center gap-1.5">
                   <Sparkles size={14} />
-                  <span>自动规范化与修复项 ({report.fixes.length})</span>
+                  <span>{t("converter.fixesTitle")} ({report.fixes.length})</span>
                 </div>
                 <ul className="space-y-1 text-emerald-200/90 list-disc pl-4">
                   {report.fixes.map((f, i) => (
@@ -723,7 +725,7 @@ popclip.pasteText();`);
               <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-2">
                 <div className="font-bold text-amber-400 flex items-center gap-1.5">
                   <AlertTriangle size={14} />
-                  <span>需人工检查的平台差异 ({report.warnings.length})</span>
+                  <span>{t("converter.warningsTitle")} ({report.warnings.length})</span>
                 </div>
                 <ul className="space-y-1 text-amber-200/90 list-disc pl-4">
                   {report.warnings.map((w, i) => (
@@ -738,7 +740,7 @@ popclip.pasteText();`);
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                生成的原生 Config.yaml
+                {t("converter.yamlTitle")}
               </span>
               <div className="flex gap-2">
                 <button
@@ -746,14 +748,14 @@ popclip.pasteText();`);
                   className="px-3 py-1.5 rounded-lg bg-[#1c1e27] hover:bg-[#252834] border border-[#2d3142] text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition-colors"
                 >
                   {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                  <span>{copied ? "已复制 YAML" : "复制 YAML"}</span>
+                  <span>{copied ? t("converter.copied") : t("converter.copyYaml")}</span>
                 </button>
                 <button
                   onClick={handleDownloadFlyclipExtz}
                   className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white flex items-center gap-1.5 transition-colors shadow-sm shadow-emerald-500/20"
                 >
                   <Download size={14} />
-                  <span>下载 .flyclipextz 安装包</span>
+                  <span>{t("converter.downloadExtz")}</span>
                 </button>
               </div>
             </div>
@@ -766,13 +768,13 @@ popclip.pasteText();`);
           {/* Actions & Next Steps */}
           <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <div className="text-slate-300">
-              💡 <strong>安装方式：</strong>下载生成的 <code>.flyclipextz</code> 文件后双击或直接复制到 <code>%APPDATA%\flyclip\extensions\</code> 目录即可立即在 FlyClip 中生效。
+              💡 <strong>{lang === "zh" ? "安装方式：" : "Installation: "}</strong>{t("converter.installGuide")}
             </div>
             <a
               href={`flyclip://install-extension?name=${encodeURIComponent(report.name)}&data=${encodeURIComponent(report.yamlOutput)}`}
               className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition-colors"
             >
-              <span>一键呼起 FlyClip 安装</span>
+              <span>{t("converter.oneClickInstall")}</span>
               <ExternalLink size={14} />
             </a>
           </div>
