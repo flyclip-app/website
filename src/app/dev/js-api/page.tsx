@@ -202,15 +202,16 @@ flyclip.pressKey("ctrl c");`}</pre>
 
         <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-4">
           <div className="font-mono text-xs text-emerald-300">
-            <strong>函数签名：</strong> <code>flyclip.run(command: string, args?: string[]): &#123; ok: boolean, pid?: number, error?: string &#125;</code>
+            <strong>函数签名：</strong> <code>flyclip.run(command: string, args?: string[]): &#123; stdout: string, stderr: string, code: number &#125;</code>
           </div>
 
           <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-emerald-200">
-            <pre>{`// 示例：使用外部记事本打开当前选中文本
-const res = flyclip.run("notepad.exe", []);
-if (!res.ok) {
-  return "启动失败: " + res.error;
-}`}</pre>
+            <pre>{`// 示例：调用本地 git 命令行工具并捕获输出
+const res = flyclip.run("git", ["status", "--short"]);
+if (res.code !== 0) {
+  return "Git 错误: " + res.stderr;
+}
+return res.stdout.trim() || "工作区干净";`}</pre>
           </div>
         </div>
       </div>
