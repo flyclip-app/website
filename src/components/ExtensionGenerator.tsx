@@ -11,11 +11,114 @@ interface OptionItem {
   values?: string;
 }
 
+function highlightJavaScript(code: string): string {
+  if (!code) return "";
+  const escapeHtml = (str: string) =>
+    str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const tokenRegex = new RegExp(
+    [
+      "(?<comment>\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)",
+      "(?<string>`(?:\\\\[\\s\\S]|[^`\\\\])*`|\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"|'(?:\\\\[\\s\\S]|[^'\\\\])*')",
+      "\\b(?<keyword>async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|export|extends|finally|for|function|if|import|in|instanceof|let|new|return|super|switch|this|throw|try|typeof|var|void|while|with|yield)\\b",
+      "\\b(?<flyclip>flyclip|popclip|pressKey|fetch|run|input|options|text|matched|modifiers|process)\\b",
+      "\\b(?<builtin>JSON|Math|Date|String|Array|Object|Promise|RegExp|Set|Map|TextEncoder|TextDecoder|encodeURIComponent|decodeURIComponent|btoa|atob|parseInt|parseFloat|console)\\b",
+      "\\b(?<boolean>true|false|null|undefined|NaN|Infinity)\\b",
+      "\\b(?<number>0x[\\da-fA-F]+|0b[01]+|0o[0-7]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)\\b",
+      "(?<operator>=>|===|!==|==|!=|<=|>=|&&|\\|\\||\\+\\+|--|[+\\-*/%&|^!=<>?:]+)",
+    ].join("|"),
+    "g"
+  );
+
+  let html = "";
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = tokenRegex.exec(code)) !== null) {
+    if (match.index > lastIndex) {
+      html += escapeHtml(code.slice(lastIndex, match.index));
+    }
+
+    const groups = match.groups as Record<string, string | undefined>;
+    const matchedText = escapeHtml(match[0]);
+
+    if (groups.comment) {
+      html += `<span class="text-slate-500 italic">${matchedText}</span>`;
+    } else if (groups.string) {
+      html += `<span class="text-emerald-400">${matchedText}</span>`;
+    } else if (groups.keyword) {
+      html += `<span class="text-purple-400 font-semibold">${matchedText}</span>`;
+    } else if (groups.flyclip) {
+      html += `<span class="text-cyan-300 font-bold">${matchedText}</span>`;
+    } else if (groups.builtin) {
+      html += `<span class="text-amber-300 font-semibold">${matchedText}</span>`;
+    } else if (groups.boolean) {
+      html += `<span class="text-rose-400 font-semibold">${matchedText}</span>`;
+    } else if (groups.number) {
+      html += `<span class="text-orange-300">${matchedText}</span>`;
+    } else if (groups.operator) {
+      html += `<span class="text-pink-400">${matchedText}</span>`;
+    } else {
+      html += matchedText;
+    }
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < code.length) {
+    html += escapeHtml(code.slice(lastIndex));
+  }
+
+  return html;
+}
+
+function highlightYAML(yaml: string): string {
+  if (!yaml) return "";
+  const escapeHtml = (str: string) =>
+    str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const lines = yaml.split("\n");
+  return lines
+    .map((line) => {
+      if (line.trim().startsWith("#")) {
+        return `<span class="text-slate-500 italic">${escapeHtml(line)}</span>`;
+      }
+      const match = line.match(/^(\s*)([a-zA-Z0-9_\-\s]+)(:)(.*)$/);
+      if (match) {
+        const indent = escapeHtml(match[1]);
+        const key = escapeHtml(match[2]);
+        const colon = escapeHtml(match[3]);
+        const value = match[4];
+
+        let valHtml = "";
+        if (value.trim().startsWith("|") || value.trim().startsWith(">")) {
+          valHtml = ` <span class="text-pink-400 font-bold">${escapeHtml(value.trim())}</span>`;
+        } else if (value.trim().startsWith("[") && value.trim().endsWith("]")) {
+          valHtml = ` <span class="text-amber-300">${escapeHtml(value.trim())}</span>`;
+        } else if (value.trim().startsWith('"') || value.trim().startsWith("'")) {
+          valHtml = ` <span class="text-emerald-400">${escapeHtml(value.trim())}</span>`;
+        } else if (value.trim() === "true" || value.trim() === "false") {
+          valHtml = ` <span class="text-rose-400 font-semibold">${escapeHtml(value.trim())}</span>`;
+        } else if (value.trim().length > 0) {
+          valHtml = ` <span class="text-slate-200">${escapeHtml(value.trim())}</span>`;
+        }
+        return `${indent}<span class="text-cyan-400 font-semibold">${key}</span><span class="text-slate-400">${colon}</span>${valHtml}`;
+      }
+      return escapeHtml(line);
+    })
+    .join("\n");
+}
+
 const JS_PRESETS = [
   {
     name: "文本转换 (大写)",
     code: `// 获取选中文本并转换为大写\nconst text = flyclip.input.text;\nreturn text.toUpperCase();`,
     after: "paste-result",
+  },
+  {
+    name: "模拟快捷键 (Ctrl+C)",
+    code: `// 使用 JS 模拟触发快捷键组合 (如 Ctrl+C, Ctrl+V, Ctrl+Shift+F 等)\nflyclip.pressKey("ctrl c");`,
+    after: "none",
   },
   {
     name: "正则清理 (消除多余空格)",
@@ -65,6 +168,9 @@ export default function ExtensionGenerator() {
   const [installed, setInstalled] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
+
+  const highlightedJsHtml = useMemo(() => highlightJavaScript(jsCode), [jsCode]);
 
   // Handle Tab key in JavaScript Code Editor
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -145,6 +251,8 @@ export default function ExtensionGenerator() {
     return yaml;
   }, [name, id, desc, icon, hasOptions, options, actionType, jsCode, urlTemplate, psCode, keyCombo, requirements, afterStep]);
 
+  const highlightedYamlHtml = useMemo(() => highlightYAML(generateYaml), [generateYaml]);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(generateYaml);
     setCopied(true);
@@ -185,7 +293,7 @@ export default function ExtensionGenerator() {
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <span>在线扩展配置生成器</span>
               <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">
-                支持 JavaScript 高亮编辑器
+                实时语法高亮编辑器
               </span>
             </h2>
             <p className="text-xs text-slate-400">实时编写 JavaScript 代码，生成符合规范的 <code>Config.yaml</code> 并一键安装</p>
@@ -331,7 +439,7 @@ export default function ExtensionGenerator() {
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5">
                   <Sparkles size={13} className="text-emerald-400" />
-                  <span>JavaScript 脚本代码编辑器 (内置 QuickJS 引擎)</span>
+                  <span>JavaScript 脚本代码编辑器 (内置语法高亮)</span>
                 </span>
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[11px] text-slate-500">预设模版:</span>
@@ -361,25 +469,40 @@ export default function ExtensionGenerator() {
                   <span className="text-[11px] text-slate-500">支持 Tab 缩进 (2 空格)</span>
                 </div>
 
-                {/* Editor with Gutter */}
-                <div className="flex text-xs font-mono leading-relaxed relative min-h-[220px]">
+                {/* Editor with Gutter and Synchronized Syntax Highlighting */}
+                <div className="flex text-xs font-mono leading-relaxed relative min-h-[260px] bg-[#0e1017]">
                   {/* Line Numbers Gutter */}
-                  <div className="w-10 py-3 bg-[#10121a] text-slate-600 text-right pr-3 select-none border-r border-[#1f2330]">
-                    {Array.from({ length: Math.max(lineCount, 8) }).map((_, i) => (
-                      <div key={i}>{i + 1}</div>
+                  <div className="w-10 py-3 bg-[#10121a] text-slate-600 text-right pr-3 select-none border-r border-[#1f2330] flex-shrink-0">
+                    {Array.from({ length: Math.max(lineCount, 10) }).map((_, i) => (
+                      <div key={i} className="h-5 leading-5">{i + 1}</div>
                     ))}
                   </div>
 
-                  {/* Textarea */}
-                  <div className="flex-1 relative">
+                  {/* Code Area with Syntax Highlighting Backdrop */}
+                  <div className="flex-1 relative overflow-hidden">
+                    {/* Highlighted Backdrop (pre) */}
+                    <pre
+                      ref={preRef}
+                      aria-hidden="true"
+                      className="absolute inset-0 p-3 m-0 pointer-events-none font-mono text-xs leading-5 whitespace-pre-wrap break-all overflow-hidden text-slate-200"
+                      dangerouslySetInnerHTML={{ __html: highlightedJsHtml + "\n" }}
+                    />
+
+                    {/* Editable Input (textarea) */}
                     <textarea
                       ref={textareaRef}
                       value={jsCode}
                       onChange={(e) => setJsCode(e.target.value)}
                       onKeyDown={handleKeyDown}
+                      onScroll={(e) => {
+                        if (preRef.current) {
+                          preRef.current.scrollTop = e.currentTarget.scrollTop;
+                          preRef.current.scrollLeft = e.currentTarget.scrollLeft;
+                        }
+                      }}
                       spellCheck={false}
-                      className="w-full h-full min-h-[220px] py-3 px-4 bg-transparent text-emerald-300 font-mono text-xs leading-relaxed focus:outline-none resize-y"
-                      placeholder="// 在此输入 JavaScript 代码，支持 flyclip.input.text, flyclip.fetch, flyclip.run 等"
+                      className="absolute inset-0 w-full h-full p-3 m-0 bg-transparent text-transparent caret-cyan-400 font-mono text-xs leading-5 whitespace-pre-wrap break-all focus:outline-none resize-none z-10 selection:bg-blue-500/30 selection:text-white"
+                      placeholder="// 在此输入 JavaScript 代码，支持 flyclip.input.text, flyclip.pressKey, flyclip.fetch, flyclip.run 等"
                     />
                   </div>
                 </div>
@@ -387,7 +510,7 @@ export default function ExtensionGenerator() {
 
               <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 space-y-1">
                 <p>
-                  <strong>💡 JS 常用 API 说明</strong>：<code>flyclip.input.text</code>（选中文本）、<code>flyclip.options.*</code>（配置项）、<code>return &quot;结果&quot;</code>（配合 <code>after: paste-result</code> 自动替换选区）、<code>await flyclip.fetch(url, options)</code>（HTTP 请求）、<code>flyclip.run(cmd, args)</code>（唤起本地程序）。
+                  <strong>💡 JS 常用 API 说明</strong>：<code>flyclip.input.text</code>（选中文本）、<code>flyclip.pressKey(&quot;ctrl c&quot;)</code>（模拟快捷键）、<code>flyclip.options.*</code>（配置项）、<code>return &quot;结果&quot;</code>（配合 <code>after: paste-result</code> 自动替换选区）、<code>await flyclip.fetch(url, options)</code>（HTTP 请求）、<code>flyclip.run(cmd, args)</code>（唤起本地程序）。
                 </p>
               </div>
             </div>
@@ -588,11 +711,12 @@ export default function ExtensionGenerator() {
               </div>
             </div>
 
-            {/* Code Output */}
+            {/* Code Output with Syntax Highlighting */}
             <div className="p-4 rounded-xl bg-[#0e1017] border border-[#1f2330] overflow-x-auto max-h-[520px] overflow-y-auto">
-              <pre className="font-mono text-xs text-slate-200 leading-relaxed whitespace-pre select-all">
-                {generateYaml}
-              </pre>
+              <pre
+                className="font-mono text-xs text-slate-200 leading-relaxed whitespace-pre select-all"
+                dangerouslySetInnerHTML={{ __html: highlightedYamlHtml }}
+              />
             </div>
           </div>
 
