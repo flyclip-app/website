@@ -60,6 +60,11 @@ export default function DevJsApiPage() {
                 <td className="py-3 px-3">底层硬件级模拟键盘按键输入。</td>
               </tr>
               <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.sleep(ms) / wait(ms)</td>
+                <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                <td className="py-3 px-3">阻塞休眠指定的毫秒数（用于按键间隙或等待系统就绪）。</td>
+              </tr>
+              <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.run(cmd, args)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
                 <td className="py-3 px-3">跨平台拉起并执行本地外部命令行工具或程序。</td>
@@ -67,7 +72,7 @@ export default function DevJsApiPage() {
               <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.fetch(url, opts)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">极速同步 HTTP/HTTPS 网络与本地接口请求。</td>
+                <td className="py-3 px-3">极速同步 HTTP/HTTPS 网络与本地接口请求（默认 10s 超时，可自定义）。</td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.process</td>
@@ -211,7 +216,8 @@ if (!res.ok) {
             <pre className="mt-1 p-2.5 rounded bg-[#14161d] text-blue-200">{`flyclip.fetch(url: string, options?: {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "HEAD",
   headers?: Record<string, string>,
-  body?: string
+  body?: string,
+  timeout?: number    // 请求超时毫秒数 (默认 10000 即 10 秒)
 }): {
   status: number,     // HTTP 状态码 (200, 404, 500 等)
   statusText: string, // 状态文本 (如 "OK")
@@ -225,10 +231,12 @@ if (!res.ok) {
           <h4 className="font-bold text-white text-xs uppercase tracking-wider">实战代码示例：</h4>
           <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-blue-200 space-y-3">
             <div>
-              <span className="text-slate-500">// 示例 A: 调用 STranslate 划词翻译 (GET)</span>
+              <span className="text-slate-500">// 示例 A: 调用 STranslate 划词翻译 (GET, 3 秒超时)</span>
               <pre>{`const text = flyclip.input.text.trim();
 const port = flyclip.options.port || "50020";
-const res = flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`);
+const res = flyclip.fetch(\`http://127.0.0.1:\${port}/text?content=\${encodeURIComponent(text)}\`, {
+  timeout: 3000 // 自定义 3 秒超时
+});
 return res.ok ? res.text() : "翻译接口未响应";`}</pre>
             </div>
 
@@ -239,13 +247,36 @@ const port = flyclip.options.port || "60828";
 const res = flyclip.fetch(\`http://127.0.0.1:\${port}/api/translate\`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ text: text })
+  body: JSON.stringify({ text: text }),
+  timeout: 5000
 });
 if (res.ok) {
   const data = res.json();
   return data.result || "无翻译结果";
 }`}</pre>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sleep / Wait Function */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+          <Zap className="text-amber-400" size={20} />
+          <span>7. 延时等待 (flyclip.sleep / flyclip.wait)</span>
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-400">
+          用于在连续模拟按键或等待第三方应用窗口就绪时进行毫秒级阻塞延时。
+        </p>
+        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+          <div className="font-mono text-xs text-amber-300">
+            <strong>函数签名：</strong> <code>flyclip.sleep(ms: number): void</code> / <code>flyclip.wait(ms: number): void</code>
+          </div>
+          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-amber-200">
+            <pre>{`// 示例：先按下复制，等待 50 毫秒后再触发其他动作
+flyclip.pressKey("ctrl c");
+flyclip.sleep(50); // 延时 50ms
+flyclip.pressKey("ctrl v");`}</pre>
           </div>
         </div>
       </div>
