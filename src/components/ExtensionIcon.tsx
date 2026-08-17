@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React from "react";
 
 interface Props {
   icon: string;
@@ -9,63 +9,134 @@ interface Props {
   size?: number;
 }
 
+// Crisp inline SVGs for all supported brand icons (Zero external network dependencies)
+const SVG_ICONS: Record<string, (color: string) => React.ReactNode> = {
+  "amazon": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M13.62 14.514c-.67.54-1.637.834-2.883.834-1.782 0-3.32-.612-4.49-1.783l-.707.72c1.39 1.378 3.194 2.094 5.247 2.094 1.487 0 2.748-.41 3.737-1.199l-.904-.666zM22.002 18.06c-.328.43-1.603 1.258-3.47 1.258-2.35 0-4.46-1.34-5.49-3.48l1.04-.49c.81 1.68 2.47 2.73 4.34 2.73 1.41 0 2.44-.6 2.73-.97l.85.952zM15.82 5.002c-3.83 0-6.94 2.87-6.94 6.4 0 1.99 1 3.8 2.59 4.96l.82-1.04c-1.23-.9-1.99-2.28-1.99-3.81 0-2.73 2.45-4.96 5.52-4.96 3.06 0 5.52 2.23 5.52 4.96 0 1.58-.82 3.01-2.12 3.93l.8 1.05c1.69-1.19 2.74-3.04 2.74-5.09 0-3.53-3.11-6.39-6.94-6.39z" />
+    </svg>
+  ),
+  "baidu": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M7.74 3.77c.72 1.46.22 3.12-1.12 3.72-1.34.6-3.01-.1-3.73-1.57-.72-1.46-.22-3.12 1.12-3.72 1.34-.6 3.01.11 3.73 1.57zm12.37 5.38c.67 1.48.11 3.13-1.25 3.68-1.36.55-3.01-.2-3.68-1.68-.67-1.48-.11-3.13 1.25-3.68 1.36-.55 3.01.2 3.68 1.68zm-16.22 3.7c.67 1.48.11 3.13-1.25 3.68-1.36.55-3.01-.2-3.68-1.68-.67-1.48-.11-3.13 1.25-3.68 1.36-.55 3.01.2 3.68 1.68zm12.35-9.08c.72 1.46.22 3.12-1.12 3.72-1.34.6-3.01-.1-3.73-1.57-.72-1.46-.22-3.12 1.12-3.72 1.34-.6 3.01.11 3.73 1.57zM12 9.25c-3.12 0-5.65 2.53-5.65 5.65 0 2.21 1.28 4.12 3.14 5.04-.15.42-.39 1.12-.39 1.56 0 1.38 1.34 2.5 3 2.5s3-1.12 3-2.5c0-.44-.24-1.14-.39-1.56 1.86-.92 3.14-2.83 3.14-5.04 0-3.12-2.53-5.65-5.65-5.65z" />
+    </svg>
+  ),
+  "bilibili": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M17.813 4.653h.854c1.51 0 2.733 1.224 2.733 2.733v9.88c0 1.51-1.224 2.734-2.733 2.734H5.333c-1.51 0-2.733-1.224-2.733-2.734V7.386c0-1.51 1.224-2.733 2.733-2.733h.793l-1.92-1.92 1.414-1.414 3.334 3.334h6.092l3.334-3.334 1.414 1.414-1.981 1.92zm-12.48 2c-.405 0-.733.328-.733.733v9.88c0 .405.328.734.733.734h13.334c.405 0 .733-.329.733-.734V7.386c0-.405-.328-.733-.733-.733H5.333zm2.667 4.667c.736 0 1.333.597 1.333 1.333s-.597 1.334-1.333 1.334-1.333-.598-1.333-1.334.597-1.333 1.333-1.333zm8 0c.736 0 1.333.597 1.333 1.333s-.597 1.334-1.333 1.334-1.333-.598-1.333-1.334.597-1.333 1.333-1.333z" />
+    </svg>
+  ),
+  "bing": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M4 2.5l5.5 1.9v12.3l6.2-3.6-3.1-4.7 4.9-1.8 2.5 3.6-5.8 9.8-10.2 4.1z" />
+    </svg>
+  ),
+  "microsoftbing": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M4 2.5l5.5 1.9v12.3l6.2-3.6-3.1-4.7 4.9-1.8 2.5 3.6-5.8 9.8-10.2 4.1z" />
+    </svg>
+  ),
+  "openai": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.13a4.183 4.183 0 0 1-2.946-1.228l.142-.08 4.88-2.818a.93.93 0 0 0 .47-.806v-6.884l2.06 1.19a.07.07 0 0 1 .038.052v5.71a4.2 4.2 0 0 1-4.644 4.864zm-8.67-4.383a4.168 4.168 0 0 1-.58-3.14l.144.085 4.88 2.818a.933.933 0 0 0 .937 0l5.961-3.443v2.38a.07.07 0 0 1-.03.058l-4.945 2.855a4.2 4.2 0 0 1-6.367-1.613zm-1.696-9.75a4.17 4.17 0 0 1 2.366-1.912v5.787a.93.93 0 0 0 .468.805l5.962 3.443-2.06 1.19a.07.07 0 0 1-.068 0L4.62 14.846a4.2 4.2 0 0 1-1.726-6.848zm14.773 3.633-5.962-3.443 2.06-1.19a.07.07 0 0 1 .068 0l4.942 2.855a4.2 4.2 0 0 1 1.727 6.848 4.17 4.17 0 0 1-2.367 1.913V12.43a.93.93 0 0 0-.468-.8zm2.277-3.923l-.143-.085-4.88-2.818a.933.933 0 0 0-.937 0L8.013 8.307V5.927a.07.07 0 0 1 .03-.058l4.945-2.855a4.2 4.2 0 0 1 6.367 1.613 4.17 4.17 0 0 1 .579 3.141zM10.74 1.87a4.183 4.183 0 0 1 2.946 1.228l-.142.08-4.88 2.818a.93.93 0 0 0-.47.806v6.884l-2.06-1.19a.07.07 0 0 1-.038-.052V6.734a4.2 4.2 0 0 1 4.644-4.864zm.937 7.228 3.037 1.753v3.507l-3.037 1.753-3.037-1.753V10.85l3.037-1.753z" />
+    </svg>
+  ),
+  "anthropic": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M17.472 3h-3.993l6.47 18h3.993L17.472 3zM6.528 3H2.535L9.006 21h3.993L6.528 3zm4.72 8.67l-2.016 5.613h4.032l-2.016-5.613z" />
+    </svg>
+  ),
+  "deepl": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12.002 2L2 7.773v8.454L12.002 22l10-5.773V7.773L12.002 2zm-1.077 15.656l-5.688-3.284V8.85l5.688 3.284v5.522zm2.154 0v-5.522l5.688-3.284v5.522l-5.688 3.284zM12.002 4.47l5.48 3.164-5.48 3.164-5.48-3.164 5.48-3.164z" />
+    </svg>
+  ),
+  "douban": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M2.25 4.5h19.5v2.25H2.25V4.5zm2.25 4.5h15v7.5h-15V9zm2.25 2.25v3h10.5v-3H6.75zM1.5 19.5h21V22H1.5v-2.5z" />
+    </svg>
+  ),
+  "duckduckgo": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16.5c-3.03 0-5.5-1.57-5.5-3.5 0-1.12.83-2.12 2.15-2.73-.2-.53-.33-1.13-.33-1.77 0-2.48 2.02-4.5 4.5-4.5.6 0 1.16.12 1.68.33.6-.82 1.57-1.33 2.65-1.33 1.84 0 3.33 1.49 3.33 3.33 0 .7-.22 1.34-.59 1.88.5 1.05.81 2.25.81 3.54 0 2.62-3.88 4.75-8.7 4.75z" />
+    </svg>
+  ),
+  "github": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+    </svg>
+  ),
+  "google": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+    </svg>
+  ),
+  "googletranslate": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
+    </svg>
+  ),
+  "imdb": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M2.5 4h19c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5h-19C1.67 20 1 19.33 1 18.5v-13C1 4.67 1.67 4 2.5 4zm2 3.5v9h2.2v-9H4.5zm3.6 0v9h2.1l1.5-4.8 1.5 4.8h2.1v-9h-2v5.8l-1.3-4.5h-.7l-1.3 4.5V7.5h-1.9zm8.5 0v9h3.2c1.7 0 2.8-1 2.8-2.6v-3.8c0-1.6-1.1-2.6-2.8-2.6h-3.2zm2 2h1.1c.5 0 .8.3.8.8v4.4c0 .5-.3.8-.8.8h-1.1V9.5z" />
+    </svg>
+  ),
+  "jd": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 14.5h-9v-2h9v2zm0-4.5h-9v-2h9v2zm0-4.5h-9v-2h9v2z" />
+    </svg>
+  ),
+  "iconify": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-6h2zm0-8h-2V7h2z" />
+    </svg>
+  ),
+  "taobao": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5.5 13.5c-.83 1.25-2.22 2.08-3.79 2.19-.34.02-.68.03-1.02.01-1.3-.06-2.52-.56-3.48-1.42-.48-.43-.88-.95-1.18-1.53-.16-.31-.29-.65-.38-.99-.18-.68-.23-1.39-.15-2.09.11-.93.47-1.81 1.05-2.54.83-1.04 2.03-1.74 3.36-1.97 1.33-.23 2.7.04 3.82.77.34.22.65.48.92.78.4.45.72.96.95 1.51.23.55.35 1.14.36 1.74 0 .9-.28 1.78-.79 2.52-.22.32-.47.6-.75.85-.3.26-.63.48-.98.66zm-4.79-4.83c-.39.11-.74.32-1.01.62-.27.3-.43.68-.45 1.08-.03.4.07.79.28 1.13.21.34.52.6.89.75.37.15.78.18 1.17.09.39-.09.73-.29 1-.58.26-.29.43-.66.47-1.05.04-.4-.05-.79-.24-1.14-.2-.35-.5-.62-.87-.78-.4-.17-.85-.21-1.24-.12z" />
+    </svg>
+  ),
+  "wikipedia": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M12.09 13.124L8.176 4H5.5L1.5 15.035h2.518l.942-2.614h4.168l.935 2.614h2.027zm-5.18-2.614l1.378-3.924 1.385 3.924H6.91zm15.59 4.525L18.586 4h-2.676l-3.914 11.035h2.518l.942-2.614h4.168l.935 2.614h2.027zm-5.18-2.614l1.378-3.924 1.385 3.924h-2.763z" />
+    </svg>
+  ),
+  "youtube": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  ),
+  "zhihu": (c) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+      <path d="M5.72 4.02C5.6 4.67 5.4 5.92 5.17 7.74H8.4V9.6H5.06c-.4 2.57-1.12 5.09-2.15 7.55l1.6 1.05c.87-2.17 1.5-4.43 1.89-6.75h2V20h2V4.02H5.72zm8.68 1.48c-.6 0-1.1.49-1.1 1.1v10.8c0 .61.5 1.1 1.1 1.1h1.34l.88 2.2 2.42-2.2h2.26c.6 0 1.1-.49 1.1-1.1V6.6c0-.61-.5-1.1-1.1-1.1h-8zm.9 2h6.2v8.8h-1.8l-1.3 1.17-.47-1.17H15.3V7.5z" />
+    </svg>
+  ),
+};
+
 export default function ExtensionIcon({ icon, name, className = "w-5 h-5", size = 20 }: Props) {
-  const [hasError, setHasError] = useState(false);
-
-  // Case 1: Iconify string: "iconify:simple-icons:baidu" or "iconify:lucide:calculator"
-  if (icon.startsWith("iconify:") && !hasError) {
-    const parts = icon.replace(/^iconify:/, "").split(":");
-    if (parts.length >= 2) {
-      const prefix = parts[0];
-      const iconName = parts.slice(1).join(":");
-      const iconUrl = `https://api.iconify.design/${prefix}/${iconName}.svg?color=%2360a5fa`;
-
-      return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={iconUrl}
-          alt={iconName}
-          width={size}
-          height={size}
-          className={`${className} object-contain`}
-          onError={() => setHasError(true)}
-          loading="lazy"
-        />
-      );
-    }
+  // Normalize key from iconify strings (e.g. "iconify:simple-icons:amazon" -> "amazon")
+  let normalizedKey = "";
+  if (icon.startsWith("iconify:")) {
+    const parts = icon.replace(/^iconify:[^:]+:/, "").toLowerCase();
+    normalizedKey = parts;
   }
 
-  // Case 2: Direct URL / SVG data URI
-  if ((icon.startsWith("http://") || icon.startsWith("https://") || icon.startsWith("data:image/")) && !hasError) {
+  // Check if we have an inline SVG for this brand
+  if (normalizedKey && SVG_ICONS[normalizedKey]) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={icon}
-        alt={name || "icon"}
-        width={size}
-        height={size}
-        className={`${className} object-contain`}
-        onError={() => setHasError(true)}
-        loading="lazy"
-      />
+      <div className={`${className} text-blue-400 flex items-center justify-center flex-shrink-0`}>
+        {SVG_ICONS[normalizedKey]("#60a5fa")}
+      </div>
     );
   }
 
-  // Case 3: Short text / Emoji (e.g. "ST", "⏱️", "123", "Aa", "MD", "⚡")
-  if (icon.length <= 4 && !icon.includes(":")) {
-    return (
-      <span className="font-bold text-sm select-none leading-none flex items-center justify-center">
-        {icon}
-      </span>
-    );
-  }
-
-  // Fallback: If Iconify failed or format is unrecognized, show clean letter badge
-  const fallbackText = icon.replace(/^iconify:[^:]+:/, "").slice(0, 2).toUpperCase() || (name ? name.slice(0, 2).toUpperCase() : "⚡");
+  // Short badge / emoji (e.g. "ST", "123", "Aa", "DS", "⏱️", "MD", "B64")
+  const isShort = icon.length <= 4 && !icon.includes(":");
+  const displayBadge = isShort ? icon : (name ? name.slice(0, 2).toUpperCase() : "⚡");
 
   return (
-    <span className="font-bold text-xs select-none leading-none tracking-tighter text-blue-400">
-      {fallbackText}
+    <span className="font-extrabold text-xs select-none tracking-tight text-blue-400 flex items-center justify-center">
+      {displayBadge}
     </span>
   );
 }
