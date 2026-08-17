@@ -85,16 +85,6 @@ export default function DevJsApiPage() {
                 <td className="py-3 px-3">底层硬件级模拟键盘按键输入（如 <code>&quot;ctrl c&quot;</code>）。</td>
               </tr>
               <tr>
-                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.sleep(ms) / wait(ms)</td>
-                <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">毫秒级延时等待（用于按键间隙或等待系统就绪）。</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.btoa(str) / atob(b64)</td>
-                <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
-                <td className="py-3 px-3">Base64 字符串编码与解码。</td>
-              </tr>
-              <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.run(cmd, args)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
                 <td className="py-3 px-3">跨平台拉起并执行本地外部命令行工具并捕获 <code>&#123; stdout, stderr, code &#125;</code>。</td>
@@ -294,19 +284,19 @@ if (res.ok) {
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
           <Zap className="text-amber-400" size={20} />
-          <span>7. 延时等待 (flyclip.sleep / flyclip.wait)</span>
+          <span>7. 延时等待 (sleep / wait)</span>
         </h2>
         <p className="text-xs sm:text-sm text-slate-400">
-          用于在连续模拟按键或等待第三方应用窗口就绪时进行毫秒级阻塞延时。
+          用于在连续模拟按键或等待第三方应用窗口就绪时进行毫秒级延时。为内置全局函数，直接调用即可。
         </p>
         <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
           <div className="font-mono text-xs text-amber-300">
-            <strong>函数签名：</strong> <code>flyclip.sleep(ms: number): void</code> / <code>flyclip.wait(ms: number): void</code>
+            <strong>函数签名：</strong> <code>await sleep(ms: number): Promise&lt;void&gt;</code> / <code>sleep(ms: number): void</code>
           </div>
           <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-amber-200">
-            <pre>{`// 示例：先按下复制，等待 50 毫秒后再触发其他动作
+            <pre>{`// 示例：先按下复制，等待 50 毫秒后再触发粘贴
 flyclip.pressKey("ctrl c");
-flyclip.sleep(50); // 延时 50ms
+await sleep(50); // 直接裸调，无需 flyclip. 前缀
 flyclip.pressKey("ctrl v");`}</pre>
           </div>
         </div>
@@ -389,6 +379,14 @@ flyclip.paste(processed);`}</pre>
             </div>
             <code className="text-slate-300 font-mono block">encodeURIComponent(text)</code>
             <code className="text-slate-300 font-mono block">btoa(str) / atob(str)</code>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
+            <div className="font-bold text-white flex items-center gap-1.5">
+              <span className="text-amber-400">●</span> 异步延时与控制台
+            </div>
+            <code className="text-slate-300 font-mono block">await sleep(ms) / wait(ms)</code>
+            <code className="text-slate-300 font-mono block">console.log(val) / print(val)</code>
           </div>
 
           <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-1.5">
