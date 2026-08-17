@@ -65,6 +65,16 @@ export default function DevJsApiPage() {
                 <td className="py-3 px-3">阻塞休眠指定的毫秒数（用于按键间隙或等待系统就绪）。</td>
               </tr>
               <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.copy(text) / paste()</td>
+                <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
+                <td className="py-3 px-3">写入内容到系统剪贴板 / 读取当前剪贴板文本。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.clipboard</td>
+                <td className="py-3 px-3 font-mono text-slate-400">Object</td>
+                <td className="py-3 px-3">剪贴板对象管理器（支持 <code>.text</code> 属性与 <code>.read()</code>/<code>.write()</code>）。</td>
+              </tr>
+              <tr>
                 <td className="py-3 px-3 font-mono text-emerald-400 font-bold">flyclip.run(cmd, args)</td>
                 <td className="py-3 px-3 font-mono text-cyan-400">Function</td>
                 <td className="py-3 px-3">跨平台拉起并执行本地外部命令行工具或程序。</td>
@@ -281,11 +291,41 @@ flyclip.pressKey("ctrl v");`}</pre>
         </div>
       </div>
 
-      {/* 7. Built-in Standard Libraries */}
+      {/* Clipboard Operations */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+          <Code className="text-cyan-400" size={20} />
+          <span>8. 剪贴板读写操作 (flyclip.clipboard / copy / paste)</span>
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-400">
+          直接对系统剪贴板进行文本读取与写入，支持函数调用与属性访问两种风格。
+        </p>
+        <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
+          <div className="font-mono text-xs text-cyan-300">
+            <strong>API 签名：</strong>
+            <ul className="mt-1 space-y-1 text-slate-300">
+              <li>• <code>flyclip.copy(text: string): boolean</code>（写入文本到剪贴板）</li>
+              <li>• <code>flyclip.paste(): string</code>（读取剪贴板当前文本）</li>
+              <li>• <code>flyclip.clipboard.read(): string</code> / <code>flyclip.clipboard.write(text: string): boolean</code></li>
+              <li>• <code>flyclip.clipboard.text</code>（Getter / Setter 属性访问）</li>
+            </ul>
+          </div>
+          <div className="p-3.5 rounded-lg bg-[#14161d] font-mono text-xs text-cyan-200">
+            <pre>{`// 示例 1: 写入自定义文本到剪贴板
+flyclip.copy("Hello FlyClip!");
+
+// 示例 2: 读取当前剪贴板并在前后追加内容
+const clipText = flyclip.clipboard.text;
+flyclip.clipboard.text = "【已备份】" + clipText;`}</pre>
+          </div>
+        </div>
+      </div>
+
+      {/* 9. Built-in Standard Libraries */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
           <CheckCircle2 className="text-emerald-400" size={20} />
-          <span>7. 标准内置 JavaScript 核心库支持</span>
+          <span>9. 标准内置 JavaScript 核心库支持</span>
         </h2>
         <p className="text-xs sm:text-sm text-slate-400">
           内置引擎完整支持 ES2020 现代 JavaScript 标准库，您可以直接调用以下所有标准工具：
@@ -326,9 +366,9 @@ flyclip.pressKey("ctrl v");`}</pre>
         </div>
       </div>
 
-      {/* 8. Return Value & After Steps */}
+      {/* 10. Return Value & After Steps */}
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">8. 脚本返回值与后续流水线处理 (after)</h2>
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">10. 脚本返回值与后续流水线处理 (after)</h2>
         <p className="text-xs sm:text-sm text-slate-400">
           脚本末尾使用 <code>return &quot;结果字符串&quot;</code> 返回文本时，FlyClip 会根据动作配置中的 <code>after</code> 字段自动执行相应后续动作：
         </p>
@@ -351,17 +391,17 @@ flyclip.pressKey("ctrl v");`}</pre>
         </div>
       </div>
 
-      {/* 9. Standalone Script Files & npm Libraries */}
+      {/* 11. Standalone Script Files & npm Libraries */}
       <div className="space-y-6">
         <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
           <Code className="text-amber-400" size={20} />
-          <span>9. 独立 JS 脚本文件与使用外部 npm 依赖库</span>
+          <span>11. 独立 JS 脚本文件与使用外部 npm 依赖库</span>
         </h2>
 
-        {/* 9.1 Standalone File */}
+        {/* 11.1 Standalone File */}
         <div className="p-5 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-3">
           <h3 className="font-bold text-white text-sm text-emerald-400">
-            9.1 引用独立的 .js 脚本文件
+            11.1 引用独立的 .js 脚本文件
           </h3>
           <p className="text-xs text-slate-300">
             当脚本逻辑较长时，可以在扩展目录中创建独立的 <code>.js</code> 文件（如 <code>main.js</code>），并在 <code>Config.yaml</code> 中直接指向该文件：
