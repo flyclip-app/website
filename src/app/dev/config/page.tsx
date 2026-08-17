@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import { useI18n } from "@/i18n/LanguageContext";
 
 export default function DevConfigPage() {
-  const { lang } = useI18n();
+  const { lang, getLocalizedHref } = useI18n();
 
   if (lang === "en") {
     return (
@@ -48,7 +48,7 @@ export default function DevConfigPage() {
                 <tr>
                   <td className="py-3 px-3 font-mono text-blue-400">description</td>
                   <td className="py-3 px-3">String / Map</td>
-                  <td className="py-3 px-3">Brief description of the extension.</td>
+                  <td className="py-3 px-3">Brief description of the extension. Supports multilingual key-value mappings.</td>
                 </tr>
                 <tr>
                   <td className="py-3 px-3 font-mono text-blue-400">options</td>
@@ -73,12 +73,61 @@ export default function DevConfigPage() {
           </div>
         </div>
 
+        {/* Multilingual Localization Section */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <Globe className="text-emerald-400" size={20} />
+            <span>Multilingual Localization (i18n in Config.yaml)</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300">
+            Both <strong>PopClip</strong> and <strong>FlyClip</strong> natively support multilingual dictionary maps for <code>name</code>, <code>description</code>, <code>title</code>, and <code>options[].label</code>. The client automatically selects the best matching language based on the user&apos;s system/app language (with fallback to <code>en</code>):
+          </p>
+
+          <div className="p-4 rounded-xl bg-[#14161d] border border-[#2d3142] font-mono text-xs text-blue-200">
+            <pre>{`# Multilingual Extension Example
+name:
+  en: Case Converter
+  zh-CN: 大小写转换
+  zh-Hans: 大小写转换
+  zh-Hant: 大小寫轉換
+  ja: ケース変換
+
+description:
+  en: Convert selected text between UPPER, lower, camelCase, snake_case.
+  zh-CN: 选中文本在各种大小写与命名风格之间快速转换。
+
+identifier: com.flyclip.extension.case-converter
+icon: Aa
+
+options:
+  - identifier: target_format
+    label:
+      en: Default Format
+      zh-CN: 默认转换格式
+    type: multiple
+    values: [upper, lower, camel, snake]
+    value labels:
+      - Upper (大写)
+      - Lower (小写)
+      - camelCase (小驼峰)
+      - snake_case (下划线)
+    default value: upper
+
+actions:
+  - title:
+      en: Convert to UPPER
+      zh-CN: 转换为大写
+    javascript: return flyclip.input.text.toUpperCase();
+    after: paste-result`}</pre>
+          </div>
+        </div>
+
         <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
-          <Link href="/dev/packages" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
+          <Link href={getLocalizedHref("/dev/packages")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
             <ArrowLeft size={14} />
             <span>Prev: Packages</span>
           </Link>
-          <Link href="/dev/options" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+          <Link href={getLocalizedHref("/dev/options")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
             <span>Next: Options Specification</span>
             <ArrowRight size={14} />
           </Link>
@@ -112,7 +161,7 @@ export default function DevConfigPage() {
               <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">name</td>
                 <td className="py-3 px-3">String / Map</td>
-                <td className="py-3 px-3">扩展显示名称（必填）。支持多语言键值对。</td>
+                <td className="py-3 px-3">扩展显示名称（必填）。支持多语言键值对 Map。</td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">identifier</td>
@@ -127,7 +176,7 @@ export default function DevConfigPage() {
               <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">description</td>
                 <td className="py-3 px-3">String / Map</td>
-                <td className="py-3 px-3">扩展的简要功能描述。</td>
+                <td className="py-3 px-3">扩展的简要功能描述。支持多语言键值对 Map。</td>
               </tr>
               <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">options</td>
@@ -152,12 +201,61 @@ export default function DevConfigPage() {
         </div>
       </div>
 
+      {/* Multilingual Localization Section */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+          <Globe className="text-emerald-400" size={20} />
+          <span>多语言本地化配置 (i18n 支持)</span>
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-300">
+          <strong>PopClip 与 FlyClip 原生 100% 支持</strong>在 <code>Config.yaml</code> 中直接使用多语言字典映射配置 <code>name</code>（扩展名）、<code>description</code>（描述）、<code>title</code>（动作标题）以及 <code>options[].label</code>（设置项标签）。客户端会根据当前用户的系统/软件语言自动匹配显示（缺省回退至 <code>en</code>）：
+        </p>
+
+        <div className="p-4 rounded-xl bg-[#14161d] border border-[#2d3142] font-mono text-xs text-blue-200">
+          <pre>{`# 多语言扩展声明示例
+name:
+  en: Case Converter
+  zh-CN: 大小写转换
+  zh-Hans: 大小写转换
+  zh-Hant: 大小寫轉換
+  ja: ケース変換
+
+description:
+  en: Convert selected text between UPPER, lower, camelCase, snake_case.
+  zh-CN: 选中文本在各种大小写与命名风格之间快速转换。
+
+identifier: com.flyclip.extension.case-converter
+icon: Aa
+
+options:
+  - identifier: target_format
+    label:
+      en: Default Format
+      zh-CN: 默认转换格式
+    type: multiple
+    values: [upper, lower, camel, snake]
+    value labels:
+      - Upper (大写)
+      - Lower (小写)
+      - camelCase (小驼峰)
+      - snake_case (下划线)
+    default value: upper
+
+actions:
+  - title:
+      en: Convert to UPPER
+      zh-CN: 转换为大写
+    javascript: return flyclip.input.text.toUpperCase();
+    after: paste-result`}</pre>
+        </div>
+      </div>
+
       <div className="pt-6 border-t border-[#2d3142] flex justify-between items-center text-xs">
-        <Link href="/dev/packages" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
+        <Link href={getLocalizedHref("/dev/packages")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-slate-300 hover:text-white font-semibold transition-colors">
           <ArrowLeft size={14} />
           <span>上一页：扩展包结构</span>
         </Link>
-        <Link href="/dev/options" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+        <Link href={getLocalizedHref("/dev/options")} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
           <span>下一步：参数选项规范</span>
           <ArrowRight size={14} />
         </Link>
