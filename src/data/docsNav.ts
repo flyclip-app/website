@@ -32,6 +32,7 @@ export const DEV_NAV: NavSection[] = [
       { title: "Config 配置文件规范", href: "/dev/config" },
       { title: "参数选项定义 (Options)", href: "/dev/options" },
       { title: "动作类型与脚本 (Actions)", href: "/dev/actions" },
+      { title: "JavaScript 脚本 API 手册", href: "/dev/js-api", badge: "API" },
       { title: "占位符与环境变量", href: "/dev/variables" },
       { title: "PopClip 语法平滑迁移", href: "/dev/migration" },
     ],
