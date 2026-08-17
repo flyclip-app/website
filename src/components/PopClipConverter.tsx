@@ -420,22 +420,31 @@ export default function PopClipConverter() {
         const zip = new JSZip();
         const loadedZip = await zip.loadAsync(file);
         
+        const accompanyingFiles: { name: string; content: string | Uint8Array }[] = [];
         let foundConfig = false;
         let configContent = "";
         let isPlist = false;
 
         for (const [path, zipEntry] of Object.entries(loadedZip.files)) {
+          if (zipEntry.dir) continue;
           const lower = path.toLowerCase();
+          const fileName = path.split("/").pop() || path;
+
           if (lower.endsWith("config.plist")) {
             configContent = await zipEntry.async("text");
             isPlist = true;
             foundConfig = true;
-            break;
           } else if (lower.endsWith("config.yaml") || lower.endsWith("config.yml")) {
             configContent = await zipEntry.async("text");
             isPlist = false;
             foundConfig = true;
-            break;
+          } else if (lower.endsWith(".js") || lower.endsWith(".ts")) {
+            const jsText = await zipEntry.async("text");
+            const { code, changed } = modernizeJavaScript(jsText);
+            accompanyingFiles.push({ name: fileName, content: code });
+          } else {
+            const binary = await zipEntry.async("uint8array");
+            accompanyingFiles.push({ name: fileName, content: binary });
           }
         }
 
@@ -443,14 +452,36 @@ export default function PopClipConverter() {
           throw new Error("压缩包中未找到 Config.plist 或 Config.yaml 配置文件");
         }
 
+        let res: ConversionReport;
         if (isPlist) {
           const parsed = parsePlistXml(configContent);
-          const res = convertDictToFlyClip(parsed, "plist");
-          setReport(res);
+          res = convertDictToFlyClip(parsed, "plist");
         } else {
           setInputText(configContent);
-          handleConvertText();
+          const { code } = modernizeJavaScript(configContent);
+          let cleanYaml = configContent;
+          if (cleanYaml.includes("{popclip text}")) cleanYaml = cleanYaml.replace(/\{popclip text\}/g, "{flyclip text}");
+          if (cleanYaml.includes("popclip.input.")) cleanYaml = cleanYaml.replace(/popclip\.input\.matchedText/g, "flyclip.input.matched").replace(/popclip\.input\.text/g, "flyclip.input.text");
+          if (cleanYaml.includes("popclip.copyText(")) cleanYaml = cleanYaml.replace(/popclip\.copyText\(/g, "flyclip.copy(");
+          if (cleanYaml.includes("popclip.pasteText(")) cleanYaml = cleanYaml.replace(/popclip\.pasteText\(/g, "flyclip.paste(");
+
+          res = {
+            originalFormat: "yaml",
+            name: "已转换扩展包",
+            id: "com.flyclip.extension.converted-package",
+            actionsCount: 1,
+            warnings: [],
+            fixes: ["已完成压缩包内 Config.yaml 与 JS 脚本的现代规范化"],
+            yamlOutput: cleanYaml.startsWith("# flyclip") ? cleanYaml : `# flyclip extension manifest\n${cleanYaml}`,
+            files: accompanyingFiles,
+          };
         }
+
+        res.files = accompanyingFiles;
+        if (accompanyingFiles.length > 0) {
+          res.fixes.push(`已保留并打包 ${accompanyingFiles.length} 个附加资源文件 (图标/外部JS脚本)`);
+        }
+        setReport(res);
       } else {
         throw new Error("仅支持上传 .popclipextz, .zip, Config.plist, Config.yaml 文件");
       }
@@ -467,6 +498,13 @@ export default function PopClipConverter() {
     if (!report) return;
     const zip = new JSZip();
     zip.file("Config.yaml", report.yamlOutput);
+
+    // Add accompanying files (icons, external JS)
+    if (report.files && report.files.length > 0) {
+      for (const f of report.files) {
+        zip.file(f.name, f.content);
+      }
+    }
 
     const blob = await zip.generateAsync({ type: "blob" });
     const safeName = (report.name || "extension").replace(/[^a-zA-Z0-9_\-\u4e00-\u9fa5]+/g, "_");
