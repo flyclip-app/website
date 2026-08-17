@@ -35,6 +35,16 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
     }
   };
 
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case "js": return "JavaScript";
+      case "url": return "URL 模板";
+      case "powershell": return "PowerShell";
+      case "keys": return "快捷键";
+      default: return type.toUpperCase();
+    }
+  };
+
   return (
     <div className="bg-[#1c1e27] border border-[#2d3142] hover:border-blue-500/60 rounded-xl p-5 flex flex-col justify-between transition-all hover:-translate-y-1 hover:shadow-xl group">
       <div>
@@ -61,8 +71,16 @@ export default function ExtensionCard({ extension, onOpenModal }: Props) {
           <span className="text-xs px-2 py-0.5 rounded bg-[#14161d] text-slate-400 border border-[#2d3142]">
             {getCategoryLabel(extension.category)}
           </span>
-          <span className="text-xs px-2 py-0.5 rounded bg-[#14161d] text-slate-400 border border-[#2d3142]">
-            {extension.type.toUpperCase()}
+          <span className={`text-xs px-2 py-0.5 rounded border font-medium ${
+            extension.type === "js"
+              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+              : extension.type === "url"
+              ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+              : extension.type === "powershell"
+              ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+              : "bg-[#14161d] text-slate-400 border-[#2d3142]"
+          }`}>
+            {getTypeLabel(extension.type)}
           </span>
           {extension.hasOptions && (
             <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
