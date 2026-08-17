@@ -269,24 +269,58 @@ export default function PopClipConverter() {
 
         // 3. AppleScript / Shell detection
         if (act["AppleScript"] || act["applescript"] || act["AppleScript File"]) {
-          warnings.push(`动作「${title}」包含 macOS 专属 AppleScript，Windows 无法运行，已生成 JS 骨架待重写`);
-          convertedAct.javascript = `// ⚠️ 原动作使用了 AppleScript，请根据 Windows 环境重写为 JS 或 flyclip.run\n// const res = flyclip.run("your-app.exe", [flyclip.input.text]);\nreturn flyclip.input.text;`;
+          warnings.push(`❌ 动作「${title}」包含 macOS 专属 AppleScript，Windows 无法直接运行，已生成 JS 骨架待人工重写`);
+          convertedAct.javascript = `// ⚠️ 原动作使用了 macOS AppleScript，请根据 Windows 场景改写为 JS 或 flyclip.run\n// 例如：const res = flyclip.run("notepad.exe", [flyclip.input.text]);\nreturn flyclip.input.text;`;
         }
 
         if (act["Shell Script"] || act["shell script"] || act["Script File"] || act["POSIX Script"]) {
-          warnings.push(`动作「${title}」包含 POSIX Shell 脚本，建议使用 flyclip.run("command", [args]) 重构为跨平台 JS`);
-          convertedAct.javascript = `// ⚠️ 原动作使用了 Shell 脚本，推荐改写为原生 JS + flyclip.run\nconst res = flyclip.run("cmd", ["/c", "echo", flyclip.input.text]);\nreturn res.stdout;`;
+          warnings.push(`⚠️ 动作「${title}」包含 POSIX Shell 脚本，建议使用 flyclip.run("cmd", [args]) 重构为跨平台 JS`);
+          convertedAct.javascript = `// ⚠️ 原动作使用了 POSIX Shell 脚本，推荐改写为原生 JS + flyclip.run\nconst res = flyclip.run("cmd", ["/c", "echo", flyclip.input.text]);\nreturn res.stdout.trim();`;
+        }
+
+        // 3.1 macOS Shortcuts / Automator Services
+        if (act["Shortcuts"] || act["shortcuts"] || act["Shortcut Name"]) {
+          const scName = act["Shortcuts"] || act["shortcuts"] || act["Shortcut Name"];
+          warnings.push(`❌ 动作「${title}」依赖 macOS 捷径应用 (Shortcut: "${scName}")，Windows 系统无原生捷径引擎，不支持直接运行`);
+        }
+
+        if (act["Service Name"] || act["service name"] || act["Service"]) {
+          warnings.push(`❌ 动作「${title}」依赖 macOS 系统服务 (Service)，Windows 不支持`);
+        }
+
+        // 3.2 HTML capture
+        if (act["Capture HTML"] || act["pass html"] || act["capture html"]) {
+          warnings.push(`⚠️ 动作「${title}」声明了 capture html / pass html，FlyClip 当前聚焦纯文本处理，富文本 HTML 捕获暂不支持`);
+        }
+
+        // 3.3 Node / npm require detection
+        if (rawJs && (rawJs.includes("require(") || rawJs.includes("from '") || rawJs.includes("from \""))) {
+          warnings.push(`⚠️ 动作「${title}」JS 中检测到外部 require/import 模块依赖。FlyClip 内置极速轻量 QuickJS，无需 node_modules，网络请求请改用内置的 await flyclip.fetch()`);
         }
 
         // 4. Key Combo
         const rawKey = act["Key Combo"] || act["key combo"] || act["Key"];
         if (rawKey) {
           let keyStr = String(rawKey).toLowerCase();
+          if (/0x[0-9a-fA-F]+/i.test(keyStr)) {
+            warnings.push(`⚠️ 动作「${title}」包含 macOS 硬件虚拟键码 (${keyStr})，建议在 Windows 下改用标准英文字符键名 (如 "ctrl shift s")`);
+          }
           if (keyStr.includes("command")) {
             keyStr = keyStr.replace(/command/g, "ctrl");
             fixes.push(`已将快捷键修饰符 command 自动重映射为 ctrl (${keyStr})`);
           }
           convertedAct["key combo"] = keyStr;
+        }
+
+        // 5. App Bundle Filtering
+        const rawApps = act["Apps"] || act["apps"] || act["App"] || dict["Apps"] || dict["apps"];
+        if (rawApps) {
+          const appList = Array.isArray(rawApps) ? rawApps : [rawApps];
+          const hasMacBundle = appList.some((a: string) => typeof a === "string" && (a.startsWith("com.apple.") || a.includes(".")));
+          if (hasMacBundle) {
+            warnings.push(`⚠️ 动作「${title}」限定了 macOS 专属应用包名 (${JSON.stringify(appList)})，在 Windows 下请改为目标进程名 (如 "chrome.exe", "notepad.exe")`);
+          }
+          convertedAct["required apps"] = appList;
         }
 
         // Requirements
