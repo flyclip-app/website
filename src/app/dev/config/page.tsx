@@ -66,7 +66,146 @@ export default function DevConfigPage() {
                 <tr>
                   <td className="py-3 px-3 font-mono text-blue-400">actions</td>
                   <td className="py-3 px-3">Array / Object</td>
-                  <td className="py-3 px-3">Defines one or multiple selection actions.</td>
+                  <td className="py-3 px-3">Defines one or multiple selection actions. See Action Fields Reference below.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Action Fields Reference Table */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">Action Fields Reference (<code>actions[]</code>)</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-[#2d3142] text-slate-400">
+                  <th className="py-2.5 px-3">Field</th>
+                  <th className="py-2.5 px-3">Type</th>
+                  <th className="py-2.5 px-3">Description</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#2d3142] text-slate-300">
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">title</td>
+                  <td className="py-3 px-3">String / Map</td>
+                  <td className="py-3 px-3">Action display label / tooltip. Supports multilingual mappings.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">icon</td>
+                  <td className="py-3 px-3">String</td>
+                  <td className="py-3 px-3">
+                    Icon identifier: built-in (<code>copy</code>, <code>paste</code>, <code>search</code>, <code>link</code>, <code>mail</code>, <code>upper</code>, <code>lower</code>), glyph text (e.g. <code>Aa</code>), or <code>iconify:mdi:translate</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">requirements</td>
+                  <td className="py-3 px-3">Array / String</td>
+                  <td className="py-3 px-3">
+                    Activation rules & text narrowing filters. Defaults to <code>[text]</code> (or <code>[paste]</code> for paste commands). See Requirements section below.
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">regex</td>
+                  <td className="py-3 px-3">String</td>
+                  <td className="py-3 px-3">Regular expression filter. Action appears only if narrowed text matches.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">required apps</td>
+                  <td className="py-3 px-3">Array</td>
+                  <td className="py-3 px-3">Show action only in specific processes (e.g. <code>[code.exe, devenv.exe]</code>).</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">excluded apps</td>
+                  <td className="py-3 px-3">Array</td>
+                  <td className="py-3 px-3">Hide action in specific processes.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">before / after</td>
+                  <td className="py-3 px-3">String</td>
+                  <td className="py-3 px-3">
+                    Pipeline steps: <code>copy-selection</code>, <code>paste-result</code>, <code>copy-result</code>, <code>show-result</code>, <code>preview-result</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">stay visible</td>
+                  <td className="py-3 px-3">Boolean</td>
+                  <td className="py-3 px-3">If <code>true</code>, keeps popup bar visible after executing action.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">restore pasteboard</td>
+                  <td className="py-3 px-3">Boolean</td>
+                  <td className="py-3 px-3">If <code>true</code> (default), preserves and restores original user clipboard contents.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400">javascript / url / command</td>
+                  <td className="py-3 px-3">String</td>
+                  <td className="py-3 px-3">Action execution payload (JavaScript code, URL template, built-in command, or key combo).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Requirements Specification Section */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+            <span className="text-emerald-400">⚡</span>
+            <span>Activation Requirements & Narrowing (<code>requirements</code>)</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300">
+            <code>requirements</code> defines when an action should appear and how the input text is automatically narrowed/extracted before reaching your code. PopClip and FlyClip are 100% compatible with the following specification:
+          </p>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-[#2d3142] text-slate-400">
+                  <th className="py-2.5 px-3">Requirement</th>
+                  <th className="py-2.5 px-3">Trigger Condition</th>
+                  <th className="py-2.5 px-3">Input Text Narrowing (<code>flyclip.input.text</code>)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#2d3142] text-slate-300">
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">text</td>
+                  <td className="py-3 px-3"><strong>Default</strong>. Matches when non-empty text is selected on screen. <em>Hidden during empty selection / long-press.</em></td>
+                  <td className="py-3 px-3">Entire trimmed selected text.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-emerald-400 font-bold">paste</td>
+                  <td className="py-3 px-3">Matches during <strong>Long-Press / Caret focus / Empty selection</strong> when clipboard is pasteable.</td>
+                  <td className="py-3 px-3">Empty string / clipboard context.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">url / httpurl</td>
+                  <td className="py-3 px-3">Selected text contains at least one valid web URL.</td>
+                  <td className="py-3 px-3"><strong>Narrowed</strong>: Automatically extracts the URL and prefixes <code>http://</code> if missing.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">isurl</td>
+                  <td className="py-3 px-3">The entire selection is strictly a valid URL without surrounding words.</td>
+                  <td className="py-3 px-3">The URL string.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">email</td>
+                  <td className="py-3 px-3">Selected text contains an email address.</td>
+                  <td className="py-3 px-3"><strong>Narrowed</strong>: Automatically extracts the email address.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">path</td>
+                  <td className="py-3 px-3">Selected text matches an existing local file or directory path.</td>
+                  <td className="py-3 px-3"><strong>Narrowed</strong>: Resolved absolute path.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-blue-400">option-&lt;id&gt;=&lt;val&gt;</td>
+                  <td className="py-3 px-3">Matches only if user preference option <code>&lt;id&gt;</code> equals <code>&lt;val&gt;</code> (e.g. <code>option-enable_pro=1</code>).</td>
+                  <td className="py-3 px-3">Unchanged.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-3 font-mono text-amber-400">!&lt;requirement&gt;</td>
+                  <td className="py-3 px-3">Negates the requirement (e.g. <code>!url</code> matches only when text does NOT contain a URL).</td>
+                  <td className="py-3 px-3">Unchanged.</td>
                 </tr>
               </tbody>
             </table>
@@ -118,6 +257,7 @@ actions:
       en: Convert to UPPER
       zh-CN: 转换为大写
     javascript: return flyclip.input.text.toUpperCase();
+    requirements: [text]
     after: paste-result`}</pre>
           </div>
         </div>
@@ -194,7 +334,146 @@ actions:
               <tr>
                 <td className="py-3 px-3 font-mono text-blue-400">actions</td>
                 <td className="py-3 px-3">Array / Object</td>
-                <td className="py-3 px-3">定义一个或多个具体的划词动作。</td>
+                <td className="py-3 px-3">定义一个或多个具体的划词动作。详见下方动作字段参考表。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Action Fields Reference Table */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">动作字段详细参考 (<code>actions[]</code>)</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr className="border-b border-[#2d3142] text-slate-400">
+                <th className="py-2.5 px-3">字段名</th>
+                <th className="py-2.5 px-3">类型</th>
+                <th className="py-2.5 px-3">说明</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#2d3142] text-slate-300">
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">title</td>
+                <td className="py-3 px-3">String / Map</td>
+                <td className="py-3 px-3">动作按钮名称 / Tooltip 悬停提示。支持多语言字典映射。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">icon</td>
+                <td className="py-3 px-3">String</td>
+                <td className="py-3 px-3">
+                  动作图标：内置关键字（<code>copy</code>、<code>paste</code>、<code>search</code>、<code>link</code>、<code>mail</code>、<code>upper</code>、<code>lower</code>）、自定义单字（如 <code>Aa</code>）或 <code>iconify:...</code>。
+                </td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">requirements</td>
+                <td className="py-3 px-3">Array / String</td>
+                <td className="py-3 px-3">
+                  显示门禁与文本收窄规则。缺省默认为 <code>[text]</code>（若 command 为 paste 则默认为 <code>[paste]</code>）。详见下方规范。
+                </td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">regex</td>
+                <td className="py-3 px-3">String</td>
+                <td className="py-3 px-3">正则表达式匹配过滤。仅当收窄后的文本命中正则时才显示动作。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">required apps</td>
+                <td className="py-3 px-3">Array</td>
+                <td className="py-3 px-3">仅在指定的进程中显示该动作（如 <code>[code.exe, devenv.exe]</code>）。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">excluded apps</td>
+                <td className="py-3 px-3">Array</td>
+                <td className="py-3 px-3">在指定的进程中隐藏该动作。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">before / after</td>
+                <td className="py-3 px-3">String</td>
+                <td className="py-3 px-3">
+                  执行管道步骤：<code>copy-selection</code>、<code>paste-result</code>、<code>copy-result</code>、<code>show-result</code>、<code>preview-result</code>。
+                </td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">stay visible</td>
+                <td className="py-3 px-3">Boolean</td>
+                <td className="py-3 px-3">执行后是否保持弹出条不自动隐藏。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">restore pasteboard</td>
+                <td className="py-3 px-3">Boolean</td>
+                <td className="py-3 px-3">执行后是否还原用户原有的剪贴板内容（默认 true）。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400">javascript / url / command</td>
+                <td className="py-3 px-3">String</td>
+                <td className="py-3 px-3">动作的实际实现体（JavaScript 脚本、URL 模板、内置命令或快捷键）。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Requirements Specification Section */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2 flex items-center gap-2">
+          <span className="text-emerald-400">⚡</span>
+          <span>匹配门禁与文本收窄规范 (<code>requirements</code>)</span>
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-300">
+          <code>requirements</code> 决定了动作在何时弹出，并在传递给扩展代码前自动对选中文本进行提取与收窄。PopClip 与 FlyClip 100% 遵循此标准：
+        </p>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr className="border-b border-[#2d3142] text-slate-400">
+                <th className="py-2.5 px-3">规则值</th>
+                <th className="py-2.5 px-3">触发与显示条件</th>
+                <th className="py-2.5 px-3">文本收窄效果 (<code>flyclip.input.text</code>)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#2d3142] text-slate-300">
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">text</td>
+                <td className="py-3 px-3"><strong>默认值</strong>。屏幕上有选中文本时才显示。<em>在长按/未选中文本时自动隐藏。</em></td>
+                <td className="py-3 px-3">完整的选区文本（自动两端去除空白）。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-emerald-400 font-bold">paste</td>
+                <td className="py-3 px-3">在<strong>输入框长按 / 光标停留 / 未选中文本</strong>时显示，用于快速粘贴。</td>
+                <td className="py-3 px-3">空字符串 / 剪贴板环境。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">url / httpurl</td>
+                <td className="py-3 px-3">选中文本中包含至少一个合法的网络 URL。</td>
+                <td className="py-3 px-3"><strong>自动收窄</strong>：提取出其中的有效网址，并自动补全 <code>http://</code>。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">isurl</td>
+                <td className="py-3 px-3">选中的全部文本必须严格是一个合法网址（前后不能有多余汉字/英文）。</td>
+                <td className="py-3 px-3">该网址。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">email</td>
+                <td className="py-3 px-3">选中文本中包含有效的电子邮件地址。</td>
+                <td className="py-3 px-3"><strong>自动收窄</strong>：提取出其中的邮箱地址。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">path</td>
+                <td className="py-3 px-3">选中文本必须是本机实际存在的文件或文件夹路径。</td>
+                <td className="py-3 px-3"><strong>自动收窄</strong>：解析为规范化的绝对路径。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-blue-400">option-&lt;id&gt;=&lt;val&gt;</td>
+                <td className="py-3 px-3">当用户在扩展设置中将 <code>&lt;id&gt;</code> 选项配置为 <code>&lt;val&gt;</code> 时才显示动作。</td>
+                <td className="py-3 px-3">不收窄。</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-3 font-mono text-amber-400">!&lt;requirement&gt;</td>
+                <td className="py-3 px-3">取反条件（如 <code>!url</code> 表示文本中不包含网址时才显示）。</td>
+                <td className="py-3 px-3">不收窄。</td>
               </tr>
             </tbody>
           </table>
@@ -246,6 +525,7 @@ actions:
       en: Convert to UPPER
       zh-CN: 转换为大写
     javascript: return flyclip.input.text.toUpperCase();
+    requirements: [text]
     after: paste-result`}</pre>
         </div>
       </div>
