@@ -61,7 +61,16 @@ export default function DocsSidebar({ sections, basePath }: Props) {
               <ul className="space-y-1">
                 {section.items.map((item) => {
                   const localizedHref = getLocalizedHref(item.href);
-                  const isActive = pathname === localizedHref || pathname === item.href;
+                  const normalize = (p: string) => {
+                    if (!p) return "/";
+                    const s = p.replace(/\/+$/, "");
+                    return s || "/";
+                  };
+                  const currentNorm = normalize(pathname);
+                  const locNorm = normalize(localizedHref);
+                  const origNorm = normalize(item.href);
+                  const isActive = currentNorm === locNorm || currentNorm === origNorm;
+
                   return (
                     <li key={item.href}>
                       <Link
@@ -69,7 +78,7 @@ export default function DocsSidebar({ sections, basePath }: Props) {
                         onClick={() => setIsOpen(false)}
                         className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                           isActive
-                            ? "bg-blue-500/10 text-blue-400 font-semibold border-l-2 border-blue-500 rounded-l-none"
+                            ? "bg-blue-500/15 text-blue-400 font-semibold border-l-2 border-blue-500 rounded-l-none"
                             : "text-slate-400 hover:text-slate-200 hover:bg-[#1c1e27]"
                         }`}
                       >
