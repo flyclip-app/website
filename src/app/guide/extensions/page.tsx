@@ -101,8 +101,8 @@ export default function GuideExtensionsPage() {
             <ArrowLeft size={14} />
             <span>Prev: Actions</span>
           </Link>
-          <Link href="/guide/settings" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
-            <span>Next: Preferences</span>
+          <Link href="/guide/rules" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+            <span>Next: Exclusion Rules</span>
             <ArrowRight size={14} />
           </Link>
         </div>
@@ -203,8 +203,8 @@ export default function GuideExtensionsPage() {
           <ArrowLeft size={14} />
           <span>上一页：内置动作</span>
         </Link>
-        <Link href="/guide/settings" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
-          <span>下一步：偏好设置</span>
+        <Link href="/guide/rules" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors">
+          <span>下一步：排除规则</span>
           <ArrowRight size={14} />
         </Link>
       </div>
