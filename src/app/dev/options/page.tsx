@@ -34,8 +34,10 @@ export default function DevOptionsPage() {
             </div>
 
             <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
-              <h3 className="font-bold text-white text-sm text-blue-400">2. Segmented Choice Chips (multiple)</h3>
-              <p className="text-xs text-slate-400">Renders as horizontal segmented choice chips.</p>
+              <h3 className="font-bold text-white text-sm text-blue-400">2. Segmented Single Choice (multiple)</h3>
+              <p className="text-xs text-slate-400">
+                Renders as horizontal segmented choice chips (single-select from a list of options, matching PopClip&apos;s <code>multiple</code> option type).
+              </p>
               <div className="p-3 rounded-lg bg-[#14161d] font-mono text-xs text-slate-200">
                 <pre>{`- identifier: target_lang
   label: Target Language
@@ -109,8 +111,10 @@ export default function DevOptionsPage() {
           </div>
 
           <div className="p-4 rounded-xl bg-[#1c1e27] border border-[#2d3142] space-y-2">
-            <h3 className="font-bold text-white text-sm text-blue-400">2. 单选/多选分段组 (multiple)</h3>
-            <p className="text-xs text-slate-400">渲染为水平分段按钮组（Choice Chips）。</p>
+            <h3 className="font-bold text-white text-sm text-blue-400">2. 候选项单选分段组 (multiple)</h3>
+            <p className="text-xs text-slate-400">
+              渲染为水平分段按钮组（从多个预设候选项中<strong>单选其一</strong>，与 PopClip 的 <code>multiple</code> 类型标准完全一致）。
+            </p>
             <div className="p-3 rounded-lg bg-[#14161d] font-mono text-xs text-slate-200">
               <pre>{`- identifier: target_lang
   label: 目标语言
