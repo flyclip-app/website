@@ -22,7 +22,7 @@ export default function GuideRulesPage() {
         <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-start gap-3">
           <Zap className="text-blue-400 mt-0.5 flex-shrink-0" size={18} />
           <div className="text-xs sm:text-sm text-slate-300">
-            <strong className="text-white">Manual Hotkey is Always Available:</strong> In excluded applications or suppressed websites, FlyClip only silences automatic popups upon mouse selection. Pressing your global hotkey (default: <code className="text-blue-300 bg-blue-900/40 px-1.5 py-0.5 rounded">Alt + Space</code>) will always bring up the action bar on demand.
+            <strong className="text-white">Manual Hotkey is Always Available:</strong> In excluded applications or suppressed websites, FlyClip only silences automatic popups upon mouse selection. Pressing your global hotkey (default: <code className="text-blue-300 bg-blue-900/40 px-1.5 py-0.5 rounded">Ctrl + Alt + Q</code>) will always bring up the action bar on demand.
           </div>
         </div>
 
@@ -158,7 +158,7 @@ export default function GuideRulesPage() {
       <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-start gap-3">
         <Zap className="text-blue-400 mt-0.5 flex-shrink-0" size={18} />
         <div className="text-xs sm:text-sm text-slate-300">
-          <strong className="text-white">全局快捷键随时生效：</strong> 在被排除的应用或网址中，FlyClip 仅静默鼠标自动选词弹窗。使用全局快捷键（默认 <code className="text-blue-300 bg-blue-900/40 px-1.5 py-0.5 rounded">Alt + Space</code>）始终可以主动呼出动作栏。
+          <strong className="text-white">全局快捷键随时生效：</strong> 在被排除的应用或网址中，FlyClip 仅静默鼠标自动选词弹窗。使用全局快捷键（默认 <code className="text-blue-300 bg-blue-900/40 px-1.5 py-0.5 rounded">Ctrl + Alt + Q</code>）始终可以主动呼出动作栏。
         </div>
       </div>
 
