@@ -31,6 +31,26 @@ export default function DevOverviewPage() {
           </ul>
         </div>
 
+        {/* AI Skill Callout */}
+        <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-900/30 to-[#1c1e27] border border-blue-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-400 uppercase tracking-wider">
+              <span>🤖 New AI Skill Available</span>
+            </div>
+            <h4 className="text-base font-bold text-white">Develop FlyClip Extensions with AI Assistants</h4>
+            <p className="text-xs text-slate-300">
+              Load our official <code>SKILL.md</code> into Cursor, Claude, ChatGPT, Antigravity, or Cline to generate custom extensions from natural language prompts in seconds.
+            </p>
+          </div>
+          <Link
+            href="/dev/ai-skill"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors shrink-0"
+          >
+            <span>Explore AI Skill</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-white border-b border-[#2d3142] pb-2">Quick Example: Bing Search Extension</h2>
           <p className="text-xs sm:text-sm text-slate-300">
@@ -79,6 +99,26 @@ actions:
           <li><strong>参数化选项 (Options)</strong>：支持为扩展声明开关、单选分段、输入框与凭据选项。</li>
           <li><strong>在线转换与迁移工具</strong>：提供专用的 PopClip 在线转换器，一键重构历史扩展资产。</li>
         </ul>
+      </div>
+
+      {/* AI Skill Callout */}
+      <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-900/30 to-[#1c1e27] border border-blue-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-400 uppercase tracking-wider">
+            <span>🤖 全新 AI Skill 支持</span>
+          </div>
+          <h4 className="text-base font-bold text-white">让 AI 助手直接帮你定制开发扩展</h4>
+          <p className="text-xs text-slate-300">
+            将官方 <code>SKILL.md</code> 导入 Cursor、Claude、ChatGPT、Antigravity 或 Cline，输入一句话需求，AI 即可自动生成生产级扩展代码！
+          </p>
+        </div>
+        <Link
+          href="/dev/ai-skill"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors shrink-0"
+        >
+          <span>查看 AI Skill 指南</span>
+          <ArrowRight size={14} />
+        </Link>
       </div>
 
       <div className="space-y-4">

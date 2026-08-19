@@ -58,6 +58,7 @@ export function getDevNav(lang: Language): NavSection[] {
         title: "Developer Reference",
         items: [
           { title: "Overview & Workflow", href: "/dev" },
+          { title: "🤖 AI Skill for Assistants", href: "/dev/ai-skill", badge: "AI" },
           { title: "🛠️ Live Extension Generator", href: "/dev/generator", badge: "Live" },
           { title: "Package Structure (.flyclipext)", href: "/dev/packages" },
           { title: "Config Specification", href: "/dev/config" },
@@ -83,6 +84,7 @@ export function getDevNav(lang: Language): NavSection[] {
       title: "开发者参考 (Developer Reference)",
       items: [
         { title: "概述与开发流程 (Overview)", href: "/dev" },
+        { title: "🤖 AI 扩展开发 Skill 指南", href: "/dev/ai-skill", badge: "AI" },
         { title: "🛠️ 在线扩展生成器", href: "/dev/generator", badge: "Live" },
         { title: "扩展包结构 (.flyclipext)", href: "/dev/packages" },
         { title: "Config 配置文件规范", href: "/dev/config" },
