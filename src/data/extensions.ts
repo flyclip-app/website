@@ -27,6 +27,7 @@ const EXTENSION_PACKAGE_MAP: Record<string, string> = {
   "com.flyclip.extension.case-converter": "CaseConverter",
   "com.flyclip.extension.chatgpt": "ChatGPT",
   "com.flyclip.extension.claude": "Claude",
+  "com.flyclip.extension.cut": "Cut",
   "com.flyclip.extension.deepl-translate": "DeepLTranslate",
   "com.flyclip.extension.deepseek": "DeepSeek",
   "com.flyclip.extension.douban-search": "Douban",
@@ -205,6 +206,20 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     
     type: "url",
     configYaml: "name:\n  en: Claude\n  zh-CN: Claude\ndescription:\n  en: Send selected text to Anthropic Claude AI.\n  zh-CN: 发送选中文本给 Anthropic Claude 对话交互。\nidentifier: com.flyclip.extension.claude\nicon: iconify:simple-icons:anthropic\nactions:\n  - title: Claude\n    url: https://claude.ai/new?q=***\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.cut",
+    name: "Cut",
+    nameZh: "剪切",
+    nameEn: "Cut",
+    category: "text_tools",
+    icon: "scissors",
+    description: "Cut selected text to clipboard.",
+    descriptionZh: "剪切所选文本到剪贴板。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Cut\n  zh-CN: 剪切\ndescription:\n  en: Cut selected text to clipboard.\n  zh-CN: 剪切所选文本到剪贴板。\nidentifier: com.flyclip.extension.cut\nicon: scissors\nactions:\n  - title:\n      en: Cut\n      zh-CN: 剪切\n    icon: scissors\n    command: cut\n    requirements: [cut]"
   },
   {
     id: "com.flyclip.extension.deepl-translate",

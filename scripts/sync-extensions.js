@@ -38,6 +38,7 @@ const categoryMap = {
   'com.flyclip.extension.youtube-search': 'search_ai',
 
   // Text Tools
+  'com.flyclip.extension.cut': 'text_tools',
   'com.flyclip.extension.case-converter': 'text_tools',
   'com.flyclip.extension.base64': 'text_tools',
   'com.flyclip.extension.url-encode': 'text_tools',
