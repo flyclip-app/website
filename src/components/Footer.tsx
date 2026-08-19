@@ -62,7 +62,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white text-sm mb-3">Open Source & License</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="https://github.com/flyclip-app/flyclip/blob/main/LICENSE" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">MIT License</a></li>
+              <li><a href="https://github.com/flyclip-app/flyclip/blob/main/LICENSE" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">GPL-3.0 License</a></li>
               <li><Link href={getLocalizedHref("/dev")} className="hover:text-blue-400 transition-colors flex items-center gap-1.5"><ShieldCheck size={14} /> Disclaimer</Link></li>
               <li><Link href={getLocalizedHref("/download")} className="hover:text-blue-400 transition-colors">Changelog</Link></li>
             </ul>

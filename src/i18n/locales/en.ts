@@ -112,6 +112,6 @@ export const en = {
     converter: "PopClip Migration Tool",
     community: "Community & Source",
     issues: "Issues & Feedback",
-    copyright: "© 2026 FlyClip App. All rights reserved. Released under GPL-3.0 / MIT Open Source License.",
+    copyright: "© 2026 FlyClip App. All rights reserved. Released under GNU GPL v3.0 Open Source License.",
   }
 };

@@ -96,7 +96,7 @@ export default function Home() {
             <div className="flex items-center gap-6 pt-4 text-xs text-slate-500">
               <span className="flex items-center gap-1.5">✓ {lang === "zh" ? "纯净无广告" : "Zero Telemetry"}</span>
               <span className="flex items-center gap-1.5">✓ {lang === "zh" ? "仅 15MB 内存占用" : "< 15MB RAM"}</span>
-              <span className="flex items-center gap-1.5">✓ {lang === "zh" ? "MIT 开源协议" : "MIT Open Source"}</span>
+              <span className="flex items-center gap-1.5">✓ {lang === "zh" ? "GPL-3.0 开源协议" : "GPL-3.0 Open Source"}</span>
             </div>
           </div>
 

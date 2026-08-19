@@ -116,7 +116,7 @@ export default function DownloadPage() {
               </tr>
               <tr>
                 <td className="py-2.5 font-semibold text-slate-400">{lang === "zh" ? "开源协议" : "License"}</td>
-                <td className="py-2.5 text-slate-200">MIT License</td>
+                <td className="py-2.5 text-slate-200">GPL-3.0 License</td>
               </tr>
             </tbody>
           </table>

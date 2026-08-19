@@ -112,6 +112,6 @@ export const zh = {
     converter: "PopClip 转换工具",
     community: "社区与源码",
     issues: "提交建议与反馈",
-    copyright: "© 2026 FlyClip App. 保留所有权利。基于 GPL-3.0 / MIT 开源协议发布。",
+    copyright: "© 2026 FlyClip App. 保留所有权利。基于 GPL-3.0 开源协议发布。",
   }
 };
