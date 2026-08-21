@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { EXTENSIONS_DATA, ExtensionItem } from "@/data/extensions";
 import DirectoryEntry from "@/components/DirectoryEntry";
 import ExtensionModal from "@/components/ExtensionModal";
-import { Search, Sparkles, X } from "lucide-react";
+import { Search, Sparkles, X, Filter } from "lucide-react";
 import { useI18n } from "@/i18n/LanguageContext";
 
 type ArrangeMode = "categories" | "alpha" | "newest";
@@ -21,12 +21,13 @@ const CATEGORIES_CONFIG: CategoryMeta[] = [
   { id: "translation", slug: "translation", titleEn: "Translation & Language", titleZh: "翻译与语言", icon: "🌐" },
   { id: "search_ai", slug: "search-ai", titleEn: "Search, Academic & Community", titleZh: "搜索、学术与社区", icon: "🔍" },
   { id: "text_tools", slug: "text-tools", titleEn: "Text Tools & Formatting", titleZh: "文本处理与清洗", icon: "✍️" },
-  { id: "developer", slug: "developer", titleEn: "Developer & Engineering Tools", titleZh: "开发者与全栈工具", icon: "⚡" },
+  { id: "developer", slug: "developer", titleEn: "Developer & Engineering", titleZh: "开发与工程工具", icon: "⚡" },
   { id: "shopping", slug: "shopping-notes", titleEn: "Notes, Media & Utilities", titleZh: "云笔记、影音与生活", icon: "📦" },
 ];
 
 export default function ExtensionsPage() {
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [arrange, setArrange] = useState<ArrangeMode>("categories");
   const [selectedExt, setSelectedExt] = useState<ExtensionItem | null>(null);
   const [autoInstall, setAutoInstall] = useState(false);
@@ -37,29 +38,46 @@ export default function ExtensionsPage() {
     setAutoInstall(autoTrigger);
   };
 
+  // Category counts for badges
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: EXTENSIONS_DATA.length };
+    CATEGORIES_CONFIG.forEach((cat) => {
+      counts[cat.id] = EXTENSIONS_DATA.filter((e) => e.category === cat.id).length;
+    });
+    return counts;
+  }, []);
+
   // Filtered extensions
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    if (!q) return EXTENSIONS_DATA;
     return EXTENSIONS_DATA.filter((ext) => {
-      const nameMatch = ext.name.toLowerCase().includes(q) || (ext.nameZh && ext.nameZh.toLowerCase().includes(q)) || (ext.nameEn && ext.nameEn.toLowerCase().includes(q));
+      const matchCat = selectedCategory === "all" || ext.category === selectedCategory;
+      if (!matchCat) return false;
+      if (!q) return true;
+      const nameMatch =
+        ext.name.toLowerCase().includes(q) ||
+        (ext.nameZh && ext.nameZh.toLowerCase().includes(q)) ||
+        (ext.nameEn && ext.nameEn.toLowerCase().includes(q));
       const idMatch = ext.id.toLowerCase().includes(q);
-      const descMatch = (ext.description && ext.description.toLowerCase().includes(q)) || (ext.descriptionZh && ext.descriptionZh.toLowerCase().includes(q));
+      const descMatch =
+        (ext.description && ext.description.toLowerCase().includes(q)) ||
+        (ext.descriptionZh && ext.descriptionZh.toLowerCase().includes(q));
       return nameMatch || idMatch || descMatch;
     });
-  }, [search]);
+  }, [search, selectedCategory]);
 
   // Grouped by category
   const categorizedGroups = useMemo(() => {
     const groups: { meta: CategoryMeta; items: ExtensionItem[] }[] = [];
     CATEGORIES_CONFIG.forEach((cat) => {
+      if (selectedCategory !== "all" && selectedCategory !== cat.id) return;
       const items = filtered.filter((ext) => ext.category === cat.id);
       if (items.length > 0) {
         groups.push({ meta: cat, items });
       }
     });
     return groups;
-  }, [filtered]);
+  }, [filtered, selectedCategory]);
 
   // Grouped by Alphabet (A-Z)
   const alphaGroups = useMemo(() => {
@@ -93,86 +111,134 @@ export default function ExtensionsPage() {
         </p>
       </div>
 
-      {/* PopClip Style Toolbar */}
-      <div className="p-3 rounded-xl bg-[#14161d] border border-[#2d3142] shadow-lg mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        {/* Arrange Buttons */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-slate-400">
-            {lang === "zh" ? "排列方式:" : "Arrange:"}
-          </span>
-          <div className="inline-flex p-0.5 rounded-lg bg-[#1c1e27] border border-[#2d3142]">
-            <button
-              onClick={() => setArrange("categories")}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
-                arrange === "categories"
-                  ? "bg-blue-600 text-white font-semibold shadow-sm"
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              {lang === "zh" ? "分类" : "Categories"}
-            </button>
-            <button
-              onClick={() => setArrange("alpha")}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
-                arrange === "alpha"
-                  ? "bg-blue-600 text-white font-semibold shadow-sm"
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              {lang === "zh" ? "A–Z 字母" : "A–Z"}
-            </button>
-            <button
-              onClick={() => setArrange("newest")}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
-                arrange === "newest"
-                  ? "bg-blue-600 text-white font-semibold shadow-sm"
-                  : "text-slate-400 hover:text-white"
-              }`}
-            >
-              {lang === "zh" ? "最新添加" : "New"}
-            </button>
-          </div>
-        </div>
-
-        {/* Search Box */}
-        <div className="relative flex-1 sm:max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
+      {/* Control Box: Search on Top, Category Chips + Arrange on Bottom */}
+      <div className="p-3.5 sm:p-4 rounded-xl bg-[#14161d] border border-[#2d3142] shadow-lg mb-6 space-y-3">
+        {/* Search Bar */}
+        <div className="relative w-full">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
           <input
             type="text"
-            placeholder={lang === "zh" ? "搜索扩展名称或功能..." : "Type to search..."}
+            placeholder={
+              lang === "zh"
+                ? "输入名称、关键词或 ID 快速筛选扩展..."
+                : "Filter by name, keyword or description..."
+            }
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-8 py-1.5 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-500"
+            className="w-full pl-10 pr-9 py-2 rounded-lg bg-[#1c1e27] border border-[#2d3142] text-sm text-slate-100 focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-500"
           />
           {search && (
             <button
               onClick={() => setSearch("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
             >
-              <X size={14} />
+              <X size={15} />
             </button>
           )}
+        </div>
+
+        {/* Category Filter Chips & Arrange Mode Controls */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 pt-1 border-t border-[#2d3142]/60">
+          {/* Category Chips (TextGo / PopClip style) */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex items-center gap-1 text-xs text-slate-400 mr-1 flex-shrink-0">
+              <Filter size={13} className="text-blue-400" />
+              <span>{lang === "zh" ? "分类:" : "Category:"}</span>
+            </div>
+
+            {/* All chip */}
+            <button
+              onClick={() => setSelectedCategory("all")}
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all cursor-pointer ${
+                selectedCategory === "all"
+                  ? "bg-blue-600 text-white font-semibold shadow-sm"
+                  : "bg-[#1c1e27] text-slate-400 hover:text-white hover:bg-[#252836] border border-[#2d3142]"
+              }`}
+            >
+              {lang === "zh" ? "全部" : "All"}
+              <span className="ml-1 opacity-70 text-[10px]">({categoryCounts.all})</span>
+            </button>
+
+            {/* Individual Category Chips */}
+            {CATEGORIES_CONFIG.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all flex items-center gap-1 cursor-pointer ${
+                  selectedCategory === cat.id
+                    ? "bg-blue-600 text-white font-semibold shadow-sm"
+                    : "bg-[#1c1e27] text-slate-400 hover:text-white hover:bg-[#252836] border border-[#2d3142]"
+                }`}
+              >
+                <span>{cat.icon}</span>
+                <span>{lang === "zh" ? cat.titleZh : cat.titleEn}</span>
+                <span className="opacity-70 text-[10px]">({categoryCounts[cat.id] || 0})</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Arrange Toggle Buttons */}
+          <div className="flex items-center gap-1.5 flex-shrink-0 self-start lg:self-auto">
+            <span className="text-xs text-slate-400 mr-0.5">
+              {lang === "zh" ? "排列:" : "Sort:"}
+            </span>
+            <div className="inline-flex p-0.5 rounded-lg bg-[#1c1e27] border border-[#2d3142]">
+              <button
+                onClick={() => setArrange("categories")}
+                className={`px-2.5 py-0.5 rounded-md text-xs font-medium transition-all ${
+                  arrange === "categories"
+                    ? "bg-blue-600 text-white font-semibold shadow-sm"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {lang === "zh" ? "分类" : "Categories"}
+              </button>
+              <button
+                onClick={() => setArrange("alpha")}
+                className={`px-2.5 py-0.5 rounded-md text-xs font-medium transition-all ${
+                  arrange === "alpha"
+                    ? "bg-blue-600 text-white font-semibold shadow-sm"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {lang === "zh" ? "A–Z" : "A–Z"}
+              </button>
+              <button
+                onClick={() => setArrange("newest")}
+                className={`px-2.5 py-0.5 rounded-md text-xs font-medium transition-all ${
+                  arrange === "newest"
+                    ? "bg-blue-600 text-white font-semibold shadow-sm"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {lang === "zh" ? "最新" : "New"}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Info Counter */}
-      <div className="flex items-center justify-between text-xs text-slate-500 mb-6 px-1">
+      <div className="flex items-center justify-between text-xs text-slate-500 mb-5 px-1">
         <span>
           {lang === "zh"
-            ? `显示 ${filtered.length} 个扩展（共 ${EXTENSIONS_DATA.length} 款）`
+            ? `显示 ${filtered.length} 个扩展（总计 ${EXTENSIONS_DATA.length} 款）`
             : `Showing ${filtered.length} of ${EXTENSIONS_DATA.length} extensions`}
         </span>
-        {search && (
+        {(search || selectedCategory !== "all") && (
           <button
-            onClick={() => setSearch("")}
+            onClick={() => {
+              setSearch("");
+              setSelectedCategory("all");
+            }}
             className="text-blue-400 hover:underline text-xs"
           >
-            {lang === "zh" ? "清除筛选" : "Clear filter"}
+            {lang === "zh" ? "重置所有筛选" : "Reset filters"}
           </button>
         )}
       </div>
 
-      {/* 1 Row Per Item Directory List */}
+      {/* Single Column 1-Per-Row Directory List */}
       {filtered.length > 0 ? (
         <div className="space-y-8">
           {/* Mode 1: Categories Mode */}
@@ -235,7 +301,7 @@ export default function ExtensionsPage() {
             {lang === "zh" ? "没有找到匹配的扩展" : "No matching extensions"}
           </h3>
           <p className="text-xs text-slate-400">
-            {lang === "zh" ? "尝试更换搜索词或重置筛选" : "Try searching another keyword"}
+            {lang === "zh" ? "尝试更换搜索词或重置分类筛选" : "Try another keyword or reset category filter"}
           </p>
         </div>
       )}
