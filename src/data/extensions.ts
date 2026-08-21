@@ -17,25 +17,44 @@ export interface ExtensionItem {
 }
 
 const EXTENSION_PACKAGE_MAP: Record<string, string> = {
+  "com.flyclip.extension.amap-search": "AmapSearch",
   "com.flyclip.extension.amazon": "Amazon",
+  "com.flyclip.extension.archive-today": "ArchiveToday",
+  "com.flyclip.extension.arxiv-search": "Arxiv",
   "com.flyclip.extension.baidu-search": "BaiduSearch",
   "com.flyclip.extension.baidu-translate": "BaiduTranslate",
   "com.flyclip.extension.base64": "Base64",
   "com.flyclip.extension.bilibili-search": "BilibiliSearch",
   "com.flyclip.extension.bing-search": "BingSearch",
+  "com.flyclip.extension.brave-search": "BraveSearch",
   "com.flyclip.extension.calculate": "Calculate",
+  "com.flyclip.extension.caniuse": "CanIUse",
   "com.flyclip.extension.case-converter": "CaseConverter",
   "com.flyclip.extension.chatgpt": "ChatGPT",
   "com.flyclip.extension.claude": "Claude",
+  "com.flyclip.extension.comma-list": "CommaList",
+  "com.flyclip.extension.convert-currency": "ConvertCurrency",
+  "com.flyclip.extension.copy-urls": "CopyURLs",
+  "com.flyclip.extension.crates-io": "CratesIO",
   "com.flyclip.extension.cut": "Cut",
+  "com.flyclip.extension.cyberchef": "CyberChef",
   "com.flyclip.extension.deepl-translate": "DeepLTranslate",
   "com.flyclip.extension.deepseek": "DeepSeek",
+  "com.flyclip.extension.devdocs": "DevDocs",
+  "com.flyclip.extension.dockerhub": "DockerHub",
+  "com.flyclip.extension.doi-resolver": "DOIResolver",
   "com.flyclip.extension.douban-search": "Douban",
   "com.flyclip.extension.duckduckgo": "DuckDuckGo",
+  "com.flyclip.extension.ebay-search": "EbaySearch",
+  "com.flyclip.extension.ecosia-search": "EcosiaSearch",
   "com.flyclip.extension.full-half-width": "FullHalfWidth",
   "com.flyclip.extension.github-search": "GitHubSearch",
+  "com.flyclip.extension.goodreads": "Goodreads",
+  "com.flyclip.extension.google-maps": "GoogleMaps",
+  "com.flyclip.extension.google-scholar": "GoogleScholar",
   "com.flyclip.extension.google-search": "GoogleSearch",
   "com.flyclip.extension.google-translate": "GoogleTranslate",
+  "com.flyclip.extension.hackernews-search": "HackerNews",
   "com.flyclip.extension.hash-generator": "HashGenerator",
   "com.flyclip.extension.html-encode": "HTMLEncode",
   "com.flyclip.extension.imdb": "IMDb",
@@ -43,20 +62,53 @@ const EXTENSION_PACKAGE_MAP: Record<string, string> = {
   "com.flyclip.extension.jd-search": "JD",
   "com.flyclip.extension.join-lines": "JoinLines",
   "com.flyclip.extension.json-formatter": "JSONFormatter",
+  "com.flyclip.extension.kagi-search": "KagiSearch",
+  "com.flyclip.extension.link-cleaner": "LinkCleaner",
   "com.flyclip.extension.markdown-tools": "MarkdownTools",
   "com.flyclip.extension.mdn-web-docs": "MDNWebDocs",
+  "com.flyclip.extension.medium-search": "MediumSearch",
+  "com.flyclip.extension.notion-search": "NotionWeb",
+  "com.flyclip.extension.npm-search": "NPM",
+  "com.flyclip.extension.obsidian-capture": "ObsidianCapture",
+  "com.flyclip.extension.openstreetmap": "OpenStreetMap",
+  "com.flyclip.extension.open-urls": "OpenURLs",
+  "com.flyclip.extension.pocket-save": "PocketSave",
+  "com.flyclip.extension.poor-text": "PoorText",
   "com.flyclip.extension.pot-desktop": "PotTranslate",
+  "com.flyclip.extension.pubmed": "PubMed",
+  "com.flyclip.extension.pypi-search": "PyPI",
+  "com.flyclip.extension.raindrop-bookmark": "RaindropBookmark",
+  "com.flyclip.extension.reddit-search": "RedditSearch",
+  "com.flyclip.extension.regexr": "RegExr",
   "com.flyclip.extension.regex101": "RegexTest",
   "com.flyclip.extension.remove-spaces": "RemoveSpaces",
+  "com.flyclip.extension.reverse-lines": "ReverseLines",
+  "com.flyclip.extension.rot13": "ROT13",
+  "com.flyclip.extension.rotten-tomatoes": "RottenTomatoes",
   "com.flyclip.extension.iconify-search": "SearchIcons",
+  "com.flyclip.extension.shorten-link": "ShortenLink",
+  "com.flyclip.extension.shuffle-lines": "ShuffleLines",
+  "com.flyclip.extension.slugify": "Slugify",
   "com.flyclip.extension.sort-lines": "SortLines",
+  "com.flyclip.extension.spotify-search": "SpotifySearch",
+  "com.flyclip.extension.stackoverflow": "StackOverflow",
+  "com.flyclip.extension.startpage-search": "StartPage",
   "com.flyclip.extension.stranslate": "STranslate",
+  "com.flyclip.extension.sum-numbers": "SumNumbers",
   "com.flyclip.extension.taobao-search": "Taobao",
   "com.flyclip.extension.text-statistics": "TextStatistics",
   "com.flyclip.extension.timestamp-converter": "TimestampConvert",
+  "com.flyclip.extension.todoist-task": "TodoistQuickTask",
+  "com.flyclip.extension.traditional-simplified": "TradSim",
+  "com.flyclip.extension.twitter-search": "TwitterSearch",
   "com.flyclip.extension.urban-dictionary": "UrbanDictionary",
   "com.flyclip.extension.url-encode": "URLEncode",
+  "com.flyclip.extension.v2ex-search": "V2EXSearch",
+  "com.flyclip.extension.wayback-machine": "WaybackMachine",
   "com.flyclip.extension.wikipedia": "Wikipedia",
+  "com.flyclip.extension.wolfram-alpha": "WolframAlpha",
+  "com.flyclip.extension.xiaohongshu": "Xiaohongshu",
+  "com.flyclip.extension.yandex-search": "YandexSearch",
   "com.flyclip.extension.youdao-dict": "YoudaoTranslate",
   "com.flyclip.extension.youtube-search": "YouTubeSearch",
   "com.flyclip.extension.zhihu-search": "ZhihuSearch",
@@ -67,6 +119,20 @@ export function getExtensionPackageName(id: string): string {
 }
 
 export const EXTENSIONS_DATA: ExtensionItem[] = [
+  {
+    id: "com.flyclip.extension.amap-search",
+    name: "Amap (AutoNavi Maps)",
+    nameZh: "高德地图位置搜索",
+    nameEn: "Amap (AutoNavi Maps)",
+    category: "shopping",
+    icon: "iconify:tabler:map-pin",
+    description: "Search addresses and locations across China on Amap (AutoNavi).",
+    descriptionZh: "在高德地图快速检索国内精准地址、地名商户与公交换乘。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Amap (AutoNavi Maps)\n  zh-CN: 高德地图位置搜索\nidentifier: com.flyclip.extension.amap-search\ndescription:\n  en: Search addresses and locations across China on Amap (AutoNavi).\n  zh-CN: 在高德地图快速检索国内精准地址、地名商户与公交换乘。\nicon: iconify:tabler:map-pin\nactions:\n  - title: 高德地图\n    url: https://www.amap.com/search?query=***\n    clean query: true\n    requirements:\n      - text"
+  },
   {
     id: "com.flyclip.extension.amazon",
     name: "Amazon",
@@ -80,6 +146,34 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     optionsCount: 1,
     type: "url",
     configYaml: "name:\n  en: Amazon\n  zh-CN: 亚马逊商城\ndescription:\n  en: Search Amazon worldwide with site selection.\n  zh-CN: 在全球 Amazon 亚马逊商城（美/中/日/英/德）搜索商品。\nidentifier: com.flyclip.extension.amazon\nicon: iconify:simple-icons:amazon\noptions:\n  - identifier: site\n    label:\n      en: Amazon Store\n      zh: 亚马逊商城站点\n    type: multiple\n    values:\n      - amazon.com\n      - amazon.cn\n      - amazon.co.jp\n      - amazon.co.uk\n      - amazon.de\n    value labels:\n      - US (amazon.com)\n      - 中国 (amazon.cn)\n      - 日本 (amazon.co.jp)\n      - 英国 (amazon.co.uk)\n      - 德国 (amazon.de)\n    default value: amazon.com\n\nactions:\n  - title: Amazon\n    url: https://www.{flyclip option site}/s?k=***\n    spaces as plus: true\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.archive-today",
+    name: "Archive.today Web Snapshot",
+    nameZh: "Archive.today 网页快照/去墙",
+    nameEn: "Archive.today Web Snapshot",
+    category: "shopping",
+    icon: "iconify:tabler:camera",
+    description: "View or archive web pages on Archive.today (Archive.is), bypassing paywalls and anti-adblockers.",
+    descriptionZh: "在 Archive.today / Archive.is 永久归档网页，绕过阅读限制与失效链接。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Archive.today Web Snapshot\n  zh-CN: Archive.today 网页快照/去墙\nidentifier: com.flyclip.extension.archive-today\ndescription:\n  en: View or archive web pages on Archive.today (Archive.is), bypassing paywalls\n    and anti-adblockers.\n  zh-CN: 在 Archive.today / Archive.is 永久归档网页，绕过阅读限制与失效链接。\nicon: iconify:tabler:camera\nactions:\n  - title: Archive.today\n    url: https://archive.today/?run=1&url=***\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.arxiv-search",
+    name: "arXiv Research Papers",
+    nameZh: "arXiv 预印本学术搜索",
+    nameEn: "arXiv Research Papers",
+    category: "search_ai",
+    icon: "iconify:tabler:atom",
+    description: "Search open access research papers in AI, computer science, physics, mathematics on arXiv.",
+    descriptionZh: "检索 AI、计算机科学、数学与物理学领域的 arXiv 开放学术预印本文献。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: arXiv Research Papers\n  zh-CN: arXiv 预印本学术搜索\nidentifier: com.flyclip.extension.arxiv-search\ndescription:\n  en: Search open access research papers in AI, computer science, physics,\n    mathematics on arXiv.\n  zh-CN: 检索 AI、计算机科学、数学与物理学领域的 arXiv 开放学术预印本文献。\nicon: iconify:tabler:atom\nactions:\n  - title: arXiv\n    url: https://arxiv.org/search/?query=***&searchtype=all\n    clean query: true\n    requirements:\n      - text"
   },
   {
     id: "com.flyclip.extension.baidu-search",
@@ -152,6 +246,20 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: Bing Search\n  zh-CN: 必应搜索\ndescription:\n  en: Search with Microsoft Bing.\n  zh-CN: 使用微软必应 Bing 搜索选中文本。\nidentifier: com.flyclip.extension.bing-search\nicon: iconify:simple-icons:microsoftbing\nactions:\n  - title: Bing\n    url: https://www.bing.com/search?q=***\n    requirements: [text]"
   },
   {
+    id: "com.flyclip.extension.brave-search",
+    name: "Brave Search",
+    nameZh: "Brave 隐私搜索",
+    nameEn: "Brave Search",
+    category: "search_ai",
+    icon: "iconify:simple-icons:brave",
+    description: "Search the web privately using Brave independent search engine index.",
+    descriptionZh: "使用独立不追踪用户隐私的 Brave Search 搜索引擎。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Brave Search\n  zh-CN: Brave 隐私搜索\nidentifier: com.flyclip.extension.brave-search\ndescription:\n  en: Search the web privately using Brave independent search engine index.\n  zh-CN: 使用独立不追踪用户隐私的 Brave Search 搜索引擎。\nicon: iconify:simple-icons:brave\nactions:\n  - title: Brave Search\n    url: https://search.brave.com/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.calculate",
     name: "Calculate",
     nameZh: "即时数学计算",
@@ -164,6 +272,20 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     
     type: "js",
     configYaml: "name:\n  en: Calculate\n  zh-CN: 即时数学计算\ndescription:\n  en: Evaluate math expressions instantly (e.g. 128*1024, (50+20)/3).\n  zh-CN: 即时计算选中的数学表达式并显示结果。\nidentifier: com.flyclip.extension.calculate\nicon: \"=?\"\nactions:\n  - title: 计算结果\n    identifier: eval\n    javascript: |\n      const expr = flyclip.input.text.trim();\n      try {\n        const res = Function(`'use strict'; return (${expr})`)();\n        return `${expr} = ${res}`;\n      } catch (e) {\n        return \"[计算出错: 表达式无效]\";\n      }\n    requirements: [text]\n    after: show-result"
+  },
+  {
+    id: "com.flyclip.extension.caniuse",
+    name: "Can I Use",
+    nameZh: "Can I Use 前端兼容性查询",
+    nameEn: "Can I Use",
+    category: "developer",
+    icon: "iconify:tabler:browser-check",
+    description: "Check browser support tables for modern HTML5, CSS3, and JavaScript APIs.",
+    descriptionZh: "查询 HTML5、CSS3 及现代 Web API 在各大主流浏览器的兼容性支持。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Can I Use\n  zh-CN: Can I Use 前端兼容性查询\nidentifier: com.flyclip.extension.caniuse\ndescription:\n  en: Check browser support tables for modern HTML5, CSS3, and JavaScript APIs.\n  zh-CN: 查询 HTML5、CSS3 及现代 Web API 在各大主流浏览器的兼容性支持。\nicon: iconify:tabler:browser-check\nactions:\n  - title: Can I Use\n    url: https://caniuse.com/?search=***\n    clean query: true\n    requirements:\n      - text"
   },
   {
     id: "com.flyclip.extension.case-converter",
@@ -208,6 +330,62 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: Claude\n  zh-CN: Claude\ndescription:\n  en: Send selected text to Anthropic Claude AI.\n  zh-CN: 发送选中文本给 Anthropic Claude 对话交互。\nidentifier: com.flyclip.extension.claude\nicon: iconify:simple-icons:anthropic\nactions:\n  - title: Claude\n    url: https://claude.ai/new?q=***\n    requirements: [text]"
   },
   {
+    id: "com.flyclip.extension.comma-list",
+    name: "Comma List",
+    nameZh: "逗号列表与换行互转",
+    nameEn: "Comma List",
+    category: "text_tools",
+    icon: "iconify:tabler:list-numbers",
+    description: "Split comma/semicolon separated items into multiple lines, or merge multiple lines into a delimited list.",
+    descriptionZh: "在逗号/分号分隔的单行列表与多行换行列表之间自由互转。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Comma List\n  zh-CN: 逗号列表与换行互转\nidentifier: com.flyclip.extension.comma-list\ndescription:\n  en: Split comma/semicolon separated items into multiple lines, or merge multiple\n    lines into a delimited list.\n  zh-CN: 在逗号/分号分隔的单行列表与多行换行列表之间自由互转。\nicon: iconify:tabler:list-numbers\nactions:\n  - title:\n      en: To Lines (转多行)\n      zh-CN: 拆分为多行\n    identifier: to_lines\n    javascript: \"\n\n      \\            return flyclip.input.text\n\n      \\              .split(/[,;，；]/)\n\n      \\              .map(s => s.trim())\n\n      \\              .filter(Boolean)\n\n      \\              .join(\\\"\\\\n\\\");\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result\n  - title:\n      en: To Comma List (转逗号列表)\n      zh-CN: 合并为逗号分隔\n    identifier: to_comma\n    javascript: \"\n\n      \\            return flyclip.input.text\n\n      \\              .split(/\\\\r\\\\n|\\\\r|\\\\n/)\n\n      \\              .map(s => s.trim())\n\n      \\              .filter(Boolean)\n\n      \\              .join(\\\", \\\");\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
+    id: "com.flyclip.extension.convert-currency",
+    name: "Convert Currency",
+    nameZh: "汇率查询与换算",
+    nameEn: "Convert Currency",
+    category: "shopping",
+    icon: "iconify:tabler:currency-dollar",
+    description: "Quickly query currency exchange rates and convert amounts on Google Finance / XE.",
+    descriptionZh: "快速查询货币汇率，并在 Google 财经 / XE 打开换算结果。",
+    hasOptions: true,
+    optionsCount: 1,
+    type: "url",
+    configYaml: "name:\n  en: Convert Currency\n  zh-CN: 汇率查询与换算\nidentifier: com.flyclip.extension.convert-currency\ndescription:\n  en: Quickly query currency exchange rates and convert amounts on Google Finance\n    / XE.\n  zh-CN: 快速查询货币汇率，并在 Google 财经 / XE 打开换算结果。\nicon: iconify:tabler:currency-dollar\noptions:\n  - identifier: targetCurrency\n    label:\n      en: Target Currency\n      zh-CN: 目标货币\n    type: multiple\n    values:\n      - CNY\n      - USD\n      - EUR\n      - JPY\n      - GBP\n      - HKD\n    value labels:\n      - CNY (人民币)\n      - USD (美元)\n      - EUR (欧元)\n      - JPY (日元)\n      - GBP (英镑)\n      - HKD (港币)\n    default value: CNY\nactions:\n  - title:\n      en: Exchange Rate\n      zh-CN: 汇率换算\n    url: https://www.google.com/finance/quote/{flyclip text}-{flyclip option\n      targetCurrency}\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.copy-urls",
+    name: "Copy URLs",
+    nameZh: "提取所有网址",
+    nameEn: "Copy URLs",
+    category: "text_tools",
+    icon: "iconify:tabler:copy-check",
+    description: "Extract and copy only URL links found in selected text to clipboard as a clean list.",
+    descriptionZh: "仅提取选中文本中的所有网址，整理为换行清单并存入剪贴板。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Copy URLs\n  zh-CN: 提取所有网址\nidentifier: com.flyclip.extension.copy-urls\ndescription:\n  en: Extract and copy only URL links found in selected text to clipboard as a\n    clean list.\n  zh-CN: 仅提取选中文本中的所有网址，整理为换行清单并存入剪贴板。\nicon: iconify:tabler:copy-check\nactions:\n  - title:\n      en: Copy URLs List\n      zh-CN: 提取网址清单\n    identifier: copy_urls\n    javascript: \"\n\n      \\            const text = flyclip.input.text;\n\n      \\            const urlRegex = /https?:\\\\/\\\\/[^\\\\s'\\\"<>()]+/gi;\n\n      \\            const matches = text.match(urlRegex) || [];\n\n      \\            const uniqueUrls = Array.from(new Set(matches));\n\n\n      \\            if (uniqueUrls.length === 0) {\n\n      \\              return \\\"[选中文本中没有找到 URL]\\\";\n\n      \\            }\n\n\n      \\            return uniqueUrls.join(\\\"\\\\n\\\");\n\n      \\          \"\n    requirements:\n      - text\n    after: copy-result"
+  },
+  {
+    id: "com.flyclip.extension.crates-io",
+    name: "Crates.io Rust Crates",
+    nameZh: "Crates.io Rust 包搜索",
+    nameEn: "Crates.io Rust Crates",
+    category: "developer",
+    icon: "iconify:simple-icons:rust",
+    description: "Search Rust packages and libraries on Crates.io.",
+    descriptionZh: "在 Crates.io 检索 Rust 官方开源 Crates 库。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Crates.io Rust Crates\n  zh-CN: Crates.io Rust 包搜索\nidentifier: com.flyclip.extension.crates-io\ndescription:\n  en: Search Rust packages and libraries on Crates.io.\n  zh-CN: 在 Crates.io 检索 Rust 官方开源 Crates 库。\nicon: iconify:simple-icons:rust\nactions:\n  - title: Crates.io\n    url: https://crates.io/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.cut",
     name: "Cut",
     nameZh: "剪切",
@@ -220,6 +398,20 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     
     type: "url",
     configYaml: "name:\n  en: Cut\n  zh-CN: 剪切\ndescription:\n  en: Cut selected text to clipboard.\n  zh-CN: 剪切所选文本到剪贴板。\nidentifier: com.flyclip.extension.cut\nicon: scissors\nactions:\n  - title:\n      en: Cut\n      zh-CN: 剪切\n    icon: scissors\n    command: cut\n    requirements: [cut]"
+  },
+  {
+    id: "com.flyclip.extension.cyberchef",
+    name: "CyberChef",
+    nameZh: "CyberChef 数据分析工具",
+    nameEn: "CyberChef",
+    category: "developer",
+    icon: "iconify:tabler:chef-hat",
+    description: "Send selected text directly into the CyberChef Cyber Swiss Army Knife for advanced decoding and analysis.",
+    descriptionZh: "将选中文本投递到 CyberChef 网页版进行高级数据清洗、解码与逆向分析。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: CyberChef\n  zh-CN: CyberChef 数据分析工具\nidentifier: com.flyclip.extension.cyberchef\ndescription:\n  en: Send selected text directly into the CyberChef Cyber Swiss Army Knife for\n    advanced decoding and analysis.\n  zh-CN: 将选中文本投递到 CyberChef 网页版进行高级数据清洗、解码与逆向分析。\nicon: iconify:tabler:chef-hat\nactions:\n  - title: CyberChef\n    url: https://gchq.github.io/CyberChef/#input={flyclip text}\n    requirements:\n      - text"
   },
   {
     id: "com.flyclip.extension.deepl-translate",
@@ -250,6 +442,48 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: DeepSeek\n  zh-CN: DeepSeek 深度求索\ndescription:\n  en: Ask DeepSeek AI with selected text.\n  zh-CN: 发送选中文本给 DeepSeek 深度求索 AI 助手分析。\nidentifier: com.flyclip.extension.deepseek\nicon: DS\nactions:\n  - title: DeepSeek\n    url: https://chat.deepseek.com/?q=***\n    requirements: [text]"
   },
   {
+    id: "com.flyclip.extension.devdocs",
+    name: "DevDocs API Docs",
+    nameZh: "DevDocs 开发文档",
+    nameEn: "DevDocs API Docs",
+    category: "developer",
+    icon: "iconify:tabler:book-2",
+    description: "Instant search across multiple API documentations in a single fast interface.",
+    descriptionZh: "在 DevDocs 中快速检索各类语言、库与框架的官方 API 参考文档。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: DevDocs API Docs\n  zh-CN: DevDocs 开发文档\nidentifier: com.flyclip.extension.devdocs\ndescription:\n  en: Instant search across multiple API documentations in a single fast interface.\n  zh-CN: 在 DevDocs 中快速检索各类语言、库与框架的官方 API 参考文档。\nicon: iconify:tabler:book-2\nactions:\n  - title: DevDocs\n    url: https://devdocs.io/#q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.dockerhub",
+    name: "Docker Hub",
+    nameZh: "Docker Hub 容器镜像搜索",
+    nameEn: "Docker Hub",
+    category: "developer",
+    icon: "iconify:simple-icons:docker",
+    description: "Search official and community Docker container images on Docker Hub.",
+    descriptionZh: "在 Docker Hub 快速检索官方与社区容器镜像。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Docker Hub\n  zh-CN: Docker Hub 容器镜像搜索\nidentifier: com.flyclip.extension.dockerhub\ndescription:\n  en: Search official and community Docker container images on Docker Hub.\n  zh-CN: 在 Docker Hub 快速检索官方与社区容器镜像。\nicon: iconify:simple-icons:docker\nactions:\n  - title: Docker Hub\n    url: https://hub.docker.com/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.doi-resolver",
+    name: "DOI Resolver",
+    nameZh: "DOI 数字文献解析",
+    nameEn: "DOI Resolver",
+    category: "developer",
+    icon: "iconify:tabler:certificate",
+    description: "Resolve Digital Object Identifier (DOI) strings and jump directly to the published paper on doi.org.",
+    descriptionZh: "识别文献 DOI 标识并在 doi.org 直达学术出版原文网页。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: DOI Resolver\n  zh-CN: DOI 数字文献解析\nidentifier: com.flyclip.extension.doi-resolver\ndescription:\n  en: Resolve Digital Object Identifier (DOI) strings and jump directly to the\n    published paper on doi.org.\n  zh-CN: 识别文献 DOI 标识并在 doi.org 直达学术出版原文网页。\nicon: iconify:tabler:certificate\nactions:\n  - title: Resolve DOI\n    url: https://doi.org/{flyclip text}\n    regex: (?:10\\.\\d{4,9}/[-._;()/:A-Za-z0-9]+)\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.douban-search",
     name: "Douban Search",
     nameZh: "豆瓣搜索",
@@ -276,6 +510,34 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     
     type: "url",
     configYaml: "name:\n  en: DuckDuckGo\n  zh-CN: DuckDuckGo\ndescription:\n  en: Privacy search with DuckDuckGo.\n  zh-CN: 使用 DuckDuckGo 隐私无追踪搜索引擎。\nidentifier: com.flyclip.extension.duckduckgo\nicon: iconify:simple-icons:duckduckgo\nactions:\n  - title: DDG\n    url: https://duckduckgo.com/?q=***\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.ebay-search",
+    name: "eBay Global Marketplace",
+    nameZh: "eBay 跨境商品搜索",
+    nameEn: "eBay Global Marketplace",
+    category: "shopping",
+    icon: "iconify:simple-icons:ebay",
+    description: "Search auctions and buy-it-now products worldwide on eBay.",
+    descriptionZh: "在 eBay 检索全球海淘商品、二手器材与拍卖好物。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: eBay Global Marketplace\n  zh-CN: eBay 跨境商品搜索\nidentifier: com.flyclip.extension.ebay-search\ndescription:\n  en: Search auctions and buy-it-now products worldwide on eBay.\n  zh-CN: 在 eBay 检索全球海淘商品、二手器材与拍卖好物。\nicon: iconify:simple-icons:ebay\nactions:\n  - title: eBay\n    url: https://www.ebay.com/sch/i.html?_nkw=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.ecosia-search",
+    name: "Ecosia Search",
+    nameZh: "Ecosia 植树环保搜索",
+    nameEn: "Ecosia Search",
+    category: "search_ai",
+    icon: "iconify:tabler:trees",
+    description: "Search the web with Ecosia, the search engine that plants trees with its profits.",
+    descriptionZh: "使用通过搜索收益在全球种植树木的 Ecosia 绿色公益搜索引擎。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Ecosia Search\n  zh-CN: Ecosia 植树环保搜索\nidentifier: com.flyclip.extension.ecosia-search\ndescription:\n  en: Search the web with Ecosia, the search engine that plants trees with its\n    profits.\n  zh-CN: 使用通过搜索收益在全球种植树木的 Ecosia 绿色公益搜索引擎。\nicon: iconify:tabler:trees\nactions:\n  - title: Ecosia\n    url: https://www.ecosia.org/search?q=***\n    clean query: true\n    requirements:\n      - text"
   },
   {
     id: "com.flyclip.extension.full-half-width",
@@ -306,6 +568,48 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: GitHub Search\n  zh-CN: GitHub 搜索\ndescription:\n  en: Search repositories, code, and issues on GitHub.\n  zh-CN: 在 GitHub 搜索开源仓库、源码片段或 Issue 问题。\nidentifier: com.flyclip.extension.github-search\nicon: iconify:simple-icons:github\noptions:\n  - identifier: search_type\n    label:\n      en: Search Type\n      zh: 搜索类型\n    type: multiple\n    values:\n      - repositories\n      - code\n      - issues\n      - commits\n      - users\n    value labels:\n      - Repositories (代码仓库)\n      - Code (代码)\n      - Issues (工单/问题)\n      - Commits (提交记录)\n      - Users (开发者)\n    default value: repositories\n\nactions:\n  - title: GitHub\n    url: https://github.com/search?q={flyclip text}&type={flyclip option search_type}\n    requirements: [text]"
   },
   {
+    id: "com.flyclip.extension.goodreads",
+    name: "Goodreads Book Search",
+    nameZh: "Goodreads 读书与书评",
+    nameEn: "Goodreads Book Search",
+    category: "shopping",
+    icon: "iconify:simple-icons:goodreads",
+    description: "Find books, book reviews, quotes, and author pages on Goodreads.",
+    descriptionZh: "在 Goodreads 查找图书评分、书友长评与作者主页。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Goodreads Book Search\n  zh-CN: Goodreads 读书与书评\nidentifier: com.flyclip.extension.goodreads\ndescription:\n  en: Find books, book reviews, quotes, and author pages on Goodreads.\n  zh-CN: 在 Goodreads 查找图书评分、书友长评与作者主页。\nicon: iconify:simple-icons:goodreads\nactions:\n  - title: Goodreads\n    url: https://www.goodreads.com/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.google-maps",
+    name: "Google Maps",
+    nameZh: "Google 地图位置搜索",
+    nameEn: "Google Maps",
+    category: "shopping",
+    icon: "iconify:simple-icons:googlemaps",
+    description: "Search addresses, locations, and directions on Google Maps.",
+    descriptionZh: "在 Google Maps 检索地址位置、店铺商家与导航路线。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Google Maps\n  zh-CN: Google 地图位置搜索\nidentifier: com.flyclip.extension.google-maps\ndescription:\n  en: Search addresses, locations, and directions on Google Maps.\n  zh-CN: 在 Google Maps 检索地址位置、店铺商家与导航路线。\nicon: iconify:simple-icons:googlemaps\nactions:\n  - title: Google Maps\n    url: https://www.google.com/maps/search/***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.google-scholar",
+    name: "Google Scholar",
+    nameZh: "Google 学术搜索",
+    nameEn: "Google Scholar",
+    category: "search_ai",
+    icon: "iconify:simple-icons:googlescholar",
+    description: "Search peer-reviewed papers, theses, books, abstracts and court opinions on Google Scholar.",
+    descriptionZh: "在 Google 学术检索期刊论文、硕博论文、学术专著与文献引用。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Google Scholar\n  zh-CN: Google 学术搜索\nidentifier: com.flyclip.extension.google-scholar\ndescription:\n  en: Search peer-reviewed papers, theses, books, abstracts and court opinions on\n    Google Scholar.\n  zh-CN: 在 Google 学术检索期刊论文、硕博论文、学术专著与文献引用。\nicon: iconify:simple-icons:googlescholar\nactions:\n  - title: Google Scholar\n    url: https://scholar.google.com/scholar?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.google-search",
     name: "Google Search",
     nameZh: "Google 搜索",
@@ -332,6 +636,20 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     optionsCount: 2,
     type: "url",
     configYaml: "name:\n  en: Google Translate\n  zh-CN: Google 翻译\ndescription:\n  en: Translate selected text with Google Translate worldwide.\n  zh-CN: 使用 Google 翻译选中文本，支持多站点切换与目标语言设定。\nidentifier: com.flyclip.extension.google-translate\nicon: iconify:simple-icons:googletranslate\noptions:\n  - identifier: site\n    label:\n      en: Google Translate Site\n      zh: 翻译站点\n    type: multiple\n    values:\n      - translate.google.com\n      - translate.google.cn\n      - translate.google.com.hk\n      - translate.google.co.jp\n      - translate.google.co.uk\n    value labels:\n      - Global (translate.google.com)\n      - China (translate.google.cn)\n      - Hong Kong (translate.google.com.hk)\n      - Japan (translate.google.co.jp)\n      - UK (translate.google.co.uk)\n    default value: translate.google.com\n\n  - identifier: target_lang\n    label:\n      en: Target Language\n      zh: 目标语言\n    type: multiple\n    values:\n      - zh-CN\n      - en\n      - ja\n      - ko\n      - fr\n      - de\n      - es\n      - ru\n    value labels:\n      - 简体中文 (zh-CN)\n      - English (en)\n      - 日本語 (ja)\n      - 한국어 (ko)\n      - Français (fr)\n      - Deutsch (de)\n      - Español (es)\n      - Русский (ru)\n    default value: zh-CN\n\nactions:\n  - title: Google Translate\n    url: https://{flyclip option site}/?sl=auto&tl={flyclip option target_lang}&text={flyclip text}&op=translate\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.hackernews-search",
+    name: "Hacker News Search",
+    nameZh: "Hacker News 技术热点搜索",
+    nameEn: "Hacker News Search",
+    category: "search_ai",
+    icon: "iconify:simple-icons:ycombinator",
+    description: "Search stories, comments, and tech startup discussions on Hacker News.",
+    descriptionZh: "通过 HN Search (Algolia) 检索 Hacker News 历史深度技术讨论与文章。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Hacker News Search\n  zh-CN: Hacker News 技术热点搜索\nidentifier: com.flyclip.extension.hackernews-search\ndescription:\n  en: Search stories, comments, and tech startup discussions on Hacker News.\n  zh-CN: 通过 HN Search (Algolia) 检索 Hacker News 历史深度技术讨论与文章。\nicon: iconify:simple-icons:ycombinator\nactions:\n  - title: Hacker News\n    url: https://hn.algolia.com/?q=***\n    clean query: true\n    requirements:\n      - text"
   },
   {
     id: "com.flyclip.extension.hash-generator",
@@ -432,6 +750,34 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: JSON Formatter\n  zh-CN: JSON 格式化\ndescription:\n  en: Prettify or minify JSON text in place.\n  zh-CN: JSON 格式化美化排版或单行压缩。\nidentifier: com.flyclip.extension.json-formatter\nicon: \"{}\"\nactions:\n  - title: 格式化 JSON\n    identifier: format\n    javascript: |\n      try {\n        const obj = JSON.parse(flyclip.input.text);\n        return JSON.stringify(obj, null, 2);\n      } catch (e) {\n        return \"[JSON 解析失败: 语法格式有误]\";\n      }\n    requirements: [text]\n    after: paste-result\n\n  - title: 压缩 JSON\n    identifier: minify\n    javascript: |\n      try {\n        const obj = JSON.parse(flyclip.input.text);\n        return JSON.stringify(obj);\n      } catch (e) {\n        return \"[JSON 解析失败: 语法格式有误]\";\n      }\n    requirements: [text]\n    after: paste-result"
   },
   {
+    id: "com.flyclip.extension.kagi-search",
+    name: "Kagi Search",
+    nameZh: "Kagi 高级无广告搜索",
+    nameEn: "Kagi Search",
+    category: "search_ai",
+    icon: "iconify:tabler:shield-search",
+    description: "Fast, private, and ad-free search powered by Kagi.",
+    descriptionZh: "使用干净、极速、无广告的高品质 Kagi 搜索引擎。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Kagi Search\n  zh-CN: Kagi 高级无广告搜索\nidentifier: com.flyclip.extension.kagi-search\ndescription:\n  en: Fast, private, and ad-free search powered by Kagi.\n  zh-CN: 使用干净、极速、无广告的高品质 Kagi 搜索引擎。\nicon: iconify:tabler:shield-search\nactions:\n  - title: Kagi Search\n    url: https://kagi.com/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.link-cleaner",
+    name: "Link Cleaner",
+    nameZh: "链接参数清洗",
+    nameEn: "Link Cleaner",
+    category: "text_tools",
+    icon: "iconify:tabler:link-off",
+    description: "Remove tracking query parameters (utm_*, spm, ref, fbclid, etc.) from selected URLs.",
+    descriptionZh: "自动剔除选中文本/链接中冗余的追踪参数（如 utm_*, spm, ref, fbclid 等）。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Link Cleaner\n  zh-CN: 链接参数清洗\nidentifier: com.flyclip.extension.link-cleaner\ndescription:\n  en: Remove tracking query parameters (utm_*, spm, ref, fbclid, etc.) from\n    selected URLs.\n  zh-CN: 自动剔除选中文本/链接中冗余的追踪参数（如 utm_*, spm, ref, fbclid 等）。\nicon: iconify:tabler:link-off\nactions:\n  - title:\n      en: Clean URL\n      zh-CN: 清洗链接\n    identifier: clean_url\n    javascript: \"\n\n      \\            const input = flyclip.input.text.trim();\n\n      \\            const trackingKeys = new Set([\n\n      \\              'utm_source', 'utm_medium', 'utm_campaign', 'utm_term',\n      'utm_content',\n\n      \\              'spm', 'spm_id_from', 'from_source', 'from', 'ref',\n      'source',\n\n      \\              'fbclid', 'gclid', 'gclsrc', 'dclid', 'msclkid', 'twclid',\n\n      \\              '_hsenc', '_hsmi', 'mc_cid', 'mc_eid', 'yclid', 'igshid',\n\n      \\              'si', 'feature', 'share_source', 'share_medium',\n      'vd_source'\n\n      \\            ]);\n\n\n      \\            function cleanSingleUrl(raw) {\n\n      \\              try {\n\n      \\                const url = new URL(raw);\n\n      \\                const params = new URLSearchParams(url.search);\n\n      \\                const toDelete = [];\n\n      \\                for (const key of params.keys()) {\n\n      \\                  if (trackingKeys.has(key.toLowerCase()) ||\n      key.toLowerCase().startsWith('utm_')) {\n\n      \\                    toDelete.push(key);\n\n      \\                  }\n\n      \\                }\n\n      \\                toDelete.forEach(k => params.delete(k));\n\n      \\                url.search = params.toString();\n\n      \\                return url.toString();\n\n      \\              } catch (e) {\n\n      \\                return raw;\n\n      \\              }\n\n      \\            }\n\n\n      \\            // Replace URLs in text\n\n      \\            const urlRegex = /https?:\\\\/\\\\/[^\\\\s]+/gi;\n\n      \\            return input.replace(urlRegex, match =>\n      cleanSingleUrl(match));\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
     id: "com.flyclip.extension.markdown-tools",
     name: "Markdown Tools",
     nameZh: "Markdown 格式化",
@@ -460,6 +806,118 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: MDN Web Docs\n  zh-CN: MDN 开发者文档\ndescription:\n  en: Search web APIs, HTML, CSS, and JS reference docs on MDN.\n  zh-CN: 搜索 MDN Web Docs 权威开发者文档与 API 规范。\nidentifier: com.flyclip.extension.mdn-web-docs\nicon: MDN\noptions:\n  - identifier: locale\n    label:\n      en: Documentation Locale\n      zh: 文档语言\n    type: multiple\n    values:\n      - zh-CN\n      - en-US\n      - ja\n      - fr\n      - es\n    value labels:\n      - 简体中文 (zh-CN)\n      - English (en-US)\n      - 日本語 (ja)\n      - Français (fr)\n      - Español (es)\n    default value: zh-CN\n\nactions:\n  - title: MDN\n    url: https://developer.mozilla.org/{flyclip option locale}/search?q={flyclip text}\n    requirements: [text]"
   },
   {
+    id: "com.flyclip.extension.medium-search",
+    name: "Medium Search",
+    nameZh: "Medium 博客文章搜索",
+    nameEn: "Medium Search",
+    category: "search_ai",
+    icon: "iconify:simple-icons:medium",
+    description: "Search in-depth technical blogs and stories on Medium.",
+    descriptionZh: "在 Medium 检索优质技术专栏、开发者手记与深度博文。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Medium Search\n  zh-CN: Medium 博客文章搜索\nidentifier: com.flyclip.extension.medium-search\ndescription:\n  en: Search in-depth technical blogs and stories on Medium.\n  zh-CN: 在 Medium 检索优质技术专栏、开发者手记与深度博文。\nicon: iconify:simple-icons:medium\nactions:\n  - title: Medium\n    url: https://medium.com/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.notion-search",
+    name: "Notion Search",
+    nameZh: "Notion 工作区搜索",
+    nameEn: "Notion Search",
+    category: "shopping",
+    icon: "iconify:simple-icons:notion",
+    description: "Open and search inside your Notion workspace.",
+    descriptionZh: "在 Notion 工作区中快速发起全文检索与页面导航。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Notion Search\n  zh-CN: Notion 工作区搜索\nidentifier: com.flyclip.extension.notion-search\ndescription:\n  en: Open and search inside your Notion workspace.\n  zh-CN: 在 Notion 工作区中快速发起全文检索与页面导航。\nicon: iconify:simple-icons:notion\nactions:\n  - title: Notion\n    url: https://www.notion.so/search?query=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.npm-search",
+    name: "npm Package Search",
+    nameZh: "npm 开源包搜索",
+    nameEn: "npm Package Search",
+    category: "developer",
+    icon: "iconify:simple-icons:npm",
+    description: "Search Node.js / JavaScript packages on npmjs.com.",
+    descriptionZh: "在 npm 官方网站快速检索 JS / TS / Node.js 开源依赖包。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: npm Package Search\n  zh-CN: npm 开源包搜索\nidentifier: com.flyclip.extension.npm-search\ndescription:\n  en: Search Node.js / JavaScript packages on npmjs.com.\n  zh-CN: 在 npm 官方网站快速检索 JS / TS / Node.js 开源依赖包。\nicon: iconify:simple-icons:npm\nactions:\n  - title: npm\n    url: https://www.npmjs.com/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.obsidian-capture",
+    name: "Obsidian Quick Capture",
+    nameZh: "Obsidian 笔记快速捕获",
+    nameEn: "Obsidian Quick Capture",
+    category: "shopping",
+    icon: "iconify:simple-icons:obsidian",
+    description: "Create a new note or append selected text to your Obsidian knowledge vault using obsidian:// URI scheme.",
+    descriptionZh: "通过 obsidian:// 协议将划词内容快速保存或新建到 Obsidian 笔记库。",
+    hasOptions: true,
+    optionsCount: 1,
+    type: "url",
+    configYaml: "name:\n  en: Obsidian Quick Capture\n  zh-CN: Obsidian 笔记快速捕获\nidentifier: com.flyclip.extension.obsidian-capture\ndescription:\n  en: Create a new note or append selected text to your Obsidian knowledge vault\n    using obsidian:// URI scheme.\n  zh-CN: 通过 obsidian:// 协议将划词内容快速保存或新建到 Obsidian 笔记库。\nicon: iconify:simple-icons:obsidian\noptions:\n  - identifier: vaultName\n    label:\n      en: Vault Name\n      zh-CN: Vault 库名称\n    type: string\n    default value: MyVault\nactions:\n  - title:\n      en: Send to Obsidian\n      zh-CN: 存入 Obsidian\n    url: obsidian://new?vault={flyclip option vaultName}&content={flyclip text}\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.openstreetmap",
+    name: "OpenStreetMap",
+    nameZh: "OpenStreetMap 开放地图",
+    nameEn: "OpenStreetMap",
+    category: "shopping",
+    icon: "iconify:simple-icons:openstreetmap",
+    description: "Search geographical locations on OpenStreetMap, the free wiki world map.",
+    descriptionZh: "在 OpenStreetMap 开放地理数据平台检索全球位置与地图。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: OpenStreetMap\n  zh-CN: OpenStreetMap 开放地图\nidentifier: com.flyclip.extension.openstreetmap\ndescription:\n  en: Search geographical locations on OpenStreetMap, the free wiki world map.\n  zh-CN: 在 OpenStreetMap 开放地理数据平台检索全球位置与地图。\nicon: iconify:simple-icons:openstreetmap\nactions:\n  - title: OpenStreetMap\n    url: https://www.openstreetmap.org/search?query=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.open-urls",
+    name: "Open URLs",
+    nameZh: "批量打开链接",
+    nameEn: "Open URLs",
+    category: "text_tools",
+    icon: "iconify:tabler:external-link",
+    description: "Extract all web URLs from selected text and open them simultaneously in your default browser.",
+    descriptionZh: "正则提取选中文本中的所有网址并批量在默认浏览器中打开。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Open URLs\n  zh-CN: 批量打开链接\nidentifier: com.flyclip.extension.open-urls\ndescription:\n  en: Extract all web URLs from selected text and open them simultaneously in your\n    default browser.\n  zh-CN: 正则提取选中文本中的所有网址并批量在默认浏览器中打开。\nicon: iconify:tabler:external-link\nactions:\n  - title:\n      en: Open All URLs\n      zh-CN: 打开所有链接\n    identifier: open_all\n    javascript: \"\n\n      \\            const text = flyclip.input.text;\n\n      \\            const urlRegex = /https?:\\\\/\\\\/[^\\\\s'\\\"<>()]+/gi;\n\n      \\            const matches = text.match(urlRegex) || [];\n\n      \\            const uniqueUrls = Array.from(new Set(matches));\n\n\n      \\            if (uniqueUrls.length === 0) {\n\n      \\              return \\\"[未检测到有效 URL 链接]\\\";\n\n      \\            }\n\n\n      \\            // Open each URL using flyclip or system browser\n\n      \\            uniqueUrls.forEach(url => {\n\n      \\              if (typeof flyclip.openUrl === 'function') {\n\n      \\                flyclip.openUrl(url);\n\n      \\              }\n\n      \\            });\n\n\n      \\            return `已打开 ${uniqueUrls.length} 个网页链接`;\n\n      \\          \"\n    requirements:\n      - text\n    after: show-result"
+  },
+  {
+    id: "com.flyclip.extension.pocket-save",
+    name: "Save to Pocket",
+    nameZh: "Pocket 稍后读",
+    nameEn: "Save to Pocket",
+    category: "shopping",
+    icon: "iconify:simple-icons:pocket",
+    description: "Save the selected URL to Pocket for comfortable offline reading.",
+    descriptionZh: "将选中文章链接一键保存到 Pocket 稍后读。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Save to Pocket\n  zh-CN: Pocket 稍后读\nidentifier: com.flyclip.extension.pocket-save\ndescription:\n  en: Save the selected URL to Pocket for comfortable offline reading.\n  zh-CN: 将选中文章链接一键保存到 Pocket 稍后读。\nicon: iconify:simple-icons:pocket\nactions:\n  - title: Pocket\n    url: https://getpocket.com/save?url=***\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.poor-text",
+    name: "PoorText (Plain Text)",
+    nameZh: "纯文本脱色/去样式",
+    nameEn: "PoorText (Plain Text)",
+    category: "text_tools",
+    icon: "iconify:tabler:file-text",
+    description: "Strip all HTML markup, rich text styling, and trailing whitespace, returning clean plain text.",
+    descriptionZh: "剥离所有 HTML 标签、富文本样式与多余空白，保留最干净的纯文本。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: PoorText (Plain Text)\n  zh-CN: 纯文本脱色/去样式\nidentifier: com.flyclip.extension.poor-text\ndescription:\n  en: Strip all HTML markup, rich text styling, and trailing whitespace, returning\n    clean plain text.\n  zh-CN: 剥离所有 HTML 标签、富文本样式与多余空白，保留最干净的纯文本。\nicon: iconify:tabler:file-text\nactions:\n  - title:\n      en: Strip Formatting\n      zh-CN: 清除格式与HTML\n    identifier: strip_formatting\n    javascript: \"\n\n      \\            return flyclip.input.text\n\n      \\              .replace(/<[^>]*>/g, '') // remove HTML tags\n\n      \\              .replace(/&nbsp;/g, ' ')\n\n      \\              .replace(/&amp;/g, '&')\n\n      \\              .replace(/&lt;/g, '<')\n\n      \\              .replace(/&gt;/g, '>')\n\n      \\              .replace(/&quot;/g, '\\\"')\n\n      \\              .replace(/&#39;/g, \\\"'\\\")\n\n      \\              .replace(/[ \\\\t]+/g, ' ') // collapse horizontal spaces\n\n      \\              .replace(/\\\\n\\\\s*\\\\n\\\\s*\\\\n+/g, '\\\\n\\\\n') // collapse\n      triple newlines\n\n      \\              .trim();\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
     id: "com.flyclip.extension.pot-desktop",
     name: "Pot Translate",
     nameZh: "Pot 划词翻译",
@@ -472,6 +930,76 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     optionsCount: 2,
     type: "js",
     configYaml: "name:\n  en: Pot Translate\n  zh-CN: Pot 划词翻译\ndescription:\n  en: Send selected text to Pot Desktop via local HTTP API for instant translation/OCR.\n  zh-CN: 通过本地 HTTP 服务将选中文本发送至 Pot Desktop 进行划词翻译或 OCR。\nidentifier: com.flyclip.extension.pot-desktop\nicon: iconify:simple-icons:googletranslate\noptions:\n  - identifier: port\n    label: Pot 本地服务端口\n    type: string\n    default value: \"60828\"\n  - identifier: action_type\n    label: 触发模式\n    type: multiple\n    values: [translate, ocr, recognize]\n    value labels: [翻译 (Translate), 截图 OCR, 文本识别]\n    default value: translate\n\nactions:\n  - title: Pot 翻译\n    javascript: |\n      const text = flyclip.input.text.trim();\n      const port = flyclip.options.port || \"60828\";\n      const action = flyclip.options.action_type || \"translate\";\n\n      // 官方标准 API：POST / 或 POST /translate (Body 为待翻译纯文本)\n      try {\n        if (action === \"ocr\") {\n          await flyclip.fetch(`http://127.0.0.1:${port}/ocr_recognize`);\n        } else if (action === \"recognize\") {\n          await flyclip.fetch(`http://127.0.0.1:${port}/ocr_translate`);\n        } else {\n          await flyclip.fetch(`http://127.0.0.1:${port}/`, {\n            method: \"POST\",\n            body: text\n          });\n        }\n      } catch (e) {\n        try {\n          await flyclip.fetch(`http://127.0.0.1:${port}/selection_translate`);\n        } catch (_) {\n          flyclip.run(\"cmd\", [\"/c\", \"start\", `pot:translate?text=${encodeURIComponent(text)}`]);\n        }\n      }\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.pubmed",
+    name: "PubMed",
+    nameZh: "PubMed 医学文献检索",
+    nameEn: "PubMed",
+    category: "search_ai",
+    icon: "iconify:tabler:dna-2",
+    description: "Search biomedical and life sciences journal literature at the National Library of Medicine.",
+    descriptionZh: "检索 NIH / PubMed 生物医药与生命科学期刊论文数据库。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: PubMed\n  zh-CN: PubMed 医学文献检索\nidentifier: com.flyclip.extension.pubmed\ndescription:\n  en: Search biomedical and life sciences journal literature at the National\n    Library of Medicine.\n  zh-CN: 检索 NIH / PubMed 生物医药与生命科学期刊论文数据库。\nicon: iconify:tabler:dna-2\nactions:\n  - title: PubMed\n    url: https://pubmed.ncbi.nlm.nih.gov/?term=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.pypi-search",
+    name: "PyPI Python Packages",
+    nameZh: "PyPI Python 包搜索",
+    nameEn: "PyPI Python Packages",
+    category: "developer",
+    icon: "iconify:simple-icons:pypi",
+    description: "Search Python packages and modules on the Python Package Index (PyPI).",
+    descriptionZh: "在 PyPI 检索 Python 官方第三方开源包与库。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: PyPI Python Packages\n  zh-CN: PyPI Python 包搜索\nidentifier: com.flyclip.extension.pypi-search\ndescription:\n  en: Search Python packages and modules on the Python Package Index (PyPI).\n  zh-CN: 在 PyPI 检索 Python 官方第三方开源包与库。\nicon: iconify:simple-icons:pypi\nactions:\n  - title: PyPI\n    url: https://pypi.org/search/?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.raindrop-bookmark",
+    name: "Raindrop.io Bookmarks",
+    nameZh: "Raindrop.io 云书签保存",
+    nameEn: "Raindrop.io Bookmarks",
+    category: "shopping",
+    icon: "iconify:simple-icons:raindrop",
+    description: "Quickly save the selected URL or page to Raindrop.io cloud bookmark manager.",
+    descriptionZh: "将选中链接或网页一键收藏至 Raindrop.io 跨平台云书签。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Raindrop.io Bookmarks\n  zh-CN: Raindrop.io 云书签保存\nidentifier: com.flyclip.extension.raindrop-bookmark\ndescription:\n  en: Quickly save the selected URL or page to Raindrop.io cloud bookmark manager.\n  zh-CN: 将选中链接或网页一键收藏至 Raindrop.io 跨平台云书签。\nicon: iconify:simple-icons:raindrop\nactions:\n  - title: Raindrop.io\n    url: https://app.raindrop.io/add?link=***\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.reddit-search",
+    name: "Reddit Search",
+    nameZh: "Reddit 社区讨论搜索",
+    nameEn: "Reddit Search",
+    category: "search_ai",
+    icon: "iconify:simple-icons:reddit",
+    description: "Search community posts and discussions on Reddit.",
+    descriptionZh: "在 Reddit 检索全球各类兴趣板块、技术帖子与真实用户评价。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Reddit Search\n  zh-CN: Reddit 社区讨论搜索\nidentifier: com.flyclip.extension.reddit-search\ndescription:\n  en: Search community posts and discussions on Reddit.\n  zh-CN: 在 Reddit 检索全球各类兴趣板块、技术帖子与真实用户评价。\nicon: iconify:simple-icons:reddit\nactions:\n  - title: Reddit\n    url: https://www.reddit.com/search/?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.regexr",
+    name: "RegExr",
+    nameZh: "RegExr 正则测试与解释",
+    nameEn: "RegExr",
+    category: "developer",
+    icon: "iconify:tabler:regex",
+    description: "Open regex pattern on RegExr with real-time matching and explanation.",
+    descriptionZh: "在 RegExr 打开选中的正则表达式，进行即时可视化调试与解析。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: RegExr\n  zh-CN: RegExr 正则测试与解释\nidentifier: com.flyclip.extension.regexr\ndescription:\n  en: Open regex pattern on RegExr with real-time matching and explanation.\n  zh-CN: 在 RegExr 打开选中的正则表达式，进行即时可视化调试与解析。\nicon: iconify:tabler:regex\nactions:\n  - title: RegExr\n    url: https://regexr.com/?expression=***\n    requirements:\n      - text"
   },
   {
     id: "com.flyclip.extension.regex101",
@@ -502,6 +1030,48 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: Remove Spaces\n  zh-CN: 清除多余空格\ndescription:\n  en: Collapse duplicate spaces or strip all whitespace characters.\n  zh-CN: 消除所有多余空格或压缩连续空白字符。\nidentifier: com.flyclip.extension.remove-spaces\nicon: \"␣\"\nactions:\n  - title: 压缩空格\n    identifier: collapse\n    javascript: return flyclip.input.text.replace(/\\s+/g, ' ').trim();\n    requirements: [text]\n    after: paste-result\n\n  - title: 消除所有空格\n    identifier: remove_all\n    javascript: return flyclip.input.text.replace(/\\s+/g, '');\n    requirements: [text]\n    after: paste-result"
   },
   {
+    id: "com.flyclip.extension.reverse-lines",
+    name: "Reverse Lines",
+    nameZh: "多行倒序排列",
+    nameEn: "Reverse Lines",
+    category: "text_tools",
+    icon: "iconify:tabler:arrows-sort",
+    description: "Reverse the order of selected lines (bottom to top).",
+    descriptionZh: "将选中的多行文本自底向上颠倒逆序排列。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Reverse Lines\n  zh-CN: 多行倒序排列\nidentifier: com.flyclip.extension.reverse-lines\ndescription:\n  en: Reverse the order of selected lines (bottom to top).\n  zh-CN: 将选中的多行文本自底向上颠倒逆序排列。\nicon: iconify:tabler:arrows-sort\nactions:\n  - title:\n      en: Reverse Order\n      zh-CN: 倒序排列\n    identifier: reverse\n    javascript: \"\n\n      \\            return flyclip.input.text\n\n      \\              .split(/\\\\r\\\\n|\\\\r|\\\\n/)\n\n      \\              .reverse()\n\n      \\              .join(\\\"\\\\n\\\");\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
+    id: "com.flyclip.extension.rot13",
+    name: "ROT13 Cipher",
+    nameZh: "ROT13 密文转换",
+    nameEn: "ROT13 Cipher",
+    category: "text_tools",
+    icon: "iconify:tabler:lock-code",
+    description: "Apply or decode the classic ROT13 Caesar cipher on English text.",
+    descriptionZh: "对选中的英文字母执行经典的 ROT13 凯撒密码位移加密/解密。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: ROT13 Cipher\n  zh-CN: ROT13 密文转换\nidentifier: com.flyclip.extension.rot13\ndescription:\n  en: Apply or decode the classic ROT13 Caesar cipher on English text.\n  zh-CN: 对选中的英文字母执行经典的 ROT13 凯撒密码位移加密/解密。\nicon: iconify:tabler:lock-code\nactions:\n  - title:\n      en: ROT13 Encode/Decode\n      zh-CN: ROT13 编解码\n    identifier: rot13\n    javascript: \"\n\n      \\            return flyclip.input.text.replace(/[a-zA-Z]/g, c => {\n\n      \\              const code = c.charCodeAt(0);\n\n      \\              if (code >= 65 && code <= 90) {\n\n      \\                return String.fromCharCode(((code - 65 + 13) % 26) + 65);\n\n      \\              } else if (code >= 97 && code <= 122) {\n\n      \\                return String.fromCharCode(((code - 97 + 13) % 26) + 97);\n\n      \\              }\n\n      \\              return c;\n\n      \\            });\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
+    id: "com.flyclip.extension.rotten-tomatoes",
+    name: "Rotten Tomatoes",
+    nameZh: "烂番茄影视评分",
+    nameEn: "Rotten Tomatoes",
+    category: "shopping",
+    icon: "iconify:simple-icons:rottentomatoes",
+    description: "Search movie and TV show ratings and tomatometer scores on Rotten Tomatoes.",
+    descriptionZh: "在烂番茄检索最新电影/美剧的新鲜度评分与专业影评。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Rotten Tomatoes\n  zh-CN: 烂番茄影视评分\nidentifier: com.flyclip.extension.rotten-tomatoes\ndescription:\n  en: Search movie and TV show ratings and tomatometer scores on Rotten Tomatoes.\n  zh-CN: 在烂番茄检索最新电影/美剧的新鲜度评分与专业影评。\nicon: iconify:simple-icons:rottentomatoes\nactions:\n  - title: Rotten Tomatoes\n    url: https://www.rottentomatoes.com/search?search=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.iconify-search",
     name: "Iconify Icons",
     nameZh: "Iconify 矢量图标",
@@ -514,6 +1084,48 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     
     type: "url",
     configYaml: "name:\n  en: Iconify Icons\n  zh-CN: Iconify 矢量图标\ndescription:\n  en: Search 200,000+ open source vector icons on Iconify.\n  zh-CN: 在 Iconify 搜索超过 20 万个开源矢量图标与 SVG 代码。\nidentifier: com.flyclip.extension.iconify-search\nicon: iconify:simple-icons:iconify\nactions:\n  - title: Iconify\n    url: https://icon-sets.iconify.design/?query=***\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.shorten-link",
+    name: "Shorten Link (is.gd)",
+    nameZh: "is.gd 快速生成短链接",
+    nameEn: "Shorten Link (is.gd)",
+    category: "text_tools",
+    icon: "iconify:tabler:cut",
+    description: "Shorten the selected URL using the is.gd API.",
+    descriptionZh: "通过 is.gd 免费服务将选中的长网址缩短为便携短链。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Shorten Link (is.gd)\n  zh-CN: is.gd 快速生成短链接\nidentifier: com.flyclip.extension.shorten-link\ndescription:\n  en: Shorten the selected URL using the is.gd API.\n  zh-CN: 通过 is.gd 免费服务将选中的长网址缩短为便携短链。\nicon: iconify:tabler:cut\nactions:\n  - title:\n      en: Shorten URL\n      zh-CN: 生成短链接\n    identifier: shorten\n    javascript: \"\n\n      \\            const url = flyclip.input.text.trim();\n\n      \\            if (!url.startsWith('http://') &&\n      !url.startsWith('https://')) {\n\n      \\              return \\\"[请选中以 http:// 或 https:// 开头的网址]\\\";\n\n      \\            }\n\n      \\            try {\n\n      \\              const res = await\n      flyclip.http.get(`https://is.gd/create.php?format=simple&url=${encodeURIC\\\n      omponent(url)}`);\n\n      \\              return res.data.trim();\n\n      \\            } catch (err) {\n\n      \\              return \\\"[生成短链失败: \\\" + err.message + \\\"]\\\";\n\n      \\            }\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
+    id: "com.flyclip.extension.shuffle-lines",
+    name: "Shuffle Lines",
+    nameZh: "随机打乱多行",
+    nameEn: "Shuffle Lines",
+    category: "text_tools",
+    icon: "iconify:tabler:arrows-shuffle",
+    description: "Randomize the order of selected lines using the Fisher-Yates algorithm.",
+    descriptionZh: "将选中的多行文本随机打乱排列顺序。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Shuffle Lines\n  zh-CN: 随机打乱多行\nidentifier: com.flyclip.extension.shuffle-lines\ndescription:\n  en: Randomize the order of selected lines using the Fisher-Yates algorithm.\n  zh-CN: 将选中的多行文本随机打乱排列顺序。\nicon: iconify:tabler:arrows-shuffle\nactions:\n  - title:\n      en: Shuffle Lines\n      zh-CN: 随机打乱顺序\n    identifier: shuffle\n    javascript: \"\n\n      \\            const lines = flyclip.input.text.split(/\\\\r\\\\n|\\\\r|\\\\n/);\n\n      \\            for (let i = lines.length - 1; i > 0; i--) {\n\n      \\              const j = Math.floor(Math.random() * (i + 1));\n\n      \\              [lines[i], lines[j]] = [lines[j], lines[i]];\n\n      \\            }\n\n      \\            return lines.join(\\\"\\\\n\\\");\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
+    id: "com.flyclip.extension.slugify",
+    name: "Slugify",
+    nameZh: "URL 别名化 (Slug)",
+    nameEn: "Slugify",
+    category: "text_tools",
+    icon: "iconify:tabler:slug",
+    description: "Convert text into a URL-friendly, lowercase, hyphen-separated slug.",
+    descriptionZh: "将选中文本转换为适合作为网页 URL 或文章别名的 slug 格式。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Slugify\n  zh-CN: URL 别名化 (Slug)\nidentifier: com.flyclip.extension.slugify\ndescription:\n  en: Convert text into a URL-friendly, lowercase, hyphen-separated slug.\n  zh-CN: 将选中文本转换为适合作为网页 URL 或文章别名的 slug 格式。\nicon: iconify:tabler:slug\nactions:\n  - title:\n      en: Slugify\n      zh-CN: 转为 Slug\n    identifier: slugify\n    javascript: \"\n\n      \\            return flyclip.input.text\n\n      \\              .toString()\n\n      \\              .normalize('NFD')\n\n      \\              .replace(/[̀-ͯ]/g, '')\n\n      \\              .toLowerCase()\n\n      \\              .trim()\n\n      \\              .replace(/[^a-z0-9\\\\s-]/g, '')\n\n      \\              .replace(/[\\\\s_]+/g, '-')\n\n      \\              .replace(/\\\\-+/g, '-')\n\n      \\              .replace(/^-+|-+$/g, '');\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
   },
   {
     id: "com.flyclip.extension.sort-lines",
@@ -530,6 +1142,48 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: Sort Lines\n  zh-CN: 文本行排序与去重\ndescription:\n  en: Sort lines ascending, descending, or remove duplicate lines.\n  zh-CN: 多行文本升序、降序排序与行去重。\nidentifier: com.flyclip.extension.sort-lines\nicon: AZ\noptions:\n  - identifier: case_sensitive\n    label:\n      en: Case Sensitive Sort\n      zh: 区分大小写\n    type: boolean\n    default value: false\n\nactions:\n  - title: 升序排序 (A-Z)\n    identifier: sort_asc\n    javascript: |\n      const cs = flyclip.options.case_sensitive === \"1\" || flyclip.options.case_sensitive === true;\n      const lines = flyclip.input.text.split(/\\r\\n|\\r|\\n/);\n      lines.sort((a, b) => cs ? a.localeCompare(b, undefined, { sensitivity: 'case' }) : a.localeCompare(b));\n      return lines.join(\"\\n\");\n    requirements: [text]\n    after: paste-result\n\n  - title: 降序排序 (Z-A)\n    identifier: sort_desc\n    javascript: |\n      const cs = flyclip.options.case_sensitive === \"1\" || flyclip.options.case_sensitive === true;\n      const lines = flyclip.input.text.split(/\\r\\n|\\r|\\n/);\n      lines.sort((a, b) => cs ? b.localeCompare(a, undefined, { sensitivity: 'case' }) : b.localeCompare(a));\n      return lines.join(\"\\n\");\n    requirements: [text]\n    after: paste-result\n\n  - title: 行去重 (Unique)\n    identifier: unique\n    javascript: |\n      const cs = flyclip.options.case_sensitive === \"1\" || flyclip.options.case_sensitive === true;\n      const lines = flyclip.input.text.split(/\\r\\n|\\r|\\n/);\n      if (cs) {\n        return Array.from(new Set(lines)).join(\"\\n\");\n      } else {\n        const seen = new Set();\n        const result = [];\n        for (const line of lines) {\n          const lower = line.toLowerCase();\n          if (!seen.has(lower)) {\n            seen.add(lower);\n            result.push(line);\n          }\n        }\n        return result.join(\"\\n\");\n      }\n    requirements: [text]\n    after: paste-result"
   },
   {
+    id: "com.flyclip.extension.spotify-search",
+    name: "Spotify Music Search",
+    nameZh: "Spotify 音乐与播客",
+    nameEn: "Spotify Music Search",
+    category: "shopping",
+    icon: "iconify:simple-icons:spotify",
+    description: "Search tracks, albums, artists and podcasts on Spotify.",
+    descriptionZh: "在 Spotify 快速检索歌曲、专辑、歌手与播客节目。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Spotify Music Search\n  zh-CN: Spotify 音乐与播客\nidentifier: com.flyclip.extension.spotify-search\ndescription:\n  en: Search tracks, albums, artists and podcasts on Spotify.\n  zh-CN: 在 Spotify 快速检索歌曲、专辑、歌手与播客节目。\nicon: iconify:simple-icons:spotify\nactions:\n  - title: Spotify\n    url: https://open.spotify.com/search/***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.stackoverflow",
+    name: "Stack Overflow",
+    nameZh: "Stack Overflow 编程问答",
+    nameEn: "Stack Overflow",
+    category: "developer",
+    icon: "iconify:simple-icons:stackoverflow",
+    description: "Search coding questions and solutions on Stack Overflow.",
+    descriptionZh: "在 Stack Overflow 检索编程报错、算法与技术问答。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Stack Overflow\n  zh-CN: Stack Overflow 编程问答\nidentifier: com.flyclip.extension.stackoverflow\ndescription:\n  en: Search coding questions and solutions on Stack Overflow.\n  zh-CN: 在 Stack Overflow 检索编程报错、算法与技术问答。\nicon: iconify:simple-icons:stackoverflow\nactions:\n  - title: Stack Overflow\n    url: https://stackoverflow.com/search?q=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.startpage-search",
+    name: "Startpage Search",
+    nameZh: "Startpage 匿名搜索",
+    nameEn: "Startpage Search",
+    category: "search_ai",
+    icon: "iconify:tabler:lock-square-rounded",
+    description: "Search with Google search results with total privacy protection.",
+    descriptionZh: "在不被记录 IP 与隐私的前提下获取 Google 高品质检索结果。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Startpage Search\n  zh-CN: Startpage 匿名搜索\nidentifier: com.flyclip.extension.startpage-search\ndescription:\n  en: Search with Google search results with total privacy protection.\n  zh-CN: 在不被记录 IP 与隐私的前提下获取 Google 高品质检索结果。\nicon: iconify:tabler:lock-square-rounded\nactions:\n  - title: Startpage\n    url: https://www.startpage.com/sp/search?query=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.stranslate",
     name: "STranslate",
     nameZh: "STranslate 翻译",
@@ -542,6 +1196,20 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     optionsCount: 2,
     type: "js",
     configYaml: "name:\n  en: STranslate\n  zh-CN: STranslate 翻译\ndescription:\n  en: Trigger Windows open-source STranslate tool for deep translation.\n  zh-CN: 通过本地服务或命令行调用 Windows 开源神器 STranslate 进行即时翻译。\nidentifier: com.flyclip.extension.stranslate\nicon: ST\nplatforms: [windows] # 明确标记 Windows 平台，方便多设备 WebDAV 同步时按需启用\noptions:\n  - identifier: trigger_mode\n    label: 唤起方式\n    type: multiple\n    values: [http, cli]\n    value labels: [本地 HTTP 服务, 命令行 CLI 唤起]\n    default value: http\n  - identifier: port\n    label: HTTP 服务端口\n    type: string\n    default value: \"50020\"\n\nactions:\n  - title: STranslate\n    javascript: |\n      const text = flyclip.input.text.trim();\n      const mode = flyclip.options.trigger_mode || \"http\";\n      const port = flyclip.options.port || \"50020\";\n\n      if (mode === \"http\") {\n        try {\n          await flyclip.fetch(`http://127.0.0.1:${port}/translate_force`, {\n            method: \"POST\",\n            body: text\n          });\n        } catch (e) {\n          flyclip.run(\"STranslate\", [\"-t\", text]);\n        }\n      } else {\n        flyclip.run(\"STranslate\", [\"-t\", text]);\n      }\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.sum-numbers",
+    name: "Sum Numbers",
+    nameZh: "数字提取与求和",
+    nameEn: "Sum Numbers",
+    category: "text_tools",
+    icon: "iconify:tabler:sum",
+    description: "Find and calculate the sum, average, count, and min/max of all numbers in selected text.",
+    descriptionZh: "自动提取选中文本中的全部数值，计算总和、均值与项数。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Sum Numbers\n  zh-CN: 数字提取与求和\nidentifier: com.flyclip.extension.sum-numbers\ndescription:\n  en: Find and calculate the sum, average, count, and min/max of all numbers in\n    selected text.\n  zh-CN: 自动提取选中文本中的全部数值，计算总和、均值与项数。\nicon: iconify:tabler:sum\nactions:\n  - title:\n      en: Sum (求和)\n      zh-CN: 数字求和统计\n    identifier: calc_sum\n    javascript: \"\n\n      \\            const text = flyclip.input.text;\n\n      \\            // Match integers and floats (with optional negative sign and\n      commas)\n\n      \\            const numRegex = /[-+]?\\\\b\\\\d+(?:,\\\\d{3})*(?:\\\\.\\\\d+)?\\\\b/g;\n\n      \\            const matches = text.match(numRegex);\n\n\n      \\            if (!matches || matches.length === 0) {\n\n      \\              return \\\"[未在文本中发现数字]\\\";\n\n      \\            }\n\n\n      \\            const nums = matches.map(m => parseFloat(m.replace(/,/g,\n      ''))).filter(n => !isNaN(n));\n\n      \\            if (nums.length === 0) return \\\"[未发现有效数字]\\\";\n\n\n      \\            const sum = nums.reduce((acc, cur) => acc + cur, 0);\n\n      \\            const avg = sum / nums.length;\n\n      \\            const min = Math.min(...nums);\n\n      \\            const max = Math.max(...nums);\n\n\n      \\            const format = n => Number.isInteger(n) ? n.toString() :\n      n.toFixed(2);\n\n      \\            return `求和: ${format(sum)} | 个数: ${nums.length} | 均值:\n      ${format(avg)} | 范围: [${format(min)}, ${format(max)}]`;\n\n      \\          \"\n    requirements:\n      - text\n    after: show-result"
   },
   {
     id: "com.flyclip.extension.taobao-search",
@@ -586,6 +1254,48 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: Timestamp Converter\n  zh-CN: 时间戳转换\ndescription:\n  en: Convert Unix epoch timestamps to local date-time strings.\n  zh-CN: Unix 时间戳转换为本地日期时间，或获取当前秒级时间戳。\nidentifier: com.flyclip.extension.timestamp-converter\nicon: ⏱️\nactions:\n  - title: 时间戳转日期 (To Date)\n    identifier: to_date\n    javascript: |\n      const s = flyclip.input.text.trim();\n      if (/^\\d{10}$/.test(s)) {\n        const d = new Date(parseInt(s, 10) * 1000);\n        return d.getFullYear() + '-' +\n          String(d.getMonth() + 1).padStart(2, '0') + '-' +\n          String(d.getDate()).padStart(2, '0') + ' ' +\n          String(d.getHours()).padStart(2, '0') + ':' +\n          String(d.getMinutes()).padStart(2, '0') + ':' +\n          String(d.getSeconds()).padStart(2, '0');\n      } else if (/^\\d{13}$/.test(s)) {\n        const d = new Date(parseInt(s, 10));\n        return d.getFullYear() + '-' +\n          String(d.getMonth() + 1).padStart(2, '0') + '-' +\n          String(d.getDate()).padStart(2, '0') + ' ' +\n          String(d.getHours()).padStart(2, '0') + ':' +\n          String(d.getMinutes()).padStart(2, '0') + ':' +\n          String(d.getSeconds()).padStart(2, '0') + '.' +\n          String(d.getMilliseconds()).padStart(3, '0');\n      } else {\n        return \"[无效的时间戳: 需为 10 位秒级或 13 位毫秒级数字]\";\n      }\n    requirements: [text]\n    after: paste-result\n\n  - title: 当前时间戳 (Now)\n    identifier: now\n    javascript: return Math.floor(Date.now() / 1000).toString();\n    requirements: [text]\n    after: paste-result"
   },
   {
+    id: "com.flyclip.extension.todoist-task",
+    name: "Todoist Add Task",
+    nameZh: "Todoist 快速添加待办",
+    nameEn: "Todoist Add Task",
+    category: "shopping",
+    icon: "iconify:simple-icons:todoist",
+    description: "Add the selected text as a new task in Todoist web app.",
+    descriptionZh: "将选中的文本快速添加为 Todoist 的新待办任务。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Todoist Add Task\n  zh-CN: Todoist 快速添加待办\nidentifier: com.flyclip.extension.todoist-task\ndescription:\n  en: Add the selected text as a new task in Todoist web app.\n  zh-CN: 将选中的文本快速添加为 Todoist 的新待办任务。\nicon: iconify:simple-icons:todoist\nactions:\n  - title: Todoist\n    url: https://todoist.com/add?text=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.traditional-simplified",
+    name: "Traditional/Simplified",
+    nameZh: "简繁中文转换",
+    nameEn: "Traditional/Simplified",
+    category: "translation",
+    icon: "iconify:tabler:language-hiragana",
+    description: "Convert text between Traditional and Simplified Chinese with smart dictionary mapping.",
+    descriptionZh: "在简体中文与繁体中文之间快速互转。",
+    hasOptions: false,
+    
+    type: "js",
+    configYaml: "name:\n  en: Traditional/Simplified\n  zh-CN: 简繁中文转换\nidentifier: com.flyclip.extension.traditional-simplified\ndescription:\n  en: Convert text between Traditional and Simplified Chinese with smart\n    dictionary mapping.\n  zh-CN: 在简体中文与繁体中文之间快速互转。\nicon: iconify:tabler:language-hiragana\nactions:\n  - title:\n      en: To Simplified (转简体)\n      zh-CN: 转为简体中文\n    identifier: to_simplified\n    javascript: \"\n\n      \\            // Traditional to Simplified conversion\n\n      \\            const text = flyclip.input.text;\n\n      \\            // Native Intl or standard char map fallback\n\n      \\            const t2sMap = {\n\n      \\              \\\"萬\\\": \\\"万\\\", \\\"與\\\": \\\"与\\\", \\\"醜\\\": \\\"丑\\\", \\\"專\\\": \\\"专\\\",\n      \\\"業\\\": \\\"业\\\", \\\"叢\\\": \\\"丛\\\", \\\"東\\\": \\\"东\\\", \\\"絲\\\": \\\"丝\\\",\n\n      \\              \\\"丟\\\": \\\"丢\\\", \\\"兩\\\": \\\"两\\\", \\\"嚴\\\": \\\"严\\\", \\\"喪\\\": \\\"丧\\\",\n      \\\"個\\\": \\\"个\\\", \\\"豐\\\": \\\"丰\\\", \\\"臨\\\": \\\"临\\\", \\\"為\\\": \\\"为\\\",\n\n      \\              \\\"麗\\\": \\\"丽\\\", \\\"舉\\\": \\\"举\\\", \\\"麼\\\": \\\"么\\\", \\\"樂\\\": \\\"乐\\\",\n      \\\"喬\\\": \\\"乔\\\", \\\"習\\\": \\\"习\\\", \\\"鄉\\\": \\\"乡\\\", \\\"書\\\": \\\"书\\\",\n\n      \\              \\\"買\\\": \\\"买\\\", \\\"亂\\\": \\\"乱\\\", \\\"乾\\\": \\\"干\\\", \\\"了\\\": \\\"了\\\",\n      \\\"爭\\\": \\\"争\\\", \\\"於\\\": \\\"于\\\", \\\"虧\\\": \\\"亏\\\", \\\"雲\\\": \\\"云\\\",\n\n      \\              \\\"亞\\\": \\\"亚\\\", \\\"產\\\": \\\"产\\\", \\\"畝\\\": \\\"亩\\\", \\\"親\\\": \\\"亲\\\",\n      \\\"億\\\": \\\"亿\\\", \\\"僅\\\": \\\"仅\\\", \\\"從\\\": \\\"从\\\", \\\"侖\\\": \\\"仑\\\",\n\n      \\              \\\"倉\\\": \\\"仓\\\", \\\"儀\\\": \\\"仪\\\", \\\"們\\\": \\\"们\\\", \\\"價\\\": \\\"价\\\",\n      \\\"眾\\\": \\\"众\\\", \\\"優\\\": \\\"优\\\", \\\"會\\\": \\\"会\\\", \\\"伛\\\": \\\"伛\\\",\n\n      \\              \\\"傘\\\": \\\"伞\\\", \\\"偉\\\": \\\"伟\\\", \\\"傳\\\": \\\"传\\\", \\\"傷\\\": \\\"伤\\\",\n      \\\"體\\\": \\\"体\\\", \\\"倫\\\": \\\"伦\\\", \\\"伧\\\": \\\"伧\\\", \\\"偽\\\": \\\"伪\\\",\n\n      \\              \\\"佇\\\": \\\"伫\\\", \\\"僑\\\": \\\"侨\\\", \\\"儂\\\": \\\"侬\\\", \\\"儕\\\": \\\"侪\\\",\n      \\\"儂\\\": \\\"侬\\\", \\\"俊\\\": \\\"俊\\\", \\\"俗\\\": \\\"俗\\\", \\\"俠\\\": \\\"侠\\\",\n\n      \\              \\\"係\\\": \\\"系\\\", \\\"促\\\": \\\"促\\\", \\\"俄\\\": \\\"俄\\\", \\\"俊\\\": \\\"俊\\\",\n      \\\"俁\\\": \\\"俣\\\", \\\"係\\\": \\\"系\\\", \\\"俚\\\": \\\"俚\\\", \\\"保\\\": \\\"保\\\",\n\n      \\              \\\"俞\\\": \\\"俞\\\", \\\"俟\\\": \\\"俟\\\", \\\"信\\\": \\\"信\\\", \\\"修\\\": \\\"修\\\",\n      \\\"儼\\\": \\\"俨\\\", \\\"倆\\\": \\\"俩\\\", \\\"儷\\\": \\\"俪\\\", \\\"儉\\\": \\\"俭\\\",\n\n      \\              \\\"債\\\": \\\"债\\\", \\\"傾\\\": \\\"倾\\\", \\\"傴\\\": \\\"偻\\\", \\\"僅\\\": \\\"仅\\\",\n      \\\"僉\\\": \\\"佥\\\", \\\"像\\\": \\\"像\\\", \\\"僑\\\": \\\"侨\\\", \\\"僕\\\": \\\"仆\\\",\n\n      \\              \\\"僥\\\": \\\"侥\\\", \\\"僱\\\": \\\"雇\\\", \\\"價\\\": \\\"价\\\", \\\"儀\\\": \\\"仪\\\",\n      \\\"儂\\\": \\\"侬\\\", \\\"億\\\": \\\"亿\\\", \\\"儅\\\": \\\"当\\\", \\\"鬧\\\": \\\"闹\\\",\n\n      \\              \\\"廣\\\": \\\"广\\\", \\\"歸\\\": \\\"归\\\", \\\"當\\\": \\\"当\\\", \\\"發\\\": \\\"发\\\",\n      \\\"點\\\": \\\"点\\\", \\\"國\\\": \\\"国\\\", \\\"學\\\": \\\"学\\\", \\\"開\\\": \\\"开\\\",\n\n      \\              \\\"華\\\": \\\"华\\\", \\\"經\\\": \\\"经\\\", \\\"電\\\": \\\"电\\\", \\\"動\\\": \\\"动\\\",\n      \\\"應\\\": \\\"应\\\", \\\"長\\\": \\\"长\\\", \\\"時\\\": \\\"时\\\", \\\"機\\\": \\\"机\\\",\n\n      \\              \\\"車\\\": \\\"车\\\", \\\"見\\\": \\\"见\\\", \\\"語\\\": \\\"语\\\", \\\"認\\\": \\\"认\\\",\n      \\\"設\\\": \\\"设\\\", \\\"話\\\": \\\"话\\\", \\\"說\\\": \\\"说\\\", \\\"請\\\": \\\"请\\\",\n\n      \\              \\\"讀\\\": \\\"读\\\", \\\"誰\\\": \\\"谁\\\", \\\"調\\\": \\\"调\\\", \\\"諒\\\": \\\"谅\\\",\n      \\\"論\\\": \\\"论\\\", \\\"資\\\": \\\"资\\\", \\\"賽\\\": \\\"赛\\\", \\\"贊\\\": \\\"赞\\\",\n\n      \\              \\\"辦\\\": \\\"办\\\", \\\"邊\\\": \\\"边\\\", \\\"運\\\": \\\"运\\\", \\\"進\\\": \\\"进\\\",\n      \\\"遠\\\": \\\"远\\\", \\\"過\\\": \\\"过\\\", \\\"還\\\": \\\"还\\\", \\\"這\\\": \\\"这\\\",\n\n      \\              \\\"連\\\": \\\"连\\\", \\\"週\\\": \\\"周\\\", \\\"選\\\": \\\"选\\\", \\\"遺\\\": \\\"遗\\\",\n      \\\"郵\\\": \\\"邮\\\", \\\"鄉\\\": \\\"乡\\\", \\\"錢\\\": \\\"钱\\\", \\\"鐵\\\": \\\"铁\\\",\n\n      \\              \\\"錄\\\": \\\"录\\\", \\\"門\\\": \\\"门\\\", \\\"問\\\": \\\"问\\\", \\\"間\\\": \\\"间\\\",\n      \\\"關\\\": \\\"关\\\", \\\"隊\\\": \\\"队\\\", \\\"陽\\\": \\\"阳\\\", \\\"際\\\": \\\"际\\\",\n\n      \\              \\\"難\\\": \\\"难\\\", \\\"雙\\\": \\\"双\\\", \\\"雜\\\": \\\"杂\\\", \\\"雞\\\": \\\"鸡\\\",\n      \\\"頭\\\": \\\"头\\\", \\\"題\\\": \\\"题\\\", \\\"類\\\": \\\"类\\\", \\\"風\\\": \\\"风\\\",\n\n      \\              \\\"飛\\\": \\\"飞\\\", \\\"飽\\\": \\\"饱\\\", \\\"飾\\\": \\\"饰\\\", \\\"館\\\": \\\"馆\\\",\n      \\\"馬\\\": \\\"马\\\", \\\"體\\\": \\\"体\\\", \\\"高\\\": \\\"高\\\", \\\"髮\\\": \\\"发\\\",\n\n      \\              \\\"魚\\\": \\\"鱼\\\", \\\"鳥\\\": \\\"鸟\\\", \\\"點\\\": \\\"点\\\", \\\"齊\\\": \\\"齐\\\",\n      \\\"齒\\\": \\\"齿\\\", \\\"龍\\\": \\\"龙\\\", \\\"龜\\\": \\\"龟\\\"\n\n      \\            };\n\n      \\            return text.split('').map(c => t2sMap[c] || c).join('');\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result\n  - title:\n      en: To Traditional (转繁体)\n      zh-CN: 转为繁体中文\n    identifier: to_traditional\n    javascript: \"\n\n      \\            // Simplified to Traditional conversion\n\n      \\            const text = flyclip.input.text;\n\n      \\            const s2tMap = {\n\n      \\              \\\"万\\\": \\\"萬\\\", \\\"与\\\": \\\"與\\\", \\\"丑\\\": \\\"醜\\\", \\\"专\\\": \\\"專\\\",\n      \\\"业\\\": \\\"業\\\", \\\"丛\\\": \\\"叢\\\", \\\"东\\\": \\\"東\\\", \\\"丝\\\": \\\"絲\\\",\n\n      \\              \\\"丢\\\": \\\"丟\\\", \\\"两\\\": \\\"兩\\\", \\\"严\\\": \\\"嚴\\\", \\\"丧\\\": \\\"喪\\\",\n      \\\"个\\\": \\\"個\\\", \\\"丰\\\": \\\"豐\\\", \\\"临\\\": \\\"臨\\\", \\\"为\\\": \\\"為\\\",\n\n      \\              \\\"丽\\\": \\\"麗\\\", \\\"举\\\": \\\"舉\\\", \\\"么\\\": \\\"麼\\\", \\\"乐\\\": \\\"樂\\\",\n      \\\"乔\\\": \\\"喬\\\", \\\"习\\\": \\\"習\\\", \\\"乡\\\": \\\"鄉\\\", \\\"书\\\": \\\"書\\\",\n\n      \\              \\\"买\\\": \\\"買\\\", \\\"乱\\\": \\\"亂\\\", \\\"干\\\": \\\"乾\\\", \\\"争\\\": \\\"爭\\\",\n      \\\"于\\\": \\\"於\\\", \\\"亏\\\": \\\"虧\\\", \\\"云\\\": \\\"雲\\\", \\\"亚\\\": \\\"亞\\\",\n\n      \\              \\\"产\\\": \\\"產\\\", \\\"亩\\\": \\\"畝\\\", \\\"亲\\\": \\\"親\\\", \\\"亿\\\": \\\"億\\\",\n      \\\"仅\\\": \\\"僅\\\", \\\"从\\\": \\\"從\\\", \\\"仑\\\": \\\"侖\\\", \\\"仓\\\": \\\"倉\\\",\n\n      \\              \\\"仪\\\": \\\"儀\\\", \\\"们\\\": \\\"們\\\", \\\"价\\\": \\\"價\\\", \\\"众\\\": \\\"眾\\\",\n      \\\"优\\\": \\\"優\\\", \\\"会\\\": \\\"會\\\", \\\"伞\\\": \\\"傘\\\", \\\"伟\\\": \\\"偉\\\",\n\n      \\              \\\"传\\\": \\\"傳\\\", \\\"伤\\\": \\\"傷\\\", \\\"体\\\": \\\"體\\\", \\\"伦\\\": \\\"倫\\\",\n      \\\"伪\\\": \\\"偽\\\", \\\"伫\\\": \\\"佇\\\", \\\"侨\\\": \\\"僑\\\", \\\"侬\\\": \\\"儂\\\",\n\n      \\              \\\"侠\\\": \\\"俠\\\", \\\"债\\\": \\\"債\\\", \\\"倾\\\": \\\"傾\\\", \\\"佥\\\": \\\"僉\\\",\n      \\\"仆\\\": \\\"僕\\\", \\\"侥\\\": \\\"僥\\\", \\\"雇\\\": \\\"僱\\\", \\\"当\\\": \\\"當\\\",\n\n      \\              \\\"闹\\\": \\\"鬧\\\", \\\"广\\\": \\\"廣\\\", \\\"归\\\": \\\"歸\\\", \\\"发\\\": \\\"發\\\",\n      \\\"点\\\": \\\"點\\\", \\\"国\\\": \\\"國\\\", \\\"学\\\": \\\"學\\\", \\\"开\\\": \\\"開\\\",\n\n      \\              \\\"华\\\": \\\"華\\\", \\\"经\\\": \\\"經\\\", \\\"电\\\": \\\"電\\\", \\\"动\\\": \\\"動\\\",\n      \\\"应\\\": \\\"應\\\", \\\"长\\\": \\\"長\\\", \\\"时\\\": \\\"時\\\", \\\"机\\\": \\\"機\\\",\n\n      \\              \\\"车\\\": \\\"車\\\", \\\"见\\\": \\\"見\\\", \\\"语\\\": \\\"語\\\", \\\"认\\\": \\\"認\\\",\n      \\\"设\\\": \\\"設\\\", \\\"话\\\": \\\"話\\\", \\\"说\\\": \\\"說\\\", \\\"请\\\": \\\"請\\\",\n\n      \\              \\\"读\\\": \\\"讀\\\", \\\"谁\\\": \\\"誰\\\", \\\"调\\\": \\\"調\\\", \\\"谅\\\": \\\"諒\\\",\n      \\\"论\\\": \\\"論\\\", \\\"资\\\": \\\"資\\\", \\\"赛\\\": \\\"賽\\\", \\\"赞\\\": \\\"贊\\\",\n\n      \\              \\\"办\\\": \\\"辦\\\", \\\"边\\\": \\\"邊\\\", \\\"运\\\": \\\"運\\\", \\\"进\\\": \\\"進\\\",\n      \\\"远\\\": \\\"遠\\\", \\\"过\\\": \\\"過\\\", \\\"还\\\": \\\"還\\\", \\\"这\\\": \\\"這\\\",\n\n      \\              \\\"连\\\": \\\"連\\\", \\\"周\\\": \\\"週\\\", \\\"选\\\": \\\"選\\\", \\\"遗\\\": \\\"遺\\\",\n      \\\"邮\\\": \\\"郵\\\", \\\"钱\\\": \\\"錢\\\", \\\"铁\\\": \\\"鐵\\\", \\\"录\\\": \\\"錄\\\",\n\n      \\              \\\"门\\\": \\\"門\\\", \\\"问\\\": \\\"問\\\", \\\"间\\\": \\\"間\\\", \\\"关\\\": \\\"關\\\",\n      \\\"队\\\": \\\"隊\\\", \\\"阳\\\": \\\"陽\\\", \\\"际\\\": \\\"際\\\", \\\"难\\\": \\\"難\\\",\n\n      \\              \\\"双\\\": \\\"雙\\\", \\\"杂\\\": \\\"雜\\\", \\\"鸡\\\": \\\"雞\\\", \\\"头\\\": \\\"頭\\\",\n      \\\"题\\\": \\\"題\\\", \\\"类\\\": \\\"類\\\", \\\"风\\\": \\\"風\\\", \\\"飞\\\": \\\"飛\\\",\n\n      \\              \\\"饱\\\": \\\"飽\\\", \\\"饰\\\": \\\"飾\\\", \\\"馆\\\": \\\"館\\\", \\\"马\\\": \\\"馬\\\",\n      \\\"鱼\\\": \\\"魚\\\", \\\"鸟\\\": \\\"鳥\\\", \\\"齐\\\": \\\"齊\\\", \\\"齿\\\": \\\"齒\\\",\n\n      \\              \\\"龙\\\": \\\"龍\\\", \\\"龟\\\": \\\"龜\\\"\n\n      \\            };\n\n      \\            return text.split('').map(c => s2tMap[c] || c).join('');\n\n      \\          \"\n    requirements:\n      - text\n    after: paste-result"
+  },
+  {
+    id: "com.flyclip.extension.twitter-search",
+    name: "X (Twitter) Search",
+    nameZh: "X (Twitter) 动态搜索",
+    nameEn: "X (Twitter) Search",
+    category: "search_ai",
+    icon: "iconify:simple-icons:x",
+    description: "Search real-time tweets, users, and hashtags on X (Twitter).",
+    descriptionZh: "在 X (Twitter) 检索实时动态、推文、热门话题与用户。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: X (Twitter) Search\n  zh-CN: X (Twitter) 动态搜索\nidentifier: com.flyclip.extension.twitter-search\ndescription:\n  en: Search real-time tweets, users, and hashtags on X (Twitter).\n  zh-CN: 在 X (Twitter) 检索实时动态、推文、热门话题与用户。\nicon: iconify:simple-icons:x\nactions:\n  - title: X (Twitter)\n    url: https://x.com/search?q=***&f=live\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.urban-dictionary",
     name: "Urban Dictionary",
     nameZh: "Urban 俚语词典",
@@ -614,6 +1324,34 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     configYaml: "name:\n  en: URL Encode\n  zh-CN: URL 编解码\ndescription:\n  en: Percent-encode and decode URL parameters.\n  zh-CN: URL 百分号编码与反向解码。\nidentifier: com.flyclip.extension.url-encode\nicon: \"%20\"\nactions:\n  - title: URL 编码\n    identifier: encode\n    javascript: return encodeURIComponent(flyclip.input.text);\n    requirements: [text]\n    after: paste-result\n\n  - title: URL 解码\n    identifier: decode\n    javascript: |\n      try {\n        return decodeURIComponent(flyclip.input.text);\n      } catch (e) {\n        return flyclip.input.text;\n      }\n    requirements: [text]\n    after: paste-result"
   },
   {
+    id: "com.flyclip.extension.v2ex-search",
+    name: "V2EX Community",
+    nameZh: "V2EX 程序员社区搜索",
+    nameEn: "V2EX Community",
+    category: "search_ai",
+    icon: "iconify:simple-icons:v2ex",
+    description: "Search discussions and questions on V2EX developer community.",
+    descriptionZh: "在 V2EX 开发者创意社区检索主题与交流讨论。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: V2EX Community\n  zh-CN: V2EX 程序员社区搜索\nidentifier: com.flyclip.extension.v2ex-search\ndescription:\n  en: Search discussions and questions on V2EX developer community.\n  zh-CN: 在 V2EX 开发者创意社区检索主题与交流讨论。\nicon: iconify:simple-icons:v2ex\nactions:\n  - title: V2EX\n    url: https://www.google.com/search?q=site:v2ex.com/t/***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.wayback-machine",
+    name: "Wayback Machine Archive",
+    nameZh: "Wayback Machine 网页时光机",
+    nameEn: "Wayback Machine Archive",
+    category: "shopping",
+    icon: "iconify:tabler:history",
+    description: "View historical snapshots of the selected URL or submit a new capture to Internet Archive.",
+    descriptionZh: "在 Internet Archive 查看该网址的历史快照存档，或提交即时网页备份。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Wayback Machine Archive\n  zh-CN: Wayback Machine 网页时光机\nidentifier: com.flyclip.extension.wayback-machine\ndescription:\n  en: View historical snapshots of the selected URL or submit a new capture to\n    Internet Archive.\n  zh-CN: 在 Internet Archive 查看该网址的历史快照存档，或提交即时网页备份。\nicon: iconify:tabler:history\nactions:\n  - title:\n      en: View History Snapshots\n      zh-CN: 查看历史快照\n    url: https://web.archive.org/web/*/{flyclip text}\n    requirements:\n      - text\n  - title:\n      en: Save to Archive Now\n      zh-CN: 立即归档快照\n    url: https://web.archive.org/save/{flyclip text}\n    requirements:\n      - text"
+  },
+  {
     id: "com.flyclip.extension.wikipedia",
     name: "Wikipedia",
     nameZh: "维基百科",
@@ -626,6 +1364,48 @@ export const EXTENSIONS_DATA: ExtensionItem[] = [
     optionsCount: 1,
     type: "url",
     configYaml: "name:\n  en: Wikipedia\n  zh-CN: 维基百科\ndescription:\n  en: Search Wikipedia encyclopedia in multiple languages.\n  zh-CN: 在维基百科中搜索选中文本词条。\nidentifier: com.flyclip.extension.wikipedia\nicon: iconify:simple-icons:wikipedia\noptions:\n  - identifier: lang\n    label:\n      en: Language Edition\n      zh: 语言版本\n    type: multiple\n    values:\n      - zh\n      - en\n      - ja\n      - de\n      - fr\n      - es\n      - ru\n    value labels:\n      - 中文 (zh)\n      - English (en)\n      - 日本語 (ja)\n      - Deutsch (de)\n      - Français (fr)\n      - Español (es)\n      - Русский (ru)\n    default value: zh\n\nactions:\n  - title: Wikipedia\n    url: https://{flyclip option lang}.wikipedia.org/wiki/{flyclip text}\n    requirements: [text]"
+  },
+  {
+    id: "com.flyclip.extension.wolfram-alpha",
+    name: "Wolfram|Alpha",
+    nameZh: "Wolfram|Alpha 计算知识引擎",
+    nameEn: "Wolfram|Alpha",
+    category: "search_ai",
+    icon: "iconify:simple-icons:wolfram",
+    description: "Calculate expert-level answers using Wolfram Alpha AI and curated knowledge algorithms.",
+    descriptionZh: "使用 Wolfram Alpha 进行高级数学推导、科学公式计算与常识推理。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Wolfram|Alpha\n  zh-CN: Wolfram|Alpha 计算知识引擎\nidentifier: com.flyclip.extension.wolfram-alpha\ndescription:\n  en: Calculate expert-level answers using Wolfram Alpha AI and curated knowledge\n    algorithms.\n  zh-CN: 使用 Wolfram Alpha 进行高级数学推导、科学公式计算与常识推理。\nicon: iconify:simple-icons:wolfram\nactions:\n  - title: Wolfram|Alpha\n    url: https://www.wolframalpha.com/input?i=***\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.xiaohongshu",
+    name: "Xiaohongshu (RED)",
+    nameZh: "小红书搜索与直达",
+    nameEn: "Xiaohongshu (RED)",
+    category: "search_ai",
+    icon: "iconify:simple-icons:xiaohongshu",
+    description: "Search lifestyle, shopping notes and travel guides on Xiaohongshu (RED).",
+    descriptionZh: "在小红书快速检索生活方式、数码好物与经验笔记。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Xiaohongshu (RED)\n  zh-CN: 小红书搜索与直达\nidentifier: com.flyclip.extension.xiaohongshu\ndescription:\n  en: Search lifestyle, shopping notes and travel guides on Xiaohongshu (RED).\n  zh-CN: 在小红书快速检索生活方式、数码好物与经验笔记。\nicon: iconify:simple-icons:xiaohongshu\nactions:\n  - title: 小红书\n    url: https://www.xiaohongshu.com/search_result?keyword=***&type=51\n    clean query: true\n    requirements:\n      - text"
+  },
+  {
+    id: "com.flyclip.extension.yandex-search",
+    name: "Yandex Search",
+    nameZh: "Yandex 搜索",
+    nameEn: "Yandex Search",
+    category: "search_ai",
+    icon: "iconify:simple-icons:yandex",
+    description: "Search the web with Yandex, the leading Eastern European search engine.",
+    descriptionZh: "使用 Yandex 搜索引擎查找网页、俄文资源与多语言内容。",
+    hasOptions: false,
+    
+    type: "url",
+    configYaml: "name:\n  en: Yandex Search\n  zh-CN: Yandex 搜索\nidentifier: com.flyclip.extension.yandex-search\ndescription:\n  en: Search the web with Yandex, the leading Eastern European search engine.\n  zh-CN: 使用 Yandex 搜索引擎查找网页、俄文资源与多语言内容。\nicon: iconify:simple-icons:yandex\nactions:\n  - title: Yandex\n    url: https://yandex.com/search/?text=***\n    clean query: true\n    requirements:\n      - text"
   },
   {
     id: "com.flyclip.extension.youdao-dict",
